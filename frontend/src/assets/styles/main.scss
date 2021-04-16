@@ -1,0 +1,39 @@
+/* bootstrap-vue */
+@import "~bootstrap/dist/css/bootstrap.css";
+@import "~bootstrap-vue/dist/bootstrap-vue.css";
+
+/* Hide scrollbar for Chrome, Safari and Opera */
+body::-webkit-scrollbar {
+  display: none;
+}
+/* Hide scrollbar for IE, Edge and Firefox */
+body {
+  -ms-overflow-style: none;
+  /* IE and Edge */
+  scrollbar-width: none;
+  /* Firefox */
+}
+
+#app {
+  margin: 0;
+}
+
+a:hover {
+  text-decoration: none !important;
+}
+
+.toolbar-mb {
+  margin-bottom: 50px;
+}
+
+.mt-page {
+  margin-top: 106px;
+}
+
+
+//VueApexCharts
+.apexcharts-toolbar,
+.apexcharts-tooltip,
+.apexcharts-xaxistooltip {
+  z-index: 3;
+}
