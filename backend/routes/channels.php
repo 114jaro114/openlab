@@ -19,10 +19,7 @@ Broadcast::channel('App.Models.User.{id}', function ($user, $id) {
     return (int) $user->id === (int) $id;
 });
 
-//channel for Notifications
-// Broadcast::channel('test', function (Humidity $humidity) {
-//     return $humidity;
-// });
-Broadcast::channel('test', function () {
-    return 'jetotam';
+//channel for humidity
+Broadcast::channel('test', function (Humidity $humidity) {
+    return $humidity;
 });

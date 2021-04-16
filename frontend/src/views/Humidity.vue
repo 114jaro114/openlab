@@ -22,30 +22,7 @@
       </v-app-bar>
 
       <v-row>
-        <v-col cols="12" lg="6" md="12" sm="12">
-          <v-card class="toolbar-mb">
-            <v-sheet class="v-sheet--offset mx-auto rounded-lg" color="grey lighten-5" elevation="0" max-width="calc(100% - 32px)">
-              <div id="chart">
-                <apexchart type="radialBar" height="350" :options="chartOptionsCircle_gradient" :series="seriesCircle_gradient"></apexchart>
-              </div>
-            </v-sheet>
-
-            <v-card-text class="pt-0">
-              <div class="title font-weight-light mb-2">
-                Vlhkosť - Tlak - Teplota
-              </div>
-              <v-divider class="my-2"></v-divider>
-              <v-icon class="mr-2" small>
-                mdi-clock
-              </v-icon>
-              <span class="caption grey--text font-weight-light">Posledná aktualizácia pred 26 minutami</span>
-            </v-card-text>
-          </v-card>
-        </v-col>
-
-        <v-col cols="12" lg="6" md="12" sm="12">
-        </v-col>
-
+        <v-btn @click="getHistoricalData()">get historical data</v-btn>
         <v-col cols="12" lg="12" md="12" sm="12">
           <v-card class="toolbar-mb">
             <v-sheet class="v-sheet--offset mx-auto" color="grey lighten-5" elevation="0" max-width="calc(100% - 32px)" rounded>
@@ -90,7 +67,26 @@
             </v-card-text>
           </v-card>
         </v-col>
-        {{seriesCircle_gradient}}
+        <v-col cols="12" lg="6" md="12" sm="12">
+          <v-card class="toolbar-mb">
+            <v-sheet class="v-sheet--offset mx-auto rounded-lg" color="grey lighten-5" elevation="0" max-width="calc(100% - 32px)">
+              <div id="chart">
+                <apexchart type="radialBar" ref="circle_gradient" height="350" :options="chartOptionsCircle_gradient" :series="seriesCircle_gradient"></apexchart>
+              </div>
+            </v-sheet>
+
+            <v-card-text class="pt-0">
+              <div class="title font-weight-light mb-2">
+                Vlhkosť - Tlak - Teplota
+              </div>
+              <v-divider class="my-2"></v-divider>
+              <v-icon class="mr-2" small>
+                mdi-clock
+              </v-icon>
+              <span class="caption grey--text font-weight-light">Posledná aktualizácia: {{lastUpdate}}</span>
+            </v-card-text>
+          </v-card>
+        </v-col>
       </v-row>
     </v-card>
   </v-lazy>
@@ -99,9 +95,9 @@
 </div>
 </template>
 <script>
+import axios from 'axios';
 // import moment from 'moment'
-import mqtt from 'mqtt'
-import VueApexCharts from 'vue-apexcharts'
+import VueApexCharts from 'vue-apexcharts';
 import Footer from "../components/Footer.vue";
 import NavigationDrawer from "../components/NavigationDrawer.vue";
 
@@ -116,27 +112,7 @@ export default {
   data() {
     return {
       drawer: false,
-      connection: {
-        host: 'openlab.kpi.fei.tuke.sk',
-        port: 80,
-        endpoint: '/mqtt',
-        clean: true, // Reserved session
-        connectTimeout: 4000, // Time out
-        reconnectPeriod: 4000, // Reconnection interval
-        // Certification Information
-        // clientId: 'mqttjs_3be2c321',
-        // username: 'emqx_test',
-        // password: 'emqx_test',
-      },
-      receiveNews: '',
-      subscription: {
-        topic: 'openlab/sensorkits/B8:27:EB:2F:7B:7D/humi',
-        qos: 0,
-      },
-      client: {
-        connected: false,
-      },
-      subscribeSuccess: false,
+
       series: [{
         data: [
           [1327359600000, 30.95],
@@ -225,86 +201,6 @@ export default {
 
       selection: 'one_year',
       data: [],
-      // circle gradient chart
-      seriesCircle_gradient: [],
-      chartOptionsCircle_gradient: {
-        chart: {
-          height: 350,
-          type: 'radialBar',
-          toolbar: {
-            show: true
-          }
-        },
-        plotOptions: {
-          radialBar: {
-            startAngle: -135,
-            endAngle: 225,
-            hollow: {
-              margin: 0,
-              size: '70%',
-              background: '#fff',
-              image: undefined,
-              imageOffsetX: 0,
-              imageOffsetY: 0,
-              position: 'front',
-              dropShadow: {
-                enabled: true,
-                top: 3,
-                left: 0,
-                blur: 4,
-                opacity: 0.24
-              }
-            },
-            track: {
-              background: '#fff',
-              strokeWidth: '67%',
-              margin: 0, // margin is in pixels
-              dropShadow: {
-                enabled: true,
-                top: -3,
-                left: 0,
-                blur: 4,
-                opacity: 0.35
-              }
-            },
-
-            dataLabels: {
-              show: true,
-              name: {
-                offsetY: -10,
-                show: true,
-                color: '#888',
-                fontSize: '17px'
-              },
-              value: {
-                formatter: function(val) {
-                  return parseInt(val);
-                },
-                color: '#111',
-                fontSize: '36px',
-                show: true,
-              }
-            }
-          }
-        },
-        fill: {
-          type: 'gradient',
-          gradient: {
-            shade: 'dark',
-            type: 'horizontal',
-            shadeIntensity: 0.5,
-            gradientToColors: ['#ABE5A1'],
-            inverseColors: true,
-            opacityFrom: 1,
-            opacityTo: 1,
-            stops: [0, 100]
-          }
-        },
-        stroke: {
-          lineCap: 'round'
-        },
-        labels: ['Percent'],
-      },
     }
   },
 
@@ -313,55 +209,15 @@ export default {
   },
 
   methods: {
-    // Create connection
-    createConnection() {
-      // Connect string, and specify the connection method used through protocol
-      // ws unencrypted WebSocket connection
-      // wss encrypted WebSocket connection
-      // mqtt unencrypted TCP connection
-      // mqtts encrypted TCP connection
-      // wxs WeChat mini app connection
-      // alis Alipay mini app connection
-      const {
-        host,
-        port,
-        endpoint,
-        ...options
-      } = this.connection
-      const connectUrl = `ws://${host}:${port}${endpoint}`
-      try {
-        this.client = mqtt.connect(connectUrl, options)
-      } catch (error) {
-        console.log('mqtt.connect error', error)
-      }
-      this.client.on('connect', () => {
-        console.log('Connection succeeded!')
-        this.doSubscribe();
-      })
-      this.client.on('error', error => {
-        console.log('Connection failed', error)
-      })
-      this.client.on('message', (topic, message) => {
-        this.receiveNews = this.receiveNews.concat(message)
-        this.seriesCircle_gradient[0] = parseFloat(`${message}`)
-      })
-    },
-
-    doSubscribe() {
-      const {
-        topic,
-        qos
-      } = this.subscription
-      this.client.subscribe(topic, {
-        qos
-      }, (error, res) => {
-        if (error) {
-          console.log('Subscribe to topics error', error)
-          return
-        }
-        this.subscribeSuccess = true
-        console.log('Subscribe to topics res', res)
-      })
+    getHistoricalData() {
+      axios.get('http://127.0.0.1:8000/api/getHistoricalData')
+        .then(res => {
+          this.seriesCircle_gradient.push(res.data);
+          //update chart
+          this.$refs.circle_gradient.updateSeries([{
+            data: this.seriesCircle_gradient[0],
+          }]);
+        })
     },
 
     updateData(timeline) {
@@ -413,13 +269,13 @@ export default {
   watch: {},
 
   mounted() {
-    this.createConnection();
     //do something after mounting vue instance
     console.log('Component Welcome mounted.')
   },
 
   created() {
     console.log('Component Welcome created')
+    this.getHistoricalData();
   },
 }
 </script>

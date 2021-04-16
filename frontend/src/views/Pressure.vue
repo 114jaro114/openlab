@@ -50,7 +50,7 @@
 </div>
 </template>
 <script>
-import moment from 'moment'
+// import moment from 'moment'
 import mqtt from 'mqtt'
 import VueApexCharts from 'vue-apexcharts'
 import Footer from "../components/Footer.vue";
@@ -179,18 +179,18 @@ export default {
       })
       this.client.on('message', (topic, message) => {
         this.receiveNews = this.receiveNews.concat(message)
-        this.series[0].data.push([moment()
-          .valueOf(), `${message}`
-        ])
-
-        this.data.push([moment()
-          .valueOf(), `${message}`
-        ]);
+        // this.series[0].data.push([moment()
+        //   .valueOf(), `${message}`
+        // ])
+        //
+        // this.data.push([moment()
+        //   .valueOf(), `${message}`
+        // ]);
 
         //update ???
-        this.$refs.chart.updateSeries([{
-          data: this.series[0].data
-        }])
+        // this.$refs.chart.updateSeries([{
+        //   data: this.series[0].data
+        // }])
         // console.log(`Received message ${message} from topic ${topic}`)
       })
     },

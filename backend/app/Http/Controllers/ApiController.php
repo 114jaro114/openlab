@@ -6,6 +6,7 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
 use App\Models\Humidity;
 use App\Events\HumEvent;
+use Carbon\Carbon;
 
 class ApiController extends Controller
 {
@@ -21,9 +22,16 @@ class ApiController extends Controller
 
     public function getData()
     {
-        $data = DB::table('humidity')->select('hum')->get();
+        $data = DB::table('humidities')->get();
         // Humidity::all();
 
         return response()->json($data);
+    }
+
+    public function getHistoricalData()
+    {
+        $getDataLastMonth = Humidity::where('created_at', '>=', Carbon::today()->subDays(30))->avg('hum');
+
+        return response()->json($getDataLastMonth);
     }
 }

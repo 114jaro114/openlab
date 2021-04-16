@@ -43,3 +43,4 @@ Route::post('/broadcast', function (Request $request) {
 
 Route::post('/saveData', [ApiController::class, 'store']);
 Route::get('/getHum', [ApiController::class, 'getData']);
+Route::get('/getHistoricalData', [ApiController::class, 'getHistoricalData']);

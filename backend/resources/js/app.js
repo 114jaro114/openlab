@@ -1,23 +1,6 @@
 require('./bootstrap');
 
-
-$("#test")
-    .click(function() {
-        $.ajax({
-            type: "POST",
-            url: 'api/saveData',
-            data: {
-                hum: "100"
-            },
-            success: function(response) {
-                console.log("super");
-            },
-            error: function(XMLHttpRequest, textStatus, errorThrown) {
-                console.log("error");
-            }
-        });
-    });
-
+var ms = 0;
 const mqtt = require('mqtt')
 const client = mqtt.connect('ws://openlab.kpi.fei.tuke.sk/mqtt')
 client.on('connect', () => {
@@ -27,19 +10,7 @@ client.on('connect', () => {
 })
 client.on('message', function(topic, message) {
     // console.log('this message :', message.toString());
-    $.ajax({
-        type: "POST",
-        url: 'api/saveData',
-        data: {
-            hum: message.toString()
-        },
-        success: function(response) {
-            console.log(response);
-        },
-        error: function(XMLHttpRequest, textStatus, errorThrown) {
-            console.log("error");
-        }
-    })
+    ms = message.toString();
     //send the post request to laravel app
     // var sendDATA = message.toString();
     // var http = require('http');
@@ -71,3 +42,20 @@ client.on('message', function(topic, message) {
     // req.write(postData);
     // req.end();
 });
+
+//insert data to db every 10sec (without this 1sec)
+let timerId = setInterval(() => {
+    $.ajax({
+        type: "POST",
+        url: 'api/saveData',
+        data: {
+            hum: ms
+        },
+        success: function(response) {
+            console.log(response);
+        },
+        error: function(XMLHttpRequest, textStatus, errorThrown) {
+            console.log("error");
+        }
+    })
+}, 10000);

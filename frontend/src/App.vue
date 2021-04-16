@@ -14,11 +14,6 @@ export default {
   components: {},
   created() {
     //do something after creating vue instance
-    window.Echo.join('test')
-      .listen('HumEvent', (e) => {
-        // this.notifCount = this.$store.getters['notificationCounter'];
-        console.log(e);
-      })
   }
 }
 </script>
