@@ -64,7 +64,7 @@
           </v-card>
         </v-col>
       </v-row>
-      <v-btn class="primary" @click="getData()">get data</v-btn>
+      <v-btn class="primary" @click="sendData()">get data</v-btn>
     </v-card>
   </v-lazy>
   <NavigationDrawer :drawer="drawer" />
@@ -90,29 +90,6 @@ export default {
   data() {
     return {
       drawer: false,
-
-      //mqtt settings
-      // connection: {
-      //   host: 'openlab.kpi.fei.tuke.sk',
-      //   port: 80,
-      //   endpoint: '/mqtt',
-      //   clean: true, // Reserved session
-      //   connectTimeout: 4000, // Time out
-      //   reconnectPeriod: 4000, // Reconnection interval
-      //   // Certification Information
-      //   // clientId: 'mqttjs_3be2c321',
-      //   // username: 'emqx_test',
-      //   // password: 'emqx_test',
-      // },
-      // receiveNews: '',
-      // subscription: {
-      //   topic: 'openlab/sensorkits/B8:27:EB:2F:7B:7D/humi',
-      //   qos: 0,
-      // },
-      // client: {
-      //   connected: false,
-      // },
-      // subscribeSuccess: false,
       //candlestick chart
       seriesCandle_stick: [{
         data: [{
@@ -465,13 +442,21 @@ export default {
 
   methods: {
     // Create connection
-    getData() {
-      axios.get('http://127.0.0.1:8000/api/getHum')
+    // getData() {
+    //   axios.get('http://127.0.0.1:8000/api/getHum')
+    //     .then(res => {
+    //       console.log(res.data);
+    //       // this.seriesRealtime[0].data.push([moment()
+    //       //   .valueOf(), parseFloat(`${message}`)
+    //       // ]);
+    //     })
+    // },
+    sendData() {
+      axios.post('http://127.0.0.1:8000/api/saveData', {
+          hum: "100"
+        })
         .then(res => {
-          console.log(res.data);
-          // this.seriesRealtime[0].data.push([moment()
-          //   .valueOf(), parseFloat(`${message}`)
-          // ]);
+          console.log(res);
         })
     },
     // createConnection() {
@@ -557,11 +542,15 @@ export default {
 
   created() {
     //do something after creating vue instance
-    window.Echo.join('test')
+    window.Echo.channel('test')
       .listen('HumEvent', (e) => {
-        // this.notifCount = this.$store.getters['notificationCounter'];
-        console.log("cau");
         console.log(e);
+        this.seriesRealtime[0].data.push([
+          moment(e.humidity.created_at)
+          .valueOf(),
+          parseFloat(`${e.humidity.hum}`)
+        ]);
+        this.updateSeriesLine();
       })
   }
 }
