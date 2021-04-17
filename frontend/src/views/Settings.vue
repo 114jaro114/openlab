@@ -16,6 +16,8 @@
           <v-icon>mdi-dots-vertical</v-icon>
         </v-btn>
       </v-app-bar>
+
+      <v-btn color="primary" @click="getData">get data</v-btn>
     </v-card>
   </v-lazy>
   <NavigationDrawer :drawer="drawer" />
@@ -23,6 +25,7 @@
 </div>
 </template>
 <script>
+import axios from 'axios';
 import Footer from "../components/Footer.vue";
 import NavigationDrawer from "../components/NavigationDrawer.vue";
 
@@ -44,7 +47,12 @@ export default {
   },
 
   methods: {
-
+    getData() {
+      axios.get('http://127.0.0.1:8000/api/getHistoricalData2')
+        .then(res => {
+          console.log(res);
+        })
+    }
   },
 
   watch: {},

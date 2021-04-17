@@ -45,17 +45,21 @@ client.on('message', function(topic, message) {
 
 //insert data to db every 10sec (without this 1sec)
 let timerId = setInterval(() => {
-    $.ajax({
-        type: "POST",
-        url: 'api/saveData',
-        data: {
-            hum: ms
-        },
-        success: function(response) {
-            console.log(response);
-        },
-        error: function(XMLHttpRequest, textStatus, errorThrown) {
-            console.log("error");
-        }
-    })
+    if (ms != 0) {
+        $.ajax({
+            type: "POST",
+            url: 'api/saveData',
+            data: {
+                hum: ms
+            },
+            success: function(response) {
+                console.log(response);
+            },
+            error: function(XMLHttpRequest, textStatus, errorThrown) {
+                console.log("error");
+            }
+        })
+    } else {
+        console.log("no connection to openlab kpi fei");
+    }
 }, 10000);

@@ -34,4 +34,35 @@ class ApiController extends Controller
 
         return response()->json($getDataLastMonth);
     }
+
+    public function getHistoricalData2()
+    {
+      DB::('humidities')
+      ->select(timestamp(concat(date('created_at'), ' ', hour('created_at'), ':', minute('created_at') div 5 * 5)),
+      min('hum'),max('hum'))
+      ->groupBy(date('created_at'), hour('created_at'), minute('created_at') div 5 * 5);
+
+        // results
+        foreach ($rawQuery as $deal) {
+            $array[] = array(
+              $deal->hum
+            );
+        }
+        // // $getAllRecords = Humidity::all();
+        // // foreach ($getAllRecords as $row)
+        // // endforeach
+        // $getDataLastHalfHour = Humidity::where('created_at', '>=', Carbon::now()->subHours(5)->toDateTimeString())->get();
+        // $highest = Humidity::where('created_at', '>=', Carbon::now()->subHours(5)->toDateTimeString())->max('hum');
+        // $lowest = Humidity::where('created_at', '>=', Carbon::now()->subHours(5)->toDateTimeString())->min('hum');
+        // $array[] = array(
+        //   //open
+        //   $getDataLastHalfHour[0]->hum,
+        //   $highest,
+        //   $lowest,
+        //   //close
+        //   $getDataLastHalfHour[count($getDataLastHalfHour)-1]->hum,
+        //   $getDataLastHalfHour[0]->created_at,
+        // );
+        return response()->json($array);
+    }
 }
