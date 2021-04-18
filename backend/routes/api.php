@@ -45,3 +45,4 @@ Route::post('/saveData', [ApiController::class, 'store']);
 Route::get('/getHum', [ApiController::class, 'getData']);
 Route::get('/getHistoricalData', [ApiController::class, 'getHistoricalData']);
 Route::get('/getHistoricalData2', [ApiController::class, 'getHistoricalData2']);
+Route::get('/getHistoricalData3', [ApiController::class, 'getHistoricalData3']);

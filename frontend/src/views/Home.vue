@@ -28,7 +28,7 @@
 
           <v-card-text class="pt-0">
             <div class="title font-weight-light mb-2">
-              Vlhkosť - Tlak - Teplota
+              1
             </div>
             <v-divider class="my-2"></v-divider>
             <v-icon class="mr-2" small>
@@ -438,7 +438,7 @@ export default {
             }
           },
           tooltip: {
-            enabled: true,
+            enabled: false,
           }
         },
         yaxis: {

@@ -58,7 +58,7 @@ let timerId = setInterval(() => {
             error: function(XMLHttpRequest, textStatus, errorThrown) {
                 console.log("error");
             }
-        })
+        });
     } else {
         console.log("no connection to openlab kpi fei");
     }

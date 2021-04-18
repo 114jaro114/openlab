@@ -269,7 +269,6 @@ export default {
     // every 60 seconds, we reset the data to prevent memory leaks
     window.setInterval(function() {
       resetData()
-
       me.$refs.chart.updateSeries([{
         data
       }], false, true)
