@@ -23,7 +23,7 @@
       </v-card>
       <v-row class="mx-auto">
         <v-col class="mb-5" cols="12" lg="6" md="12" sm="12">
-          <v-card elevation="0">
+          <v-card class="rounded" elevation="0">
             <v-sheet class="v-sheet--offset mx-auto rounded" elevation="0" max-width="calc(100% - 32px)" rounded>
               <div id="chart">
                 <apexchart type="bar" height="350" :options="chartOptionsColumn" :series="seriesColumn"></apexchart>
@@ -44,7 +44,7 @@
         </v-col>
 
         <v-col class="mb-5" cols="12" lg="6" md="12" sm="12">
-          <v-card elevation="0">
+          <v-card class="rounded" elevation="0">
             <v-sheet class="v-sheet--offset mx-auto rounded" elevation="0" max-width="calc(100% - 32px)" rounded>
               <div id="chart">
                 <apexchart type="line" height="350" :options="chartOptionsDashed" :series="seriesDashed"></apexchart>
@@ -65,7 +65,7 @@
         </v-col>
 
         <v-col class="mb-5" cols="12" lg="12" md="12" sm="12">
-          <v-card elevation="0">
+          <v-card class="rounded" elevation="0">
             <v-sheet class="v-sheet--offset mx-auto rounded" elevation="0" max-width="calc(100% - 32px)">
               <div id="wrapper">
                 <div id="chart-line">
@@ -94,7 +94,7 @@
         </v-col>
 
         <v-col class="mb-5" cols="12" lg="6" md="12" sm="12">
-          <v-card elevation="0">
+          <v-card class="rounded" elevation="0">
             <v-sheet class="v-sheet--offset mx-auto" elevation="0" max-width="calc(100% - 32px)" rounded>
               <div id="chart">
                 <apexchart type="radialBar" height="350" :options="chartOptionsCircle_multiple" :series="seriesCircle_multiple"></apexchart>

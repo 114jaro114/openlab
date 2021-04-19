@@ -1,22 +1,11 @@
 <template>
-<div class="humidity">
+<div class="humidity custom-margin-page">
   <v-lazy :options="{
         threshold: .4
       }" min-height="100vh" transition-group="scale-transition">
     <div>
-      <!-- <v-card class="mx-auto ml-3 mr-3" elevation="0" tile> -->
-      <v-toolbar elevation="2" class="mb-3">
-        <v-app-bar-nav-icon :drawerNew="drawerNew" @click="drawer = !drawer"></v-app-bar-nav-icon>
-        <v-toolbar-title class="position-absolute" style="right:14px">
-          <span class="md-title font-weight-bold" v-if="this.$vuetify.theme.dark">
-            <img class="logo2 align-middle" src="/img/logos/logo_home_theme_dark.png">
-          </span>
-          <span class="md-title font-weight-bold" v-else>
-            <img class="logo2 align-middle" src="/img/logos/logo_home_theme_light.png">
-          </span>
-        </v-toolbar-title>
-      </v-toolbar>
-      <!-- <v-app-bar class="toolbar-mb" fixed app tile>
+      <v-card class="mx-auto ml-3 mr-3" elevation="0" tile>
+        <v-app-bar class="toolbar-mb" fixed app tile>
           <v-app-bar-nav-icon @click.stop="drawer = !drawer"></v-app-bar-nav-icon>
 
           <v-toolbar-title>OpenLab FEI Tuke</v-toolbar-title>
@@ -30,12 +19,12 @@
           <v-btn icon>
             <v-icon>mdi-dots-vertical</v-icon>
           </v-btn>
-        </v-app-bar> -->
-      <!-- </v-card> -->
+        </v-app-bar>
+      </v-card>
 
       <v-row class="mx-auto">
-        <!-- <v-col class="mb-5" cols="12" lg="6" md="12" sm="12">
-          <v-card elevation="0">
+        <v-col class="mb-5" cols="12" lg="6" md="12" sm="12">
+          <v-card class="rounded" elevation="0">
             <v-sheet class="v-sheet--offset mx-auto rounded" elevation="0" max-width="calc(100% - 32px)">
               <div id="chart">
                 <apexchart type="radialBar" ref="circle_gradient" height="350" :options="chartOptionsCircle_gradient" :series="seriesCircle_gradient"></apexchart>
@@ -59,7 +48,7 @@
         </v-col>
 
         <v-col class="mb-5" cols="12" lg="12" md="12" sm="12">
-          <v-card elevation="0">
+          <v-card class="rounded" elevation="0">
             <v-sheet class="v-sheet--offset mx-auto rounded" elevation="0" max-width="calc(100% - 32px)" rounded>
               <div id="chart">
                 <div class="toolbar pt-3">
@@ -107,7 +96,7 @@
               <span class="caption grey--text font-weight-light">Posledná aktualizácia pred 26 minutami</span>
             </v-card-text>
           </v-card>
-        </v-col> -->
+        </v-col>
       </v-row>
     </div>
   </v-lazy>
@@ -119,7 +108,7 @@
 <script>
 import axios from 'axios';
 import moment from 'moment'
-// import VueApexCharts from 'vue-apexcharts';
+import VueApexCharts from 'vue-apexcharts';
 import Footer from "../components/Footer.vue";
 import NavigationDrawer from "../components/NavigationDrawer.vue";
 import BottomNavigation from "../components/BottomNavigation.vue";
@@ -130,7 +119,7 @@ export default {
     Footer,
     NavigationDrawer,
     BottomNavigation,
-    // apexchart: VueApexCharts,
+    apexchart: VueApexCharts,
   },
   props: ['drawerNew'],
   data() {

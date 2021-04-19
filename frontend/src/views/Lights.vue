@@ -25,7 +25,7 @@
       <v-row class="mx-auto">
         <!-- stroked gauge chart -->
         <v-col class="mb-5" cols="12" lg="6" md="12" sm="12">
-          <v-card elevation="0">
+          <v-card class="rounded" elevation="0">
             <v-sheet class="v-sheet--offset mx-auto rounded" elevation="0" max-width="calc(100% - 32px)">
               <div id="chart">
                 <apexchart type="radialBar" ref="strokedGauge" height="420" :options="chartOptionsStroked_gauge" :series="seriesStroked_gauge"></apexchart>
@@ -47,7 +47,7 @@
         </v-col>
         <!-- column chart -->
         <v-col class="mb-5" cols="12" lg="6" md="12" sm="12">
-          <v-card elevation="0">
+          <v-card class="rounded" elevation="0">
             <v-sheet class="v-sheet--offset mx-auto rounded" elevation="0" max-width="calc(100% - 32px)" rounded>
               <div id="chart">
                 <apexchart type="bar" ref="column_chart" height="350" :options="chartOptionsColumn" :series="seriesColumn"></apexchart>
@@ -69,7 +69,7 @@
         </v-col>
         <!-- candlestick chart -->
         <v-col class="mb-5" cols="12" lg="12" md="12" sm="12">
-          <v-card elevation="0">
+          <v-card class="rounded" elevation="0">
             <v-sheet class="v-sheet--offset mx-auto rounded" elevation="0" max-width="calc(100% - 32px)">
               <div id="chart">
                 <apexchart type="candlestick" ref="candlestick" height="350" :options="chartOptionsCandle_stick" :series="seriesCandle_stick"></apexchart>
@@ -91,7 +91,7 @@
         </v-col>
         <!-- historical chart -->
         <v-col class="mb-5" cols="12" lg="12" md="12" sm="12">
-          <v-card elevation="0">
+          <v-card class="rounded" elevation="0">
             <v-sheet class="v-sheet--offset mx-auto rounded" elevation="0" max-width="calc(100% - 32px)" rounded>
               <div id="chart">
                 <div class="toolbar pt-3">
@@ -143,7 +143,7 @@
         </v-col>
         <!-- realtime chart -->
         <v-col class="mb-5" cols="12" lg="12" md="12" sm="12">
-          <v-card elevation="0">
+          <v-card class="rounded" elevation="0">
             <v-sheet class="v-sheet--offset mx-auto rounded" elevation="0" max-width="calc(100% - 32px)">
               <div id="chart">
                 <apexchart ref="realtimeChart" type="line" height="200" :options="chartOptionsRealtime" :series="seriesRealtime" />

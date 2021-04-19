@@ -24,7 +24,7 @@
 
       <v-row class="mx-auto">
         <v-col class="mb-5" cols="12" lg="12" md="12" sm="12">
-          <v-card elevation="0">
+          <v-card class="rounded" elevation="0">
             <v-sheet class="v-sheet--offset mx-auto rounded" elevation="0" max-width="calc(100% - 32px)">
               <div id="wrapper">
                 <div id="chart-line2">

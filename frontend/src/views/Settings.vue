@@ -19,7 +19,7 @@
     <v-row class="mx-auto">
       <v-col class="mb-5">
         <!-- <v-card> -->
-        <v-list flat subheader>
+        <v-list class="rounded" flat subheader>
           <v-list-item-group v-model="ntf" multiple active-class="">
             <v-subheader>Notifikácie</v-subheader>
             <v-list-item>
