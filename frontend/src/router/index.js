@@ -11,46 +11,53 @@ import Notifications from '../views/Notifications.vue'
 import Pressure from '../views/Pressure.vue'
 import Sound from '../views/Sound.vue'
 import Settings from '../views/Settings.vue'
+import Test from '../views/Test.vue'
 
 Vue.use(VueRouter)
 
 const routes = [{
-  path: '/',
-  name: 'Home',
-  component: Home,
-}, {
-  path: '/humidity',
-  name: 'Humidity',
-  component: Humidity,
-}, {
-  path: '/temperature',
-  name: 'Temperature',
-  component: Temperature,
-}, {
-  path: '/energy',
-  name: 'Energy',
-  component: Energy,
-}, {
-  path: '/lights',
-  name: 'Lights',
-  component: Lights,
-}, {
-  path: '/notifications',
-  name: 'Notifications',
-  component: Notifications,
-}, {
-  path: '/pressure',
-  name: 'Pressure',
-  component: Pressure,
-}, {
-  path: '/sound',
-  name: 'Sound',
-  component: Sound,
-}, {
-  path: '/settings',
-  name: 'Settings',
-  component: Settings,
-}, ]
+    path: '/',
+    name: 'Home',
+    component: Home,
+  }, {
+    path: '/humidity',
+    name: 'Humidity',
+    component: Humidity,
+  }, {
+    path: '/temperature',
+    name: 'Temperature',
+    component: Temperature,
+  }, {
+    path: '/energy',
+    name: 'Energy',
+    component: Energy,
+  }, {
+    path: '/lights',
+    name: 'Lights',
+    component: Lights,
+  }, {
+    path: '/notifications',
+    name: 'Notifications',
+    component: Notifications,
+  }, {
+    path: '/pressure',
+    name: 'Pressure',
+    component: Pressure,
+  }, {
+    path: '/sound',
+    name: 'Sound',
+    component: Sound,
+  }, {
+    path: '/settings',
+    name: 'Settings',
+    component: Settings,
+  },
+  {
+    path: '/test',
+    name: 'Test',
+    component: Test,
+  },
+]
 
 const router = new VueRouter({
   mode: 'history',

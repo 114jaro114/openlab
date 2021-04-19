@@ -1,47 +1,53 @@
 <template>
-<div class="energy mt-page">
-  <link rel="stylesheet" href="https://fonts.googleapis.com/icon?family=Material+Icons">
+<div class="energy custom-margin-page">
   <v-lazy :options="{
         threshold: .4
       }" min-height="100vh" transition-group="scale-transition">
-    <v-card class="v-content ml-3 mr-3 mb-3" elevation="0">
-      <v-app-bar class="" color="white" fixed app tile>
-        <v-app-bar-nav-icon @click.stop="drawer = !drawer"></v-app-bar-nav-icon>
+    <div>
+      <v-card class="mx-auto ml-3 mr-3" elevation="0" tile>
+        <v-app-bar class="toolbar-mb" fixed app tile>
+          <v-app-bar-nav-icon @click.stop="drawer = !drawer"></v-app-bar-nav-icon>
 
-        <v-toolbar-title>OpenLab FEI Tuke</v-toolbar-title>
+          <v-toolbar-title>OpenLab FEI Tuke</v-toolbar-title>
 
-        <v-spacer></v-spacer>
+          <v-spacer></v-spacer>
 
-        <v-btn icon to="/notifications">
-          <v-icon>mdi-bell</v-icon>
-        </v-btn>
+          <v-btn icon to="/notifications">
+            <v-icon>mdi-bell</v-icon>
+          </v-btn>
 
-        <v-btn icon>
-          <v-icon>mdi-dots-vertical</v-icon>
-        </v-btn>
-      </v-app-bar>
-
-      <v-card class="">
-        <v-sheet class="v-sheet--offset mx-auto rounded-lg" color="grey lighten-5" elevation="0" max-width="calc(100% - 32px)">
-          <div id="chart">
-            <apexchart type="bar" height="350" :options="chartOptions" :series="series"></apexchart>
-          </div>
-        </v-sheet>
-
-        <v-card-text class="pt-0">
-          <div class="title font-weight-light mb-2">
-            Vlhkosť - Tlak - Teplota
-          </div>
-          <v-divider class="my-2"></v-divider>
-          <v-icon class="mr-2" small>
-            mdi-clock
-          </v-icon>
-          <span class="caption grey--text font-weight-light">Posledná aktualizácia pred 26 minutami</span>
-        </v-card-text>
+          <v-btn icon>
+            <v-icon>mdi-dots-vertical</v-icon>
+          </v-btn>
+        </v-app-bar>
       </v-card>
-    </v-card>
+
+      <v-row class="mx-auto">
+        <v-col class="mb-5" cols="12" lg="6" md="12" sm="12">
+          <v-card elevation="0">
+            <v-sheet class="v-sheet--offset mx-auto rounded" elevation="0" max-width="calc(100% - 32px)">
+              <div id="chart">
+                <apexchart type="bar" height="350" :options="chartOptions" :series="series"></apexchart>
+              </div>
+            </v-sheet>
+
+            <v-card-text class="pt-0">
+              <div class="title font-weight-light mb-2">
+                Vlhkosť - Tlak - Teplota
+              </div>
+              <v-divider class="my-2"></v-divider>
+              <v-icon class="mr-2" small>
+                mdi-clock
+              </v-icon>
+              <span class="caption grey--text font-weight-light">Posledná aktualizácia pred 26 minutami</span>
+            </v-card-text>
+          </v-card>
+        </v-col>
+      </v-row>
+    </div>
   </v-lazy>
   <NavigationDrawer :drawer="drawer" />
+  <BottomNavigation />
   <Footer />
 </div>
 </template>
@@ -51,6 +57,7 @@ import mqtt from 'mqtt'
 import VueApexCharts from 'vue-apexcharts'
 import Footer from "../components/Footer.vue";
 import NavigationDrawer from "../components/NavigationDrawer.vue";
+import BottomNavigation from "../components/BottomNavigation.vue";
 
 var _seed = 42;
 Math.random = function() {
@@ -63,6 +70,7 @@ export default {
   components: {
     Footer,
     NavigationDrawer,
+    BottomNavigation,
     apexchart: VueApexCharts,
   },
   props: ['drawerNew'],

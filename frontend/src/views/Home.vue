@@ -1,120 +1,123 @@
 <template>
-<div class="home mt-page">
-  <v-card class="mx-auto ml-3 mr-3 mb-3" elevation="0" tile>
-    <v-app-bar color="white" fixed app tile>
-      <v-app-bar-nav-icon @click.stop="drawer = !drawer"></v-app-bar-nav-icon>
+<div class="home w-100 h-100 custom-margin-page">
+  <v-lazy :options="{
+        threshold: .4
+      }" min-height="100vh" transition-group="scale-transition">
+    <div>
+      <v-card class="mx-auto ml-3 mr-3" elevation="0" tile>
+        <v-app-bar fixed app tile>
+          <v-app-bar-nav-icon @click.stop="drawer = !drawer"></v-app-bar-nav-icon>
 
-      <v-toolbar-title>OpenLab FEI Tuke</v-toolbar-title>
+          <v-toolbar-title>OpenLab FEI Tuke</v-toolbar-title>
 
-      <v-spacer></v-spacer>
+          <v-spacer></v-spacer>
 
-      <v-btn icon to="/notifications">
-        <v-icon>mdi-bell</v-icon>
-      </v-btn>
+          <v-btn icon to="/notifications">
+            <v-icon>mdi-bell</v-icon>
+          </v-btn>
 
-      <v-btn icon>
-        <v-icon>mdi-dots-vertical</v-icon>
-      </v-btn>
-    </v-app-bar>
-
-    <v-row>
-      <v-col cols="12" lg="6" md="12" sm="12">
-        <v-card class="toolbar-mb">
-          <v-sheet class="v-sheet--offset mx-auto" color="grey lighten-5" elevation="0" max-width="calc(100% - 32px)" rounded>
-            <div id="chart">
-              <apexchart type="bar" height="350" :options="chartOptionsColumn" :series="seriesColumn"></apexchart>
-            </div>
-          </v-sheet>
-
-          <v-card-text class="pt-0">
-            <div class="title font-weight-light mb-2">
-              1
-            </div>
-            <v-divider class="my-2"></v-divider>
-            <v-icon class="mr-2" small>
-              mdi-clock
-            </v-icon>
-            <span class="caption grey--text font-weight-light">Posledná aktualizácia pred 26 minutami</span>
-          </v-card-text>
-        </v-card>
-      </v-col>
-
-      <v-col cols="12" lg="6" md="12" sm="12">
-        <v-card class="toolbar-mb">
-          <v-sheet class="v-sheet--offset mx-auto" color="grey lighten-5" elevation="0" max-width="calc(100% - 32px)" rounded>
-            <div id="chart">
-              <apexchart type="line" height="350" :options="chartOptionsDashed" :series="seriesDashed"></apexchart>
-            </div>
-          </v-sheet>
-
-          <v-card-text class="pt-0">
-            <div class="title font-weight-light mb-2">
-              Vlhkosť - Tlak - Teplota
-            </div>
-            <v-divider class="my-2"></v-divider>
-            <v-icon class="mr-2" small>
-              mdi-clock
-            </v-icon>
-            <span class="caption grey--text font-weight-light">Posledná aktualizácia pred 26 minutami</span>
-          </v-card-text>
-        </v-card>
-      </v-col>
-
-      <v-col cols="12" lg="12" md="12" sm="12">
-        <v-card class="toolbar-mb">
-          <v-sheet class="v-sheet--offset mx-auto rounded-lg" color="grey lighten-5" elevation="0" max-width="calc(100% - 32px)">
-            <div id="wrapper">
-              <div id="chart-line">
-                <apexchart type="line" height="160" :options="chartOptions" :series="series"></apexchart>
+          <v-btn icon>
+            <v-icon>mdi-dots-vertical</v-icon>
+          </v-btn>
+        </v-app-bar>
+      </v-card>
+      <v-row class="mx-auto">
+        <v-col class="mb-5" cols="12" lg="6" md="12" sm="12">
+          <v-card elevation="0">
+            <v-sheet class="v-sheet--offset mx-auto rounded" elevation="0" max-width="calc(100% - 32px)" rounded>
+              <div id="chart">
+                <apexchart type="bar" height="350" :options="chartOptionsColumn" :series="seriesColumn"></apexchart>
               </div>
-              <div id="chart-line2">
-                <apexchart type="line" height="160" :options="chartOptionsLine2" :series="seriesLine2"></apexchart>
+            </v-sheet>
+
+            <v-card-text class="pt-0">
+              <div class="title font-weight-light mb-2">
+                1
               </div>
-              <div id="chart-area">
-                <apexchart type="area" height="160" :options="chartOptionsArea" :series="seriesArea"></apexchart>
+              <v-divider class="my-2"></v-divider>
+              <v-icon class="mr-2" small>
+                mdi-clock
+              </v-icon>
+              <span class="caption grey--text font-weight-light">Posledná aktualizácia pred 26 minutami</span>
+            </v-card-text>
+          </v-card>
+        </v-col>
+
+        <v-col class="mb-5" cols="12" lg="6" md="12" sm="12">
+          <v-card elevation="0">
+            <v-sheet class="v-sheet--offset mx-auto rounded" elevation="0" max-width="calc(100% - 32px)" rounded>
+              <div id="chart">
+                <apexchart type="line" height="350" :options="chartOptionsDashed" :series="seriesDashed"></apexchart>
               </div>
-            </div>
-          </v-sheet>
+            </v-sheet>
 
-          <v-card-text class="pt-0">
-            <div class="title font-weight-light mb-2">
-              Vlhkosť - Tlak - Teplota
-            </div>
-            <v-divider class="my-2"></v-divider>
-            <v-icon class="mr-2" small>
-              mdi-clock
-            </v-icon>
-            <span class="caption grey--text font-weight-light">Posledná aktualizácia pred 26 minutami</span>
-          </v-card-text>
-        </v-card>
-      </v-col>
+            <v-card-text class="pt-0">
+              <div class="title font-weight-light mb-2">
+                Vlhkosť - Tlak - Teplota
+              </div>
+              <v-divider class="my-2"></v-divider>
+              <v-icon class="mr-2" small>
+                mdi-clock
+              </v-icon>
+              <span class="caption grey--text font-weight-light">Posledná aktualizácia pred 26 minutami</span>
+            </v-card-text>
+          </v-card>
+        </v-col>
 
-      <v-col cols="12" lg="6" md="12" sm="12">
-        <v-card class="toolbar-mb">
-          <v-sheet class="v-sheet--offset mx-auto" color="grey lighten-5" elevation="0" max-width="calc(100% - 32px)" rounded>
-            <div id="chart">
-              <apexchart type="radialBar" height="350" :options="chartOptionsCircle_multiple" :series="seriesCircle_multiple"></apexchart>
-            </div>
-          </v-sheet>
+        <v-col class="mb-5" cols="12" lg="12" md="12" sm="12">
+          <v-card elevation="0">
+            <v-sheet class="v-sheet--offset mx-auto rounded" elevation="0" max-width="calc(100% - 32px)">
+              <div id="wrapper">
+                <div id="chart-line">
+                  <apexchart type="line" height="160" :options="chartOptions" :series="series"></apexchart>
+                </div>
+                <div id="chart-line2">
+                  <apexchart type="line" height="160" :options="chartOptionsLine2" :series="seriesLine2"></apexchart>
+                </div>
+                <div id="chart-area">
+                  <apexchart type="area" height="160" :options="chartOptionsArea" :series="seriesArea"></apexchart>
+                </div>
+              </div>
+            </v-sheet>
 
-          <v-card-text class="pt-0">
-            <div class="title font-weight-light mb-2">
-              Vlhkosť - Tlak - Teplota
-            </div>
-            <v-divider class="my-2"></v-divider>
-            <v-icon class="mr-2" small>
-              mdi-clock
-            </v-icon>
-            <span class="caption grey--text font-weight-light">Posledná aktualizácia pred 26 minutami</span>
-          </v-card-text>
-        </v-card>
-      </v-col>
-    </v-row>
-    <v-card-text>
-      <v-btn color="primary" @click="createConnection">connect</v-btn>
-    </v-card-text>
-  </v-card>
+            <v-card-text class="pt-0">
+              <div class="title font-weight-light mb-2">
+                Vlhkosť - Tlak - Teplota
+              </div>
+              <v-divider class="my-2"></v-divider>
+              <v-icon class="mr-2" small>
+                mdi-clock
+              </v-icon>
+              <span class="caption grey--text font-weight-light">Posledná aktualizácia pred 26 minutami</span>
+            </v-card-text>
+          </v-card>
+        </v-col>
+
+        <v-col class="mb-5" cols="12" lg="6" md="12" sm="12">
+          <v-card elevation="0">
+            <v-sheet class="v-sheet--offset mx-auto" elevation="0" max-width="calc(100% - 32px)" rounded>
+              <div id="chart">
+                <apexchart type="radialBar" height="350" :options="chartOptionsCircle_multiple" :series="seriesCircle_multiple"></apexchart>
+              </div>
+            </v-sheet>
+
+            <v-card-text class="pt-0">
+              <div class="title font-weight-light mb-2">
+                Vlhkosť - Tlak - Teplota
+              </div>
+              <v-divider class="my-2"></v-divider>
+              <v-icon class="mr-2" small>
+                mdi-clock
+              </v-icon>
+              <span class="caption grey--text font-weight-light">Posledná aktualizácia pred 26 minutami</span>
+            </v-card-text>
+          </v-card>
+        </v-col>
+      </v-row>
+    </div>
+  </v-lazy>
   <NavigationDrawer :drawer="drawer" />
+  <BottomNavigation />
   <Footer />
 </div>
 </template>
@@ -126,6 +129,7 @@ import Apex from 'apexcharts'
 import VueApexCharts from 'vue-apexcharts'
 import Footer from "../components/Footer.vue";
 import NavigationDrawer from "../components/NavigationDrawer.vue";
+import BottomNavigation from "../components/BottomNavigation.vue";
 
 // Replace Math.random() with a pseudo-random number generator to get reproducible results in e2e tests
 // Based on https://gist.github.com/blixt/f17b47c62508be59987b
@@ -202,6 +206,7 @@ export default {
   components: {
     Footer,
     NavigationDrawer,
+    BottomNavigation,
     apexchart: VueApexCharts,
   },
   data() {

@@ -1,31 +1,32 @@
 <template>
-<div class="lights mt-page">
-  <link rel="stylesheet" href="https://fonts.googleapis.com/icon?family=Material+Icons">
+<div class="lights custom-margin-page">
   <v-lazy :options="{
         threshold: .4
       }" min-height="100vh" transition-group="scale-transition">
-    <v-card class="mx-auto ml-3 mr-3 mb-3" elevation="0" tile>
-      <v-app-bar class="toolbar-mb" color="white" fixed app tile>
-        <v-app-bar-nav-icon @click.stop="drawer = !drawer"></v-app-bar-nav-icon>
+    <div>
+      <v-card class="mx-auto ml-3 mr-3" elevation="0" tile>
+        <v-app-bar fixed app tile>
+          <v-app-bar-nav-icon @click.stop="drawer = !drawer"></v-app-bar-nav-icon>
 
-        <v-toolbar-title>OpenLab FEI Tuke</v-toolbar-title>
+          <v-toolbar-title>OpenLab FEI Tuke</v-toolbar-title>
 
-        <v-spacer></v-spacer>
+          <v-spacer></v-spacer>
 
-        <v-btn icon to="/notifications">
-          <v-icon>mdi-bell</v-icon>
-        </v-btn>
+          <v-btn icon to="/notifications">
+            <v-icon>mdi-bell</v-icon>
+          </v-btn>
 
-        <v-btn icon>
-          <v-icon>mdi-dots-vertical</v-icon>
-        </v-btn>
-      </v-app-bar>
+          <v-btn icon>
+            <v-icon>mdi-dots-vertical</v-icon>
+          </v-btn>
+        </v-app-bar>
+      </v-card>
 
-      <v-row>
+      <v-row class="mx-auto">
         <!-- stroked gauge chart -->
-        <v-col cols="12" lg="6" md="12" sm="12">
-          <v-card class="toolbar-mb">
-            <v-sheet class="v-sheet--offset mx-auto rounded-lg" color="grey lighten-5" elevation="0" max-width="calc(100% - 32px)">
+        <v-col class="mb-5" cols="12" lg="6" md="12" sm="12">
+          <v-card elevation="0">
+            <v-sheet class="v-sheet--offset mx-auto rounded" elevation="0" max-width="calc(100% - 32px)">
               <div id="chart">
                 <apexchart type="radialBar" ref="strokedGauge" height="420" :options="chartOptionsStroked_gauge" :series="seriesStroked_gauge"></apexchart>
               </div>
@@ -45,9 +46,9 @@
           </v-card>
         </v-col>
         <!-- column chart -->
-        <v-col cols="12" lg="6" md="12" sm="12">
-          <v-card class="toolbar-mb">
-            <v-sheet class="v-sheet--offset mx-auto" color="grey lighten-5" elevation="0" max-width="calc(100% - 32px)" rounded>
+        <v-col class="mb-5" cols="12" lg="6" md="12" sm="12">
+          <v-card elevation="0">
+            <v-sheet class="v-sheet--offset mx-auto rounded" elevation="0" max-width="calc(100% - 32px)" rounded>
               <div id="chart">
                 <apexchart type="bar" ref="column_chart" height="350" :options="chartOptionsColumn" :series="seriesColumn"></apexchart>
               </div>
@@ -67,9 +68,9 @@
           </v-card>
         </v-col>
         <!-- candlestick chart -->
-        <v-col cols="12" lg="12" md="12" sm="12">
-          <v-card class="toolbar-mb">
-            <v-sheet class="v-sheet--offset mx-auto rounded-lg" color="grey lighten-5" elevation="0" max-width="calc(100% - 32px)">
+        <v-col class="mb-5" cols="12" lg="12" md="12" sm="12">
+          <v-card elevation="0">
+            <v-sheet class="v-sheet--offset mx-auto rounded" elevation="0" max-width="calc(100% - 32px)">
               <div id="chart">
                 <apexchart type="candlestick" ref="candlestick" height="350" :options="chartOptionsCandle_stick" :series="seriesCandle_stick"></apexchart>
               </div>
@@ -89,9 +90,9 @@
           </v-card>
         </v-col>
         <!-- historical chart -->
-        <v-col cols="12" lg="12" md="12" sm="12">
-          <v-card class="toolbar-mb">
-            <v-sheet class="v-sheet--offset mx-auto" color="grey lighten-5" elevation="0" max-width="calc(100% - 32px)" rounded>
+        <v-col class="mb-5" cols="12" lg="12" md="12" sm="12">
+          <v-card elevation="0">
+            <v-sheet class="v-sheet--offset mx-auto rounded" elevation="0" max-width="calc(100% - 32px)" rounded>
               <div id="chart">
                 <div class="toolbar pt-3">
                   <v-btn icon color="primary" id="one_hour" @click="updateData('one_hour')" class="mr-2" :class="{active: selection==='one_hour'}">
@@ -141,9 +142,9 @@
           </v-card>
         </v-col>
         <!-- realtime chart -->
-        <v-col cols="12" lg="12" md="12" sm="12">
-          <v-card class="toolbar-mb">
-            <v-sheet class="v-sheet--offset mx-auto rounded-lg" color="grey lighten-5" elevation="0" max-width="calc(100% - 32px)">
+        <v-col class="mb-5" cols="12" lg="12" md="12" sm="12">
+          <v-card elevation="0">
+            <v-sheet class="v-sheet--offset mx-auto rounded" elevation="0" max-width="calc(100% - 32px)">
               <div id="chart">
                 <apexchart ref="realtimeChart" type="line" height="200" :options="chartOptionsRealtime" :series="seriesRealtime" />
               </div>
@@ -163,9 +164,10 @@
           </v-card>
         </v-col>
       </v-row>
-    </v-card>
+    </div>
   </v-lazy>
   <NavigationDrawer :drawer="drawer" />
+  <BottomNavigation />
   <Footer />
 </div>
 </template>
@@ -176,11 +178,14 @@ import moment from 'moment'
 import VueApexCharts from 'vue-apexcharts'
 import Footer from "../components/Footer.vue";
 import NavigationDrawer from "../components/NavigationDrawer.vue";
+import BottomNavigation from "../components/BottomNavigation.vue";
+
 export default {
   name: "Lights",
   components: {
     Footer,
     NavigationDrawer,
+    BottomNavigation,
     apexchart: VueApexCharts,
   },
   props: ['drawerNew'],
@@ -345,7 +350,6 @@ export default {
         // },
         xaxis: {
           type: 'datetime',
-
           labels: {
             datetimeUTC: false,
           },
@@ -454,6 +458,13 @@ export default {
         },
         xaxis: {
           type: 'datetime',
+          labels: {
+            datetimeUTC: false,
+            formatter: function(value) {
+              return moment(value)
+                .format('HH:mm');
+            },
+          },
           // type: 'category',
           // labels: {
           //   formatter: function(value) {
@@ -469,7 +480,11 @@ export default {
         },
         tooltip: {
           x: {
-            format: 'dd MMM yyyy HH:mm'
+            datetimeUTC: false,
+            formatter: function(value) {
+              return moment(value)
+                .format('DD MMM yy HH:mm');
+            },
           }
         },
         fill: {
@@ -542,6 +557,13 @@ export default {
           //   show: false,
           // },
           type: 'datetime',
+          labels: {
+            datetimeUTC: false,
+            formatter: function(value) {
+              return moment(value)
+                .format('HH:mm');
+            },
+          },
           tickAmount: 6,
           tooltip: {
             enabled: false,
@@ -556,7 +578,11 @@ export default {
         },
         tooltip: {
           x: {
-            format: 'dd MMM yyyy HH:mm'
+            datetimeUTC: false,
+            formatter: function(value) {
+              return moment(value)
+                .format('DD MMM yy HH:mm');
+            },
           }
         },
         legend: {

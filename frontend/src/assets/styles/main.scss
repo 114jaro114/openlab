@@ -13,9 +13,16 @@ body {
   scrollbar-width: none;
   /* Firefox */
 }
+.theme--light.v-application {
+  background: #f5f5f5;
+}
 
 #app {
   margin: 0;
+}
+
+.v-app-bar.v-app-bar--fixed {
+  z-index: 12 !important;
 }
 
 a:hover {
@@ -26,14 +33,38 @@ a:hover {
   margin-bottom: 50px;
 }
 
-.mt-page {
+.custom-margin-page {
   margin-top: 106px;
+  // margin-bottom: 56px;
+}
+
+.mt-page-settings_notif {
+  margin-top: 86px;
+  // margin-bottom: 56px;
+}
+
+.phone-viewport {
+  display: none !important;
 }
 
 
 //VueApexCharts
-.apexcharts-toolbar,
-.apexcharts-tooltip,
-.apexcharts-xaxistooltip {
-  z-index: 3;
+// .apexcharts-toolbar,
+// .apexcharts-tooltip,
+// .apexcharts-xaxistooltip {
+//   z-index: 3;
+// }
+
+@media only screen and (max-width: 480px) {
+  .phone-viewport {
+    display: block !important;
+  }
+  //
+  // .v-speed-dial {
+  //   display: none;
+  // }
+
+  .v-footer {
+    display: none !important;
+  }
 }

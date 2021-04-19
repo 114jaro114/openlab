@@ -1,31 +1,42 @@
 <template>
-<div class="humidity mt-page">
-  <link rel="stylesheet" href="https://fonts.googleapis.com/icon?family=Material+Icons">
+<div class="humidity">
   <v-lazy :options="{
         threshold: .4
       }" min-height="100vh" transition-group="scale-transition">
-    <v-card class="v-content ml-3 mr-3 mb-3" elevation="0" tile>
-      <v-app-bar color="white" fixed app tile>
-        <v-app-bar-nav-icon @click.stop="drawer = !drawer"></v-app-bar-nav-icon>
+    <div>
+      <!-- <v-card class="mx-auto ml-3 mr-3" elevation="0" tile> -->
+      <v-toolbar elevation="2" class="mb-3">
+        <v-app-bar-nav-icon :drawerNew="drawerNew" @click="drawer = !drawer"></v-app-bar-nav-icon>
+        <v-toolbar-title class="position-absolute" style="right:14px">
+          <span class="md-title font-weight-bold" v-if="this.$vuetify.theme.dark">
+            <img class="logo2 align-middle" src="/img/logos/logo_home_theme_dark.png">
+          </span>
+          <span class="md-title font-weight-bold" v-else>
+            <img class="logo2 align-middle" src="/img/logos/logo_home_theme_light.png">
+          </span>
+        </v-toolbar-title>
+      </v-toolbar>
+      <!-- <v-app-bar class="toolbar-mb" fixed app tile>
+          <v-app-bar-nav-icon @click.stop="drawer = !drawer"></v-app-bar-nav-icon>
 
-        <v-toolbar-title>OpenLab FEI Tuke</v-toolbar-title>
+          <v-toolbar-title>OpenLab FEI Tuke</v-toolbar-title>
 
-        <v-spacer></v-spacer>
+          <v-spacer></v-spacer>
 
-        <v-btn icon to="/notifications">
-          <v-icon>mdi-bell</v-icon>
-        </v-btn>
+          <v-btn icon to="/notifications">
+            <v-icon>mdi-bell</v-icon>
+          </v-btn>
 
-        <v-btn icon>
-          <v-icon>mdi-dots-vertical</v-icon>
-        </v-btn>
-      </v-app-bar>
+          <v-btn icon>
+            <v-icon>mdi-dots-vertical</v-icon>
+          </v-btn>
+        </v-app-bar> -->
+      <!-- </v-card> -->
 
-      <v-row>
-        <v-btn @click="getHistoricalData()">get historical data</v-btn>
-        <v-col cols="12" lg="6" md="12" sm="12">
-          <v-card class="toolbar-mb">
-            <v-sheet class="v-sheet--offset mx-auto rounded-lg" color="grey lighten-5" elevation="0" max-width="calc(100% - 32px)">
+      <v-row class="mx-auto">
+        <!-- <v-col class="mb-5" cols="12" lg="6" md="12" sm="12">
+          <v-card elevation="0">
+            <v-sheet class="v-sheet--offset mx-auto rounded" elevation="0" max-width="calc(100% - 32px)">
               <div id="chart">
                 <apexchart type="radialBar" ref="circle_gradient" height="350" :options="chartOptionsCircle_gradient" :series="seriesCircle_gradient"></apexchart>
               </div>
@@ -44,12 +55,12 @@
           </v-card>
         </v-col>
 
-        <v-col cols="12" lg="6" md="12" sm="12">
+        <v-col class="mb-5" cols="12" lg="6" md="12" sm="12">
         </v-col>
 
-        <v-col cols="12" lg="12" md="12" sm="12">
-          <!-- <v-card class="toolbar-mb">
-            <v-sheet class="v-sheet--offset mx-auto" color="grey lighten-5" elevation="0" max-width="calc(100% - 32px)" rounded>
+        <v-col class="mb-5" cols="12" lg="12" md="12" sm="12">
+          <v-card elevation="0">
+            <v-sheet class="v-sheet--offset mx-auto rounded" elevation="0" max-width="calc(100% - 32px)" rounded>
               <div id="chart">
                 <div class="toolbar pt-3">
                   <v-btn icon color="primary" id="one_hour" @click="updateData('one_hour')" class="mr-2" :class="{active: selection==='one_hour'}">
@@ -95,55 +106,31 @@
               </v-icon>
               <span class="caption grey--text font-weight-light">Posledná aktualizácia pred 26 minutami</span>
             </v-card-text>
-          </v-card> -->
-          <div id="chart">
-            <div class="toolbar">
-              <button id="one_month" @click="updateData('one_month')" :class="{active: selection==='one_month'}">
-                1M
-              </button>
-
-              <button id="six_months" @click="updateData('six_months')" :class="{active: selection==='six_months'}">
-                6M
-              </button>
-
-              <button id="one_year" @click="updateData('one_year')" :class="{active: selection==='one_year'}">
-                1Y
-              </button>
-
-              <button id="ytd" @click="updateData('ytd')" :class="{active: selection==='ytd'}">
-                YTD
-              </button>
-
-              <button id="all" @click="updateData('all')" :class="{active: selection==='all'}">
-                ALL
-              </button>
-            </div>
-
-            <div id="chart-timeline">
-              <apexchart type="area" height="350" ref="chart" :options="chartOptions" :series="series"></apexchart>
-            </div>
-          </div>
-        </v-col>
+          </v-card>
+        </v-col> -->
       </v-row>
-    </v-card>
+    </div>
   </v-lazy>
   <NavigationDrawer :drawer="drawer" />
+  <BottomNavigation />
   <Footer />
 </div>
 </template>
 <script>
 import axios from 'axios';
 import moment from 'moment'
-import VueApexCharts from 'vue-apexcharts';
+// import VueApexCharts from 'vue-apexcharts';
 import Footer from "../components/Footer.vue";
 import NavigationDrawer from "../components/NavigationDrawer.vue";
+import BottomNavigation from "../components/BottomNavigation.vue";
 
 export default {
   name: "Humidity",
   components: {
     Footer,
     NavigationDrawer,
-    apexchart: VueApexCharts,
+    BottomNavigation,
+    // apexchart: VueApexCharts,
   },
   props: ['drawerNew'],
   data() {

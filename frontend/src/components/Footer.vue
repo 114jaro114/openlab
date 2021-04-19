@@ -1,8 +1,8 @@
 <template>
 <v-footer class="p-0">
   <v-card flat tile width="100%" class="text-center">
-    <v-divider class="primary mt-0" />
-    <v-card-text class="p-0">
+    <!-- <v-divider class="primary mt-0" /> -->
+    <v-card-text class="p-0 pt-3">
       <v-btn color="primary" v-for="icon in icons" :key="icon" class="mx-4" fab icon>
         <v-icon large>
           {{ icon }}

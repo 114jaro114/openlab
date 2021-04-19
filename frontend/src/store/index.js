@@ -5,26 +5,39 @@ Vue.use(Vuex);
 
 export default new Vuex.Store({
   state: {
-    // test: null,
+    speedDialState: {
+      state: false,
+    },
+
+    bottomNavigationState: {
+      state: false,
+    },
   },
   getters: {
-    // test: state => {
-    //   return state.test;
-    // },
+    speedDialState: state => {
+      return state.speedDialState
+    },
+
+    bottomNavigationState: state => {
+      return state.bottomNavigationState
+    },
   },
   mutations: {
-    // mutationTest: (state, payload) => {
-    //   Vue.set(state.test, 'test', payload.test);
-    //   Vue.set(state.test2, 'test2', payload.test2);
-    // },
-    //
-    // mutationTest2: (state, payload) => {
-    //   state.test = payload.test;
-    // },
+    mutationSpeedDialState: (state, payload) => {
+      Vue.set(state.speedDialState, 'state', payload.status);
+    },
+
+    mutationBottomNavigationState: (state, payload) => {
+      Vue.set(state.bottomNavigationState, 'state', payload.status);
+    },
   },
   actions: {
-    // test: (context, payload) => {
-    //   context.commit('mutationtest', payload)
-    // },
+    speedDialState: (context, payload) => {
+      context.commit('mutationSpeedDialState', payload)
+    },
+
+    bottomNavigationState: (context, payload) => {
+      context.commit('mutationBottomNavigationState', payload)
+    },
   }
 });

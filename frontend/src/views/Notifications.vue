@@ -1,36 +1,44 @@
 <template>
-<div class="notifications mt-page">
-  <link rel="stylesheet" href="https://fonts.googleapis.com/icon?family=Material+Icons">
+<div class="notifications mt-page-settings_notif">
   <v-lazy :options="{
         threshold: .4
       }" min-height="100vh" transition-group="scale-transition">
-    <v-card class="v-content" elevation="0" tile>
-      <v-app-bar class="toolbar-mb" color="white" fixed app tile>
-        <v-app-bar-nav-icon @click.stop="drawer = !drawer"></v-app-bar-nav-icon>
+    <div>
+      <v-card class="mx-auto ml-3 mr-3" elevation="0" tile>
+        <v-app-bar class="toolbar-mb" fixed app tile>
+          <v-app-bar-nav-icon @click.stop="drawer = !drawer"></v-app-bar-nav-icon>
 
-        <v-toolbar-title>OpenLab FEI Tuke</v-toolbar-title>
+          <v-toolbar-title>OpenLab FEI Tuke</v-toolbar-title>
 
-        <v-spacer></v-spacer>
+          <v-spacer></v-spacer>
 
-        <v-btn icon>
-          <v-icon>mdi-dots-vertical</v-icon>
-        </v-btn>
-      </v-app-bar>
-    </v-card>
+          <v-btn icon to="/notifications">
+            <v-icon>mdi-bell</v-icon>
+          </v-btn>
+
+          <v-btn icon>
+            <v-icon>mdi-dots-vertical</v-icon>
+          </v-btn>
+        </v-app-bar>
+      </v-card>
+    </div>
   </v-lazy>
   <NavigationDrawer :drawer="drawer" />
+  <BottomNavigation />
   <Footer />
 </div>
 </template>
 <script>
 import Footer from "../components/Footer.vue";
 import NavigationDrawer from "../components/NavigationDrawer.vue";
+import BottomNavigation from "../components/BottomNavigation.vue";
 
 export default {
   name: "Notifications",
   components: {
     Footer,
     NavigationDrawer,
+    BottomNavigation,
   },
   props: ['drawerNew'],
   data() {

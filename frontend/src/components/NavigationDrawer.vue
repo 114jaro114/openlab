@@ -1,6 +1,6 @@
 <template id="NavigationDrawer">
 <v-navigation-drawer :value="drawer2" absolute temporary>
-  <v-list-item class="px-2 justify-center">
+  <v-list-item class="justify-center" style="height:55px">
     <span class="font-weight-bold" color="primary">OpenLab FEI Tuke</span>
   </v-list-item>
   <v-divider class="mb-0 mt-0"></v-divider>
@@ -76,15 +76,18 @@ export default {
 <style type="scss">
 .v-navigation-drawer {
   position: fixed !important;
-  width: 300px !important;
+  width: 100px !important;
   box-shadow: unset !important;
+  z-index: 51 !important;
+}
+
+.v-navigation-drawer--temporary {
   z-index: 51 !important;
 }
 
 .v-navigation-drawer__append {
   /* margin-bottom: 64px; */
   margin-bottom: 6px;
-
 }
 
 .v-overlay__scrim {
@@ -96,11 +99,11 @@ export default {
 }
 
 .v-list-item-group .theme--dark.v-list-item--active {
-  color: #21CFF3;
+  color: #1976d2;
 }
 
 .v-list-item-group .v-list-item--active.theme--light {
-  color: #0D47A1;
+  color: #1976d2;
 }
 
 .v-navigation-drawer:not(.v-navigation-drawer--floating) .v-navigation-drawer__border {
