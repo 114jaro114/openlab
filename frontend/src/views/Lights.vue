@@ -16,19 +16,19 @@
             <v-icon>mdi-bell</v-icon>
           </v-btn>
 
-          <v-btn icon>
-            <v-icon>mdi-dots-vertical</v-icon>
+          <v-btn icon to="/settings">
+            <v-icon>mdi-cog</v-icon>
           </v-btn>
         </v-app-bar>
       </v-card>
 
-      <v-row class="mx-auto">
+      <v-row class="m-0">
         <!-- stroked gauge chart -->
         <v-col class="mb-5" cols="12" lg="6" md="12" sm="12">
           <v-card class="rounded" elevation="0">
             <v-sheet class="v-sheet--offset mx-auto rounded" elevation="0" max-width="calc(100% - 32px)">
               <div id="chart">
-                <apexchart type="radialBar" ref="strokedGauge" height="420" :options="chartOptionsStroked_gauge" :series="seriesStroked_gauge"></apexchart>
+                <apexchart type="radialBar" ref="strokedGauge" height="385" :options="chartOptionsStroked_gauge" :series="seriesStroked_gauge"></apexchart>
               </div>
             </v-sheet>
 
@@ -67,6 +67,28 @@
             </v-card-text>
           </v-card>
         </v-col>
+        <!-- realtime chart -->
+        <v-col class="mb-5" cols="12" lg="12" md="12" sm="12">
+          <v-card class="rounded" elevation="0">
+            <v-sheet class="v-sheet--offset mx-auto rounded" elevation="0" max-width="calc(100% - 32px)">
+              <div id="chart">
+                <apexchart ref="realtimeChart" type="line" height="200" :options="chartOptionsRealtime" :series="seriesRealtime" />
+              </div>
+            </v-sheet>
+
+            <v-card-text class="pt-0">
+              <div class="title font-weight-light mb-2">
+                Aktuálna vlhkosť posledných 5 minút
+              </div>
+              <v-divider class="my-2"></v-divider>
+              <v-icon class="mr-2" small>
+                mdi-clock
+              </v-icon>
+              <span class="caption grey--text font-weight-light">Posledná aktualizácia: </span>
+              <span class="font-weight-bold">{{lastUpdate}}</span>
+            </v-card-text>
+          </v-card>
+        </v-col>
         <!-- candlestick chart -->
         <v-col class="mb-5" cols="12" lg="12" md="12" sm="12">
           <v-card class="rounded" elevation="0">
@@ -78,7 +100,7 @@
 
             <v-card-text class="pt-0">
               <div class="title font-weight-light mb-2">
-                Vlhkosť - Tlak - Teplota
+                Najvyššia, najnižšia, prvá a posledná hodnota za 1-hodinové intervaly
               </div>
               <v-divider class="my-2"></v-divider>
               <v-icon class="mr-2" small>
@@ -130,29 +152,7 @@
 
             <v-card-text class="pt-0">
               <div class="title font-weight-light mb-2">
-                Vlhkosť
-              </div>
-              <v-divider class="my-2"></v-divider>
-              <v-icon class="mr-2" small>
-                mdi-clock
-              </v-icon>
-              <span class="caption grey--text font-weight-light">Posledná aktualizácia: </span>
-              <span class="font-weight-bold">{{lastUpdate}}</span>
-            </v-card-text>
-          </v-card>
-        </v-col>
-        <!-- realtime chart -->
-        <v-col class="mb-5" cols="12" lg="12" md="12" sm="12">
-          <v-card class="rounded" elevation="0">
-            <v-sheet class="v-sheet--offset mx-auto rounded" elevation="0" max-width="calc(100% - 32px)">
-              <div id="chart">
-                <apexchart ref="realtimeChart" type="line" height="200" :options="chartOptionsRealtime" :series="seriesRealtime" />
-              </div>
-            </v-sheet>
-
-            <v-card-text class="pt-0">
-              <div class="title font-weight-light mb-2">
-                Vlhkosť - Tlak - Teplota
+                Historický graf vlhkosti
               </div>
               <v-divider class="my-2"></v-divider>
               <v-icon class="mr-2" small>
@@ -168,6 +168,7 @@
   </v-lazy>
   <NavigationDrawer :drawer="drawer" />
   <BottomNavigation />
+  <SpeedDial />
   <Footer />
 </div>
 </template>
@@ -179,6 +180,7 @@ import VueApexCharts from 'vue-apexcharts'
 import Footer from "../components/Footer.vue";
 import NavigationDrawer from "../components/NavigationDrawer.vue";
 import BottomNavigation from "../components/BottomNavigation.vue";
+import SpeedDial from "../components/SpeedDial.vue";
 
 export default {
   name: "Lights",
@@ -186,6 +188,7 @@ export default {
     Footer,
     NavigationDrawer,
     BottomNavigation,
+    SpeedDial,
     apexchart: VueApexCharts,
   },
   props: ['drawerNew'],
@@ -194,47 +197,128 @@ export default {
       drawer: false,
       lastUpdate: localStorage.getItem('lastUpdateLights'),
       //apexchart stroked gauge
+      // seriesStroked_gauge: [],
+      // chartOptionsStroked_gauge: {
+      //   chart: {
+      //     type: 'radialBar',
+      //   },
+      //   plotOptions: {
+      //     radialBar: {
+      //       startAngle: -135,
+      //       endAngle: 135,
+      //       dataLabels: {
+      //         name: {
+      //           fontSize: '16px',
+      //           color: undefined,
+      //           offsetY: 120
+      //         },
+      //         value: {
+      //           offsetY: 76,
+      //           fontSize: '22px',
+      //           color: undefined,
+      //           formatter: function(val) {
+      //             return val + "";
+      //           }
+      //         }
+      //       },
+      //     }
+      //   },
+      //   fill: {
+      //     type: 'gradient',
+      //     gradient: {
+      //       shade: 'dark',
+      //       shadeIntensity: 0.15,
+      //       inverseColors: false,
+      //       opacityFrom: 1,
+      //       opacityTo: 1,
+      //       stops: [0, 50, 65, 91]
+      //     },
+      //   },
+      //   stroke: {
+      //     dashArray: 4
+      //   },
+      //   labels: ['Vlhkosť (%)'],
+      // },
       seriesStroked_gauge: [],
       chartOptionsStroked_gauge: {
         chart: {
+          height: 350,
           type: 'radialBar',
+          toolbar: {
+            show: false
+          }
         },
         plotOptions: {
           radialBar: {
             startAngle: -135,
-            endAngle: 135,
+            endAngle: 225,
+            hollow: {
+              margin: 0,
+              size: '70%',
+              background: 'rgba(255,255,255, 0)',
+              image: undefined,
+              imageOffsetX: 0,
+              imageOffsetY: 0,
+              position: 'front',
+              // dropShadow: {
+              //   enabled: true,
+              //   top: 3,
+              //   left: 0,
+              //   blur: 4,
+              //   opacity: 0.24
+              // }
+            },
+            // track: {
+            //   background: '#fff',
+            //   strokeWidth: '67%',
+            //   margin: 0, // margin is in pixels
+            //   dropShadow: {
+            //     enabled: true,
+            //     top: -3,
+            //     left: 0,
+            //     blur: 4,
+            //     opacity: 0.35
+            //   }
+            // },
+
             dataLabels: {
+              show: true,
               name: {
-                fontSize: '16px',
-                color: undefined,
-                offsetY: 120
+                offsetY: -10,
+                show: true,
+                color: '#888',
+                fontSize: '17px'
               },
               value: {
-                offsetY: 76,
-                fontSize: '22px',
-                color: undefined,
                 formatter: function(val) {
-                  return val + "";
-                }
+                  return parseInt(val * 100) / 100;
+                },
+                color: '#0066ff',
+                fontSize: '36px',
+                show: true,
               }
             }
           }
         },
         fill: {
-          type: 'gradient',
-          gradient: {
-            shade: 'dark',
-            shadeIntensity: 0.15,
-            inverseColors: false,
-            opacityFrom: 1,
-            opacityTo: 1,
-            stops: [0, 50, 65, 91]
-          },
+          // type: 'gradient',
+          type: 'solid',
+          colors: ['#0066ff'],
+          // gradient: {
+          //   shade: 'dark',
+          //   type: 'horizontal',
+          //   shadeIntensity: 0.5,
+          //   gradientToColors: ['#ABE5A1'],
+          //   inverseColors: true,
+          //   opacityFrom: 1,
+          //   opacityTo: 1,
+          //   stops: [0, 100]
+          // }
         },
         stroke: {
-          dashArray: 4
+          lineCap: 'round'
         },
-        labels: ['Vlhkosť (%)'],
+        labels: ['%'],
       },
       //column chart
       seriesColumn: [{
@@ -267,7 +351,7 @@ export default {
           }
         },
         dataLabels: {
-          enabled: true,
+          enabled: false,
           formatter: function(val) {
             return val + "%";
           },
@@ -311,9 +395,9 @@ export default {
             show: false,
           },
           labels: {
-            show: false,
+            show: true,
             formatter: function(val) {
-              return val + "";
+              return val + "%";
             }
           }
 
@@ -326,7 +410,10 @@ export default {
           style: {
             color: '#444'
           }
-        }
+        },
+        tooltip: {
+          theme: localStorage.getItem('graph_theme'),
+        },
       },
       //candlestick chart
       seriesCandle_stick: [{
@@ -370,6 +457,7 @@ export default {
           }
         },
         tooltip: {
+          theme: localStorage.getItem('graph_theme'),
           custom: function({
             // seriesStroked_gauge,
             seriesIndex,
@@ -382,10 +470,11 @@ export default {
             const l = w.globals.seriesCandleL[seriesIndex][dataPointIndex]
             const c = w.globals.seriesCandleC[seriesIndex][dataPointIndex]
             return (
-              '<div class="p-2 apexcharts-tooltip-candlestick">' +
-              '<div>Dátum: <span class="font-weight-bold">' +
+
+              '<div class="apexcharts-tooltip-candlestick">' +
+              '<div class="p-2">Dátum: <span class="font-weight-bold">' +
               moment(d)
-              .format("D MMMM YY HH:mm") +
+              .format("D MMMM YYYY HH:mm") +
               '</span></div>' +
               '<div>Open: <span class="font-weight-bold value">' +
               o +
@@ -419,43 +508,23 @@ export default {
           },
           dynamicAnimation: {
             speed: 1000
+          },
+          toolbar: {
+            tools: {
+              download: false,
+            }
           }
         },
-        annotations: {
-          yaxis: [{
-            y: 30,
-            borderColor: '#999',
-            label: {
-              show: true,
-              text: 'Support',
-              style: {
-                color: "#fff",
-                background: '#00E396'
-              }
-            }
-          }],
-          xaxis: [{
-            // x: new Date('14 Nov 2012')
-            //   .getTime(),
-            borderColor: '#999',
-            yAxisIndex: 0,
-            label: {
-              show: true,
-              text: 'Rally',
-              style: {
-                color: "#fff",
-                background: '#775DD0'
-              }
-            }
-          }]
-        },
+
         dataLabels: {
           enabled: false
         },
+
         markers: {
           size: 0,
           style: 'hollow',
         },
+
         xaxis: {
           type: 'datetime',
           labels: {
@@ -479,22 +548,14 @@ export default {
           }
         },
         tooltip: {
+          theme: localStorage.getItem('graph_theme'),
           x: {
             datetimeUTC: false,
             formatter: function(value) {
               return moment(value)
                 .format('DD MMM yy HH:mm');
             },
-          }
-        },
-        fill: {
-          type: 'gradient',
-          gradient: {
-            shadeIntensity: 1,
-            opacityFrom: 0.7,
-            opacityTo: 0.9,
-            stops: [0, 100]
-          }
+          },
         },
       },
       selection: '',
@@ -515,10 +576,18 @@ export default {
               speed: 1000
             }
           },
+          toolbar: {
+            show: false
+          }
         },
         grid: {
-          show: false,
+          show: true,
           strokeDashArray: 0,
+          yaxis: {
+            lines: {
+              show: true,
+            },
+          },
           xaxis: {
             lines: {
               show: false,
@@ -539,13 +608,7 @@ export default {
         dataLabels: {
           enabled: false,
         },
-        title: {
-          // text: 'Realtime graf',
-          // align: 'left'
-          // style: {
-          //   color: '#FFF',
-          // },
-        },
+        title: {},
         xaxis: {
           // show: false,
           // type: 'category',
@@ -561,7 +624,7 @@ export default {
             datetimeUTC: false,
             formatter: function(value) {
               return moment(value)
-                .format('HH:mm');
+                .format('HH:mm:ss');
             },
           },
           tickAmount: 6,
@@ -569,19 +632,13 @@ export default {
             enabled: false,
           },
         },
-        yaxis: {
-          // labels: {
-          //   style: {
-          //     color: '#000',
-          //   },
-          // },
-        },
         tooltip: {
+          theme: localStorage.getItem('graph_theme'),
           x: {
             datetimeUTC: false,
             formatter: function(value) {
               return moment(value)
-                .format('DD MMM yy HH:mm');
+                .format('DD MMM yy HH:mm:ss');
             },
           }
         },
@@ -595,6 +652,7 @@ export default {
   updated() {
     this.drawer = this.drawerNew;
   },
+  computed: {},
 
   methods: {
     updateCharts() {
@@ -692,7 +750,6 @@ export default {
     getHis2() {
       axios.get('http://127.0.0.1:8000/api/getHistoricalData2')
         .then(res => {
-          console.log(res.data)
           this.seriesCandle_stick[0].data.splice(0, 1)
           for (var i = 0; i < res.data.length; i++) {
             this.seriesCandle_stick[0].data.push({
@@ -737,10 +794,7 @@ export default {
   watch: {},
 
   mounted() {
-    // this.createConnection();
-    // this.setDataLineChart();
     //do something after mounting vue instance
-    console.log('Component Welcome mounted.')
     axios.get('http://127.0.0.1:8000/api/getHum')
       .then(res => {
         for (var i = 0; i < res.data.length; i++) {
@@ -757,13 +811,14 @@ export default {
           ]);
         }
 
-        console.log(this.series[0].data[0]);
         localStorage.setItem("lastUpdateLights", moment(res.data[res.data.length - 1].created_at)
           .format('YYYY-MM-DD HH:mm:ss'));
         this.seriesStroked_gauge.splice(0, 1);
         this.seriesStroked_gauge.push(res.data[res.data.length - 1].hum);
         this.updateCharts();
       })
+
+    this.seriesStroked_gauge.push(0);
 
     this.getHis2();
     this.getHis3();
@@ -776,11 +831,14 @@ export default {
     // }
     window.Echo.channel('test')
       .listen('HumEvent', (e) => {
-        console.log(e);
+        // console.log(e);
         this.lastUpdate = moment(e.humidity.created_at)
           .format('YYYY-MM-DD HH:mm:ss');
         localStorage.setItem("lastUpdateLights", moment(e.humidity.created_at)
           .format('YYYY-MM-DD HH:mm:ss'));
+        if (this.seriesRealtime[0].data.length == 10) {
+          this.seriesRealtime[0].data.splice(0, 1);
+        }
         this.seriesRealtime[0].data.push([
           moment(e.humidity.created_at)
           .valueOf(),

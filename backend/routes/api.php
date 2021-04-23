@@ -42,7 +42,14 @@ Route::post('/broadcast', function (Request $request) {
 });
 
 Route::post('/saveData', [ApiController::class, 'store']);
+Route::post('/saveDataAllSensors', [ApiController::class, 'store2']);
 Route::get('/getHum', [ApiController::class, 'getData']);
 Route::get('/getHistoricalData', [ApiController::class, 'getHistoricalData']);
 Route::get('/getHistoricalData2', [ApiController::class, 'getHistoricalData2']);
 Route::get('/getHistoricalData3', [ApiController::class, 'getHistoricalData3']);
+
+//for graph in home page
+Route::get('/getDataHome', [ApiController::class, 'getDataDashed']);
+Route::get('/getDataLine', [ApiController::class, 'getDataLine']);
+Route::get('/getDataCircleMultiple', [ApiController::class, 'getDataCircleMultiple']);
+Route::get('/getDataAreasGroup', [ApiController::class, 'getDataAreasGroup']);

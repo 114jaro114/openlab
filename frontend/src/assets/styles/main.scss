@@ -22,7 +22,7 @@ body {
 }
 
 .v-app-bar.v-app-bar--fixed {
-  z-index: 12 !important;
+  z-index: 13 !important;
 }
 
 a:hover {
@@ -34,19 +34,22 @@ a:hover {
 }
 
 .custom-margin-page {
-  margin-top: 106px;
+  margin-top: 96px;
   // margin-bottom: 56px;
 }
 
 .mt-page-settings_notif {
-  margin-top: 86px;
+  margin-top: 76px;
   // margin-bottom: 56px;
 }
 
 .phone-viewport {
-  display: none !important;
+  display: none;
 }
 
+.v-speed-dial {
+  display: block !important;
+}
 
 //VueApexCharts
 // .apexcharts-toolbar,
@@ -56,13 +59,13 @@ a:hover {
 // }
 
 @media only screen and (max-width: 480px) {
-  .phone-viewport {
-    display: block !important;
-  }
-  //
-  // .v-speed-dial {
-  //   display: none;
+  // .phone-viewport {
+  //   display: block !important;
   // }
+
+  .v-speed-dial {
+    display: none !important;
+  }
 
   .v-footer {
     display: none !important;

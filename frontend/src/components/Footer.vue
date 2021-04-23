@@ -3,6 +3,15 @@
   <v-card flat tile width="100%" class="text-center">
     <!-- <v-divider class="primary mt-0" /> -->
     <v-card-text class="p-0 pt-3">
+      <!-- <img src="../assets/kpi.png" /> -->
+      <!-- <v-img :src="require('./assets/logo.jpg')" /> -->
+      <!-- <v-row> -->
+      <v-col>
+        <v-img class="ml-5 mt-3" :lazy-src="require('../assets/fei.png')" max-height="180" max-width="350" :src="require('../assets/fei.png')"></v-img>
+        <v-img class="ml-5 mt-5" :lazy-src="require('../assets/kpi.png')" max-height="70" max-width="200" :src="require('../assets/kpi.png')"></v-img>
+      </v-col>
+      <!-- </v-row> -->
+
       <v-btn color="primary" v-for="icon in icons" :key="icon" class="mx-4" fab icon>
         <v-icon large>
           {{ icon }}

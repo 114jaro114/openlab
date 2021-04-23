@@ -3,6 +3,7 @@
 use Illuminate\Support\Facades\Broadcast;
 
 use App\Models\Humidity;
+use App\Models\AllSensors;
 
 /*
 |--------------------------------------------------------------------------
@@ -22,4 +23,8 @@ Broadcast::channel('App.Models.User.{id}', function ($user, $id) {
 //channel for humidity
 Broadcast::channel('test', function (Humidity $humidity) {
     return $humidity;
+});
+
+Broadcast::channel('test', function (AllSensors $allsensors) {
+    return $allsensors;
 });

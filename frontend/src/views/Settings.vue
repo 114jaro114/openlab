@@ -16,10 +16,10 @@
         </v-btn>
       </v-app-bar>
     </v-card>
-    <v-row class="mx-auto">
+    <v-row class="m-0">
       <v-col class="mb-5">
         <!-- <v-card> -->
-        <v-list class="rounded" flat subheader>
+        <v-list class="rounded" flat subheader three-line>
           <v-list-item-group v-model="ntf" multiple active-class="">
             <v-subheader>Notifikácie</v-subheader>
             <v-list-item>
@@ -59,7 +59,7 @@
               <v-col class="d-flex" cols="12" sm="6">
                 <v-tooltip v-if="!$vuetify.theme.dark" bottom>
                   <template v-slot:activator="{ on }">
-                    <v-btn v-on="on" @click="toggle_dark_mode" block large>
+                    <v-btn :disabled="autoDLMon" v-on="on" @click="toggle_dark_mode" block large>
                       <v-icon>mdi-theme-light-dark</v-icon>
                     </v-btn>
                   </template>
@@ -68,7 +68,7 @@
 
                 <v-tooltip v-else bottom>
                   <template v-slot:activator="{ on }">
-                    <v-btn v-on="on" @click="toggle_dark_mode" block large>
+                    <v-btn :disabled="autoDLMon" v-on="on" @click="toggle_dark_mode" block large>
                       <v-icon>mdi-theme-light-dark</v-icon>
                     </v-btn>
                   </template>
@@ -106,10 +106,10 @@
           <v-divider></v-divider>
 
           <v-list-item-group v-model="sd" multiple active-class="">
-            <v-list-item>
+            <v-list-item :disabled="lockSpeedDial">
               <template v-slot:default="{ active }">
                 <v-list-item-action>
-                  <v-switch color="primary" :input-value="active" @click="speedDial()" inset></v-switch>
+                  <v-switch color="primary" :input-value="active" inset></v-switch>
                 </v-list-item-action>
 
                 <v-list-item-content>
@@ -123,7 +123,7 @@
           <v-divider></v-divider>
 
           <v-list-item-group v-model="bn" multiple active-class="">
-            <v-list-item>
+            <v-list-item :disabled="lockBottomNavigation">
               <template v-slot:default="{ active }">
                 <v-list-item-action>
                   <v-switch color="primary" :input-value="active" inset></v-switch>
@@ -157,103 +157,11 @@
             </v-col>
           </v-row>
         </v-list>
-        <!-- <span class="secondary--color">Dark/Light mod</span>
-      <v-card-text>
-        <v-row justify="center">
-          <v-col class="d-flex" cols="12" sm="6">
-            <v-tooltip v-if="!$vuetify.theme.dark" bottom>
-              <template v-slot:activator="{ on }">
-                <v-btn v-on="on" @click="toggle_dark_mode" block large>
-                  <v-icon>mdi-theme-light-dark</v-icon>
-                </v-btn>
-              </template>
-              <span>Zapnúť dark mód</span>
-            </v-tooltip>
-
-            <v-tooltip v-else bottom>
-              <template v-slot:activator="{ on }">
-                <v-btn v-on="on" @click="toggle_dark_mode" block large>
-                  <v-icon>mdi-theme-light-dark</v-icon>
-                </v-btn>
-              </template>
-              <span>Vypnúť dark mód</span>
-            </v-tooltip>
-          </v-col>
-        </v-row>
-
-      </v-card-text>
-
-      <v-divider class="secondary" />
-
-      <span class="secondary--color">Speed dial (<v-icon medium>mdi-web</v-icon>)</span>
-
-      <v-card-text>
-        <v-row justify="center">
-          <v-col class="d-flex" cols="12" sm="6">
-            <v-btn :ripple="false" class="speed_dial_switch" block large>
-              <span class="pr-4">skryť</span>
-              <v-switch color="primary" v-model="switch1" inset @click="speedDial()"></v-switch>
-              <span>Zobraziť</span>
-            </v-btn>
-          </v-col>
-        </v-row>
-      </v-card-text>
-
-      <v-divider class="secondary" />
-
-      <span class="secondary--color">Notifikácie</span>
-
-      <v-card-text>
-        <v-row justify="center">
-          <v-col class="d-flex pb-0" cols="12" sm="6">
-            <v-btn :ripple="false" class="speed_dial_switch" block large>
-              <span class="pr-4">vypnúť</span>
-              <v-switch color="primary" v-model="switch2" inset></v-switch>
-              <span>Zapnúť</span>
-            </v-btn>
-          </v-col>
-        </v-row>
-      </v-card-text>
-
-      <v-divider class="secondary" />
-
-      <span class="secondary--color">spodná navigačná lišta (<v-icon medium>mdi-cellphone-cog</v-icon>)</span>
-
-      <v-card-text>
-        <v-row justify="center">
-          <v-col class="d-flex pb-0" cols="12" sm="6">
-            <v-btn :ripple="false" class="speed_dial_switch" block large>
-              <span class="pr-4">skryt</span>
-              <v-switch color="primary" v-model="switch3" @click="bottomNavigation()" inset></v-switch>
-              <span>Zobraziť</span>
-            </v-btn>
-          </v-col>
-        </v-row>
-      </v-card-text>
-
-      <v-divider class="secondary" />
-
-      <span class="secondary--color">Jazyk aplikácie</span>
-
-      <v-card-text class="select_country">
-        <v-row justify="center">
-          <v-col class="d-flex pb-0" cols="12" sm="6">
-            <v-select v-model="select" :items="countries" item-text="name" label="Jazyk" solo>
-
-              <template class="select_language" v-slot:item="slotProps">
-                <CountryFlag class="mr-2" :country='slotProps.item.flag' size='medium' />
-                {{slotProps.item.name}}
-              </template>
-              <span>Vybrať jayzk</span>
-            </v-select>
-          </v-col>
-        </v-row>
-      </v-card-text> -->
-        <!-- </v-card> -->
       </v-col>
     </v-row>
     <NavigationDrawer :drawer="drawer" />
     <BottomNavigation />
+    <SpeedDial />
     <Footer />
   </div>
 </v-lazy>
@@ -263,6 +171,7 @@
 import Footer from "../components/Footer.vue";
 import NavigationDrawer from "../components/NavigationDrawer.vue";
 import BottomNavigation from "../components/BottomNavigation.vue";
+import SpeedDial from "../components/SpeedDial.vue";
 import CountryFlag from 'vue-country-flag';
 
 export default {
@@ -271,11 +180,18 @@ export default {
     Footer,
     NavigationDrawer,
     BottomNavigation,
+    SpeedDial,
     CountryFlag,
   },
   props: ['drawerNew'],
   data() {
     return {
+      // windowHeight: window.innerHeight,
+      windowWidth: window.innerWidth,
+      txt: '',
+      lockSpeedDial: false,
+      lockBottomNavigation: false,
+      autoDLMon: false,
       settings: [],
       drawer: false,
       select: localStorage.getItem('language'),
@@ -296,30 +212,50 @@ export default {
       dlm: [],
       sd: [],
       bn: [],
-      switch1: JSON.parse(localStorage.getItem("speed_dial")),
-      switch2: true,
-      switch3: JSON.parse(localStorage.getItem("bottom_navigation")),
     }
   },
-
   mounted() {
+    if (this.windowWidth <= 480) {
+      this.lockSpeedDial = true;
+      this.lockBottomNavigation = false;
+    } else {
+      this.lockSpeedDial = false;
+      this.lockBottomNavigation = true;
+    }
+    window.addEventListener('resize', () => {
+      this.windowWidth = window.innerWidth
+      if (this.windowWidth <= 480) {
+        this.lockSpeedDial = true;
+        this.lockBottomNavigation = false;
+      } else {
+        this.lockSpeedDial = false;
+        this.lockBottomNavigation = true;
+      }
+    });
+
     const theme = localStorage.getItem("dark_theme");
     if (theme) {
       if (theme === "true") {
         this.$vuetify.theme.dark = true;
+        localStorage.setItem('graph_theme', 'dark');
       } else {
         this.$vuetify.theme.dark = false;
+        localStorage.setItem('graph_theme', 'light');
       }
-    } else if (
-      window.matchMedia &&
-      window.matchMedia("(prefers-color-scheme: dark)")
-      .matches
-    ) {
-      this.$vuetify.theme.dark = true;
-      localStorage.setItem(
-        "dark_theme",
-        this.$vuetify.theme.dark.toString()
-      );
+    }
+
+    if (JSON.parse(localStorage.getItem("auto_dlm")) == true) {
+      this.autoDLMon = true;
+      this.dlm.push(0);
+      this.$store.dispatch('autoDarkLightModeState', {
+        status: true
+      });
+    } else {
+      this.autoDLMon = false;
+      this.dlm.splice(0, 1);
+      this.$store.dispatch('autoDarkLightModeState', {
+        status: false
+      });
     }
 
     if (JSON.parse(localStorage.getItem("speed_dial")) == true) {
@@ -335,7 +271,6 @@ export default {
     }
 
     if (JSON.parse(localStorage.getItem("bottom_navigation")) == true) {
-      console.log("tusom");
       this.bn.push(0);
       this.$store.dispatch('bottomNavigationState', {
         status: true
@@ -346,83 +281,75 @@ export default {
         status: false
       });
     }
-
     this.select = localStorage.getItem('language');
   },
+
   methods: {
     toggle_dark_mode() {
       this.$vuetify.theme.dark = !this.$vuetify.theme.dark;
       localStorage.setItem("dark_theme", this.$vuetify.theme.dark.toString());
+      if (this.$vuetify.theme.dark == true) {
+        localStorage.setItem('graph_theme', 'dark');
+      } else {
+        localStorage.setItem('graph_theme', 'light');
+      }
     },
-
-    // speedDial() {
-    //   if (JSON.parse(localStorage.getItem('speed_dial')) == true) {
-    //     localStorage.setItem('speed_dial', false);
-    //     this.switch1 = false;
-    //     this.$store.dispatch('speedDialState', {
-    //       status: false
-    //     });
-    //   } else {
-    //     localStorage.setItem('speed_dial', true);
-    //     this.switch1 = true;
-    //     this.$store.dispatch('speedDialState', {
-    //       status: true
-    //     });
-    //   }
-    // },
-
-    // bottomNavigation() {
-    //   console.log("cc");
-    //   if (JSON.parse(localStorage.getItem('bottom_navigation')) == true) {
-    //     localStorage.setItem('bottom_navigation', false);
-    //     this.switch3 = false;
-    //     this.$store.dispatch('bottomNavigationState', {
-    //       status: false
-    //     });
-    //   } else {
-    //     localStorage.setItem('bottom_navigation', true);
-    //     this.switch3 = true;
-    //     this.$store.dispatch('bottomNavigationState', {
-    //       status: true
-    //     });
-    //   }
-    // },
   },
 
   updated() {
     //do something after updating vue instance
+    console.log(this.dlm);
+    if (this.dlm.length != 0) {
+      this.autoDLMon = true;
+      localStorage.setItem('auto_dlm', true);
+      this.$store.dispatch('autoDarkLightModeState', {
+        status: true
+      });
+      if (window.matchMedia && window.matchMedia('(prefers-color-scheme: dark)')
+        .matches) {
+        this.$vuetify.theme.dark = true;
+        localStorage.setItem("dark_theme", this.$vuetify.theme.dark.toString());
+        localStorage.setItem('graph_theme', 'dark');
+      } else {
+        this.$vuetify.theme.dark = false;
+        localStorage.setItem("dark_theme", this.$vuetify.theme.dark.toString());
+        localStorage.setItem('graph_theme', 'light');
+      }
+    } else {
+      this.autoDLMon = false;
+      localStorage.setItem('auto_dlm', false);
+      this.$store.dispatch('autoDarkLightModeState', {
+        status: false
+      });
+    }
+
     if (this.sd.length != 0) {
       localStorage.setItem('speed_dial', true);
-      this.switch1 = true;
       this.$store.dispatch('speedDialState', {
         status: true
       });
     } else {
       localStorage.setItem('speed_dial', false);
-      this.switch1 = false;
       this.$store.dispatch('speedDialState', {
         status: false
       });
     }
 
-
     if (this.bn.length != 0) {
       localStorage.setItem('bottom_navigation', true);
-      this.switch3 = true;
       this.$store.dispatch('bottomNavigationState', {
         status: true
       });
     } else {
       localStorage.setItem('bottom_navigation', false);
-      this.switch3 = false;
       this.$store.dispatch('bottomNavigationState', {
         status: false
       });
     }
+
     localStorage.setItem('language', this.select);
+
     this.drawer = this.drawerNew;
-    console.log(this.$store.getters['speedDialState'].state);
-    console.log(this.$store.getters['bottomNavigationState'].state);
   },
 
   created() {

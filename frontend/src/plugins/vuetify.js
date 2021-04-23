@@ -1,6 +1,9 @@
 import Vue from 'vue';
 // import Vuetify from 'vuetify/lib';
 import Vuetify from 'vuetify';
+import {
+  Scroll
+} from 'vuetify/lib/directives'
 import 'roboto-fontface/css/roboto/roboto-fontface.css';
 import '@mdi/font/css/materialdesignicons.css';
 import 'vuetify/dist/vuetify.min.css';
@@ -10,7 +13,8 @@ import {
 
 Vue.use(Vuetify, {
   directives: {
-    Ripple
+    Ripple,
+    Scroll
   }
 });
 // import colors from 'vuetify/lib/util/colors'
@@ -20,7 +24,6 @@ const opts = {
   theme: {
     themes: {
       dark: {
-        // primary: '#21CFF3',
         primary: '#0D47A1',
         accent: '#E0E0E0',
         secondary: '#EEEEEE',
@@ -28,7 +31,6 @@ const opts = {
         info: '#2196F3',
         warning: '#FB8C00',
         error: '#EA1616',
-        // background: '#1E1E1E',
         background: '#333333',
       },
       light: {

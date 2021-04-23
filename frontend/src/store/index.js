@@ -12,6 +12,10 @@ export default new Vuex.Store({
     bottomNavigationState: {
       state: false,
     },
+
+    autoDarkLightModeState: {
+      state: false,
+    },
   },
   getters: {
     speedDialState: state => {
@@ -20,6 +24,10 @@ export default new Vuex.Store({
 
     bottomNavigationState: state => {
       return state.bottomNavigationState
+    },
+
+    autoDarkLightModeState: state => {
+      return state.autoDarkLightModeState
     },
   },
   mutations: {
@@ -30,6 +38,10 @@ export default new Vuex.Store({
     mutationBottomNavigationState: (state, payload) => {
       Vue.set(state.bottomNavigationState, 'state', payload.status);
     },
+
+    mutationAutoDarkLightModeState: (state, payload) => {
+      Vue.set(state.autoDarkLightModeState, 'state', payload.status);
+    },
   },
   actions: {
     speedDialState: (context, payload) => {
@@ -38,6 +50,10 @@ export default new Vuex.Store({
 
     bottomNavigationState: (context, payload) => {
       context.commit('mutationBottomNavigationState', payload)
+    },
+
+    autoDarkLightModeState: (context, payload) => {
+      context.commit('mutationAutoDarkLightModeState', payload)
     },
   }
 });

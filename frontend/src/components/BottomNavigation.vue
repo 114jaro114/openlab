@@ -1,7 +1,7 @@
 <template>
-<div class="phone-viewport w-100">
+<div class="phone-viewport w-100" :style="test">
   <!-- v-model="value" -->
-  <v-bottom-navigation :input-value="this.$store.getters['bottomNavigationState'].state" color="primary" app shift grow>
+  <v-bottom-navigation :input-value="this.$store.getters['bottomNavigationState'].state == true" color="primary" app shift grow>
     <v-btn to="/" value="home">
       <span>Domov</span>
       <v-icon>mdi-home</v-icon>
@@ -24,12 +24,15 @@ export default {
     return {
       value: '',
       num: 5,
+      test: null,
     }
   },
 
   mounted() {
     // do something after mounting vue instance
-    console.log("BottomNavigation mounted");
+    // console.log("BottomNavigation mounted");
+    this.bottomNavigationStyle();
+
     if (JSON.parse(localStorage.getItem("bottom_navigation")) == true) {
       this.$store.dispatch('bottomNavigationState', {
         status: true
@@ -44,9 +47,36 @@ export default {
   updated() {
     //do something after updating vue instance
     // console.log("BottomNavigation updated");
+    this.bottomNavigationStyle();
+    // if (window.innerWidth <= 480 && this.$store.getters['bottomNavigationState'].state == true) {
+    //   this.test = 'margin-top:56px;display:block';
+    // } else {
+    //   this.test = 'margin-top:0px;display:none';
+    // }
+    // window.addEventListener('resize', () => {
+    //   if (window.innerWidth <= 480 && this.$store.getters['bottomNavigationState'].state == true) {
+    //     this.test = 'margin-top:56px;display:block';
+    //   } else {
+    //     this.test = 'margin-top:0px;display:none';
+    //   }
+    // });
   },
 
   methods: {
+    bottomNavigationStyle() {
+      if (window.innerWidth <= 480 && this.$store.getters['bottomNavigationState'].state == true) {
+        this.test = 'margin-top:56px;display:block';
+      } else {
+        this.test = 'margin-top:0px;display:none';
+      }
+      window.addEventListener('resize', () => {
+        if (window.innerWidth <= 480 && this.$store.getters['bottomNavigationState'].state == true) {
+          this.test = 'margin-top:56px;display:block';
+        } else {
+          this.test = 'margin-top:0px;display:none';
+        }
+      });
+    }
     // home() {
     //   this.$router.push('/home');
     // },

@@ -1,60 +1,58 @@
 <template>
-<div class="sound custom-margin-page">
-  <v-lazy :options="{
+<v-lazy :options="{
         threshold: .4
       }" min-height="100vh" transition-group="scale-transition">
-    <div>
-      <v-card class="mx-auto ml-3 mr-3" elevation="0" tile>
-        <v-app-bar class="toolbar-mb" fixed app tile>
-          <v-app-bar-nav-icon @click.stop="drawer = !drawer"></v-app-bar-nav-icon>
+  <div class="sound custom-margin-page">
+    <v-card class="mx-auto ml-3 mr-3" elevation="0" tile>
+      <v-app-bar fixed app tile>
+        <v-app-bar-nav-icon @click.stop="drawer = !drawer"></v-app-bar-nav-icon>
 
-          <v-toolbar-title>OpenLab FEI Tuke</v-toolbar-title>
+        <v-toolbar-title>OpenLab FEI Tuke</v-toolbar-title>
 
-          <v-spacer></v-spacer>
+        <v-spacer></v-spacer>
 
-          <v-btn icon to="/notifications">
-            <v-icon>mdi-bell</v-icon>
-          </v-btn>
+        <v-btn icon to="/notifications">
+          <v-icon>mdi-bell</v-icon>
+        </v-btn>
 
-          <v-btn icon>
-            <v-icon>mdi-dots-vertical</v-icon>
-          </v-btn>
-        </v-app-bar>
-      </v-card>
+        <v-btn icon to="/settings">
+          <v-icon>mdi-cog</v-icon>
+        </v-btn>
+      </v-app-bar>
+    </v-card>
 
-      <v-row class="mx-auto">
-        <v-col class="mb-5" cols="12" lg="12" md="12" sm="12">
-          <v-card class="rounded" elevation="0">
-            <v-sheet class="v-sheet--offset mx-auto rounded" elevation="0" max-width="calc(100% - 32px)">
-              <div id="wrapper">
-                <div id="chart-line2">
-                  <apexchart type="line" height="230" :options="chartOptionsBrush" :series="seriesBrush"></apexchart>
-                </div>
-                <div id="chart-line">
-                  <apexchart type="area" height="130" :options="chartOptionsLine" :series="seriesLine"></apexchart>
-                </div>
+    <v-row class="m-0">
+      <v-col class="mb-5" cols="12" lg="12" md="12" sm="12">
+        <v-card class="rounded" elevation="0">
+          <v-sheet class="v-sheet--offset mx-auto rounded" elevation="0" max-width="calc(100% - 32px)">
+            <div id="wrapper">
+              <div id="chart-line2">
+                <apexchart type="line" height="230" :options="chartOptionsBrush" :series="seriesBrush"></apexchart>
               </div>
-            </v-sheet>
-
-            <v-card-text class="pt-0">
-              <div class="title font-weight-light mb-2">
-                Vlhkosť - Tlak - Teplota
+              <div id="chart-line">
+                <apexchart type="area" height="130" :options="chartOptionsLine" :series="seriesLine"></apexchart>
               </div>
-              <v-divider class="my-2"></v-divider>
-              <v-icon class="mr-2" small>
-                mdi-clock
-              </v-icon>
-              <span class="caption grey--text font-weight-light">Posledná aktualizácia pred 26 minutami</span>
-            </v-card-text>
-          </v-card>
-        </v-col>
-      </v-row>
-    </div>
-  </v-lazy>
-  <NavigationDrawer :drawer="drawer" />
-  <BottomNavigation />
-  <Footer />
-</div>
+            </div>
+          </v-sheet>
+
+          <v-card-text class="pt-0">
+            <div class="title font-weight-light mb-2">
+              Vlhkosť - Tlak - Teplota
+            </div>
+            <v-divider class="my-2"></v-divider>
+            <v-icon class="mr-2" small>
+              mdi-clock
+            </v-icon>
+            <span class="caption grey--text font-weight-light">Posledná aktualizácia pred 26 minutami</span>
+          </v-card-text>
+        </v-card>
+      </v-col>
+    </v-row>
+    <NavigationDrawer :drawer="drawer" />
+    <BottomNavigation />
+    <Footer />
+  </div>
+</v-lazy>
 </template>
 <script>
 // import moment from 'moment'
