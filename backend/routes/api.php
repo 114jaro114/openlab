@@ -43,10 +43,36 @@ Route::post('/broadcast', function (Request $request) {
 
 Route::post('/saveData', [ApiController::class, 'store']);
 Route::post('/saveDataAllSensors', [ApiController::class, 'store2']);
-Route::get('/getHum', [ApiController::class, 'getData']);
-Route::get('/getHistoricalData', [ApiController::class, 'getHistoricalData']);
-Route::get('/getHistoricalData2', [ApiController::class, 'getHistoricalData2']);
-Route::get('/getHistoricalData3', [ApiController::class, 'getHistoricalData3']);
+
+//for graph in humidity page
+Route::get('/getDataRealtimeHumidity', [ApiController::class, 'getDataRealtimeHumidity']);
+Route::get('/getHistoricalDataHumidity', [ApiController::class, 'getHistoricalDataHumidity']);
+Route::get('/getHistoricalData2Humidity', [ApiController::class, 'getHistoricalData2Humidity']);
+Route::get('/getHistoricalData3Humidity', [ApiController::class, 'getHistoricalData3Humidity']);
+
+//for graph in temperature page
+Route::get('/getDataRealtimeTemperature', [ApiController::class, 'getDataRealtimeTemperature']);
+Route::get('/getHistoricalDataTemperature', [ApiController::class, 'getHistoricalDataTemperature']);
+Route::get('/getHistoricalData2Temperature', [ApiController::class, 'getHistoricalData2Temperature']);
+Route::get('/getHistoricalData3Temperature', [ApiController::class, 'getHistoricalData3Temperature']);
+
+//for graph in lights page
+Route::get('/getDataRealtimeLight', [ApiController::class, 'getDataRealtimeLight']);
+Route::get('/getHistoricalDataLight', [ApiController::class, 'getHistoricalDataLight']);
+Route::get('/getHistoricalData2Light', [ApiController::class, 'getHistoricalData2Light']);
+Route::get('/getHistoricalData3Light', [ApiController::class, 'getHistoricalData3Light']);
+
+//for graph in pressure page
+Route::get('/getDataRealtimePressure', [ApiController::class, 'getDataRealtimePressure']);
+Route::get('/getHistoricalDataPressure', [ApiController::class, 'getHistoricalDataPressure']);
+Route::get('/getHistoricalData2Pressure', [ApiController::class, 'getHistoricalData2Pressure']);
+Route::get('/getHistoricalData3Pressure', [ApiController::class, 'getHistoricalData3Pressure']);
+
+//for graph in sound page
+Route::get('/getDataRealtimeSound', [ApiController::class, 'getDataRealtimeSound']);
+Route::get('/getHistoricalDataSound', [ApiController::class, 'getHistoricalDataSound']);
+Route::get('/getHistoricalData2Sound', [ApiController::class, 'getHistoricalData2Sound']);
+Route::get('/getHistoricalData3Sound', [ApiController::class, 'getHistoricalData3Sound']);
 
 //for graph in home page
 Route::get('/getDataHome', [ApiController::class, 'getDataDashed']);

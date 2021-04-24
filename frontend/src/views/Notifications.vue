@@ -17,7 +17,7 @@
       </v-app-bar>
     </v-card>
     <v-row class="m-0">
-      <v-col class="mb-5" cols="12" lg="6" md="12" sm="12">
+      <v-col class="mb-5" cols="12" lg="12" md="12" sm="12">
         <v-card>
           <v-toolbar class="notiftoolbar" extended extension-height="4" color="primary" dark>
             <div class="w-75" v-if="selected.length == '0'">

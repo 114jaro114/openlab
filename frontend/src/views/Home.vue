@@ -172,6 +172,13 @@ export default {
               download: false,
             },
           },
+          animations: {
+            enabled: true,
+            easing: 'linear',
+            dynamicAnimation: {
+              speed: 1000
+            }
+          },
         },
         colors: ['#ff0000'],
         yaxis: {
@@ -218,6 +225,13 @@ export default {
             tools: {
               download: false,
             },
+          },
+          animations: {
+            enabled: true,
+            easing: 'linear',
+            dynamicAnimation: {
+              speed: 1000
+            }
           },
         },
         dataLabels: {
@@ -281,6 +295,13 @@ export default {
               download: false,
             },
           },
+          animations: {
+            enabled: true,
+            easing: 'linear',
+            dynamicAnimation: {
+              speed: 1000
+            }
+          },
         },
         colors: ['#0066ff'],
         yaxis: {
@@ -327,6 +348,13 @@ export default {
             tools: {
               download: false,
             },
+          },
+          animations: {
+            enabled: true,
+            easing: 'linear',
+            dynamicAnimation: {
+              speed: 1000
+            }
           },
         },
 
@@ -376,6 +404,13 @@ export default {
               download: false,
             },
           },
+          animations: {
+            enabled: true,
+            easing: 'linear',
+            dynamicAnimation: {
+              speed: 1000
+            }
+          },
         },
         colors: ['#737373'],
         yaxis: {
@@ -422,6 +457,13 @@ export default {
             tools: {
               download: false,
             },
+          },
+          animations: {
+            enabled: true,
+            easing: 'linear',
+            dynamicAnimation: {
+              speed: 1000
+            }
           },
         },
         colors: ['#00b300'],
@@ -479,6 +521,13 @@ export default {
             tools: {
               download: false,
             },
+          },
+          animations: {
+            enabled: true,
+            easing: 'linear',
+            dynamicAnimation: {
+              speed: 1000
+            }
           },
         },
         dataLabels: {
@@ -554,7 +603,11 @@ export default {
           },
           animations: {
             enabled: true,
-          }
+            easing: 'linear',
+            dynamicAnimation: {
+              speed: 1000
+            }
+          },
         },
         plotOptions: {
           bar: {
@@ -670,6 +723,13 @@ export default {
               download: false,
             },
           },
+          animations: {
+            enabled: true,
+            easing: 'linear',
+            dynamicAnimation: {
+              speed: 1000
+            }
+          },
         },
         plotOptions: {
           radialBar: {
@@ -762,24 +822,130 @@ export default {
               y: [res.data[0][5][i].pres]
             });
           }
-          this.$refs.area1Chart.updateSeries([{
-            data: this.seriesArea1[0].data,
-          }]);
-          this.$refs.area2Chart.updateSeries([{
-            data: this.seriesArea2[0].data,
-          }]);
-          this.$refs.area3Chart.updateSeries([{
-            data: this.seriesArea3[0].data,
-          }]);
-          this.$refs.area4Chart.updateSeries([{
-            data: this.seriesArea4[0].data,
-          }]);
-          this.$refs.area5Chart.updateSeries([{
-            data: this.seriesArea5[0].data,
-          }]);
-          this.$refs.area6Chart.updateSeries([{
-            data: this.seriesArea6[0].data,
-          }]);
+          this.seriesArea1 = [{
+            name: 'Teplota okolia (°C)',
+            data: this.seriesArea1[0].data
+          }];
+          this.seriesArea2 = [{
+            name: 'Teplota okolia (°C)',
+            data: this.seriesArea2[0].data
+          }];
+          this.seriesArea3 = [{
+            name: 'Teplota okolia (°C)',
+            data: this.seriesArea3[0].data
+          }];
+          this.seriesArea4 = [{
+            name: 'Teplota okolia (°C)',
+            data: this.seriesArea4[0].data
+          }];
+          this.seriesArea5 = [{
+            name: 'Teplota okolia (°C)',
+            data: this.seriesArea5[0].data
+          }];
+          this.seriesArea6 = [{
+            name: 'Teplota okolia (°C)',
+            data: this.seriesArea6[0].data
+          }];
+          // this.$refs.area1Chart.updateSeries([{
+          //   data: this.seriesArea1[0].data,
+          // }]);
+          // this.$refs.area2Chart.updateSeries([{
+          //   data: this.seriesArea2[0].data,
+          // }]);
+          // this.$refs.area3Chart.updateSeries([{
+          //   data: this.seriesArea3[0].data,
+          // }]);
+          // this.$refs.area4Chart.updateSeries([{
+          //   data: this.seriesArea4[0].data,
+          // }]);
+          // this.$refs.area5Chart.updateSeries([{
+          //   data: this.seriesArea5[0].data,
+          // }]);
+          // this.$refs.area6Chart.updateSeries([{
+          //   data: this.seriesArea6[0].data,
+          // }]);
+        });
+    },
+    getDataDashed() {
+      axios.get('http://127.0.0.1:8000/api/getDataHome')
+        .then(res => {
+          this.seriesDashed[0].data = res.data[0][0]
+          this.seriesDashed[1].data = res.data[0][1]
+          this.seriesDashed[2].data = res.data[0][2]
+
+          this.chartOptionsDashed.xaxis.categories = res.data[0][3];
+          this.chartOptionsDashed = {
+            ...this.chartOptionsDashed,
+            ...{
+              xaxis: {
+                categories: this.chartOptionsDashed.xaxis.categories,
+                tooltip: {
+                  enabled: false,
+                },
+              }
+            }
+          }
+        })
+    },
+
+    getDataLine() {
+      axios.get('http://127.0.0.1:8000/api/getDataLine')
+        .then(res => {
+          this.seriesBar[0].data.splice(0, this.seriesBar[0].data.length);
+          this.seriesBar[1].data.splice(0, this.seriesBar[1].data.length);
+          this.seriesBar[2].data.splice(0, this.seriesBar[2].data.length);
+          this.seriesBar[0].data.push(
+            parseFloat(res.data[0][0][0].Jan), parseFloat(res.data[0][0][0].Feb),
+            parseFloat(res.data[0][0][0].Mar), parseFloat(res.data[0][0][0].Apr),
+            parseFloat(res.data[0][0][0].May), parseFloat(res.data[0][0][0].Jun),
+            parseFloat(res.data[0][0][0].Jul), parseFloat(res.data[0][0][0].Aug),
+            parseFloat(res.data[0][0][0].Sep), parseFloat(res.data[0][0][0].Oct),
+            parseFloat(res.data[0][0][0].Nov), parseFloat(res.data[0][0][0].Dec),
+          );
+          this.seriesBar[1].data.push(
+            parseFloat(res.data[0][1][0].Jan), parseFloat(res.data[0][1][0].Feb),
+            parseFloat(res.data[0][1][0].Mar), parseFloat(res.data[0][1][0].Apr),
+            parseFloat(res.data[0][1][0].May), parseFloat(res.data[0][1][0].Jun),
+            parseFloat(res.data[0][1][0].Jul), parseFloat(res.data[0][1][0].Aug),
+            parseFloat(res.data[0][1][0].Sep), parseFloat(res.data[0][1][0].Oct),
+            parseFloat(res.data[0][1][0].Nov), parseFloat(res.data[0][1][0].Dec),
+          );
+          this.seriesBar[2].data.push(
+            parseFloat(res.data[0][2][0].Jan), parseFloat(res.data[0][2][0].Feb),
+            parseFloat(res.data[0][2][0].Mar), parseFloat(res.data[0][2][0].Apr),
+            parseFloat(res.data[0][2][0].May), parseFloat(res.data[0][2][0].Jun),
+            parseFloat(res.data[0][2][0].Jul), parseFloat(res.data[0][2][0].Aug),
+            parseFloat(res.data[0][2][0].Sep), parseFloat(res.data[0][2][0].Oct),
+            parseFloat(res.data[0][2][0].Nov), parseFloat(res.data[0][2][0].Dec),
+          );
+          this.chartOptionsBar = {
+            ...this.chartOptionsBar,
+            ...{
+              xaxis: {
+                categories: this.chartOptionsBar.xaxis.categories,
+                tooltip: {
+                  enabled: false,
+                },
+              }
+            }
+          };
+          // this.$refs.barChart.updateOptions({
+          //   seriesBar: [{
+          //     data: this.seriesBar[0].data,
+          //   }],
+          // });
+        });
+    },
+
+    getDataCircleMultiple() {
+      axios.get('http://127.0.0.1:8000/api/getDataCircleMultiple')
+        .then(res => {
+          this.seriesCircle_multiple.splice(0, this.seriesCircle_multiple.length);
+          this.seriesCircle_multiple.push(
+            parseFloat(res.data[0].gtmp),
+            parseFloat(res.data[0].atmp), parseFloat(res.data[0].humi),
+            parseFloat(res.data[0].vol), parseFloat(res.data[0].light),
+          );
         });
     }
   },
@@ -796,103 +962,20 @@ export default {
 
   mounted() {
     //do something after mounting vue instance
-    axios.get('http://127.0.0.1:8000/api/getDataHome')
-      .then(res => {
-        this.seriesDashed[0].data = res.data[0][0]
-        this.seriesDashed[1].data = res.data[0][1]
-        this.seriesDashed[2].data = res.data[0][2]
-
-        this.$refs.dashedChart.updateOptions({
-          seriesDashed: [{
-            data: this.seriesDashed[0].data,
-          }],
-        });
-        // xaxis times
-        this.chartOptionsDashed.xaxis.categories = res.data[0][3]
-
-        this.$refs.dashedChart.updateOptions({
-          ...this.chartOptionsDashed,
-          ...{
-            xaxis: {
-              categories: this.chartOptionsDashed.xaxis.categories
-            }
-          }
-        });
-      })
-
-    axios.get('http://127.0.0.1:8000/api/getDataLine')
-      .then(res => {
-        this.seriesBar[0].data.push(
-          res.data[0][0][0].Jan, res.data[0][0][0].Feb,
-          res.data[0][0][0].Mar, res.data[0][0][0].Apr,
-          res.data[0][0][0].May, res.data[0][0][0].Jun,
-          res.data[0][0][0].Jul, res.data[0][0][0].Aug,
-          res.data[0][0][0].Sep, res.data[0][0][0].Oct,
-          res.data[0][0][0].Nov, res.data[0][0][0].Dec,
-        );
-        this.seriesBar[1].data.push(
-          res.data[0][1][0].Jan, res.data[0][1][0].Feb,
-          res.data[0][1][0].Mar, res.data[0][1][0].Apr,
-          res.data[0][1][0].May, res.data[0][1][0].Jun,
-          res.data[0][1][0].Jul, res.data[0][1][0].Aug,
-          res.data[0][1][0].Sep, res.data[0][1][0].Oct,
-          res.data[0][1][0].Nov, res.data[0][1][0].Dec,
-        );
-        this.seriesBar[2].data.push(
-          res.data[0][2][0].Jan, res.data[0][2][0].Feb,
-          res.data[0][2][0].Mar, res.data[0][2][0].Apr,
-          res.data[0][2][0].May, res.data[0][2][0].Jun,
-          res.data[0][2][0].Jul, res.data[0][2][0].Aug,
-          res.data[0][2][0].Sep, res.data[0][2][0].Oct,
-          res.data[0][2][0].Nov, res.data[0][2][0].Dec,
-        );
-
-        this.$refs.barChart.updateOptions({
-          seriesBar: [{
-            data: this.seriesBar[0].data,
-          }],
-        });
-      });
-
-    axios.get('http://127.0.0.1:8000/api/getDataCircleMultiple')
-      .then(res => {
-        this.seriesCircle_multiple.push(
-          parseFloat(res.data[0].gtmp),
-          parseFloat(res.data[0].atmp), parseFloat(res.data[0].humi),
-          parseFloat(res.data[0].vol), parseFloat(res.data[0].light),
-        );
-      });
-
     this.getDataAreasGroup();
-    // localStorage.setItem("lastUpdateHome", moment(res.data[res.data.length - 1].created_at)
-    //   .format('YYYY-MM-DD HH:mm:ss'));
+    this.getDataDashed();
+    this.getDataLine();
+    this.getDataCircleMultiple();
   },
 
   created() {
     //do something after creating vue instance
     window.Echo.channel('dataAllSensors')
       .listen('AllSensorsEvent', (e) => {
-        // console.log(e);
         this.lastUpdate = moment(e.dataAllSensors.created_at)
           .format('YYYY-MM-DD HH:mm:ss');
         localStorage.setItem("lastUpdateHome", moment(e.dataAllSensors.created_at)
           .format('YYYY-MM-DD HH:mm:ss'));
-        if (this.seriesDashed[0].data.length == 10) {
-          this.seriesDashed[0].data.splice(0, 1);
-          this.seriesDashed[1].data.splice(0, 1);
-          this.seriesDashed[2].data.splice(0, 1);
-          this.chartOptionsDashed.xaxis.categories.splice(0, 1);
-        }
-
-        this.seriesDashed[0].data.push(
-          parseFloat(`${e.dataAllSensors.gtmp}`)
-        );
-        this.seriesDashed[1].data.push(
-          parseFloat(`${e.dataAllSensors.atmp}`)
-        );
-        this.seriesDashed[2].data.push(
-          parseFloat(`${e.dataAllSensors.humi}`)
-        );
 
         this.seriesCircle_multiple.splice(0, this.seriesCircle_multiple.length);
         this.seriesCircle_multiple.push(
@@ -901,31 +984,9 @@ export default {
           parseFloat(e.dataAllSensors.vol), parseFloat(e.dataAllSensors.light),
         );
 
-        this.$refs.circleMultipleChart.updateSeries([{
-          data: this.seriesCircle_multiple,
-        }]);
-
-        this.$refs.dashedChart.updateOptions({
-          seriesDashed: [{
-            data: this.seriesDashed[0].data,
-          }],
-        });
-
-        this.chartOptionsDashed.xaxis.categories.push(
-          moment(e.dataAllSensors.created_at)
-          .format('HH:mm:ss'),
-        );
-
-        this.$refs.dashedChart.updateOptions({
-          ...this.chartOptionsDashed,
-          ...{
-            xaxis: {
-              categories: this.chartOptionsDashed.xaxis.categories
-            }
-          }
-        });
-
         this.getDataAreasGroup();
+        this.getDataDashed();
+        this.getDataLine();
       })
   }
 };

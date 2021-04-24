@@ -12,15 +12,15 @@ use Carbon\Carbon;
 
 class ApiController extends Controller
 {
-    public function store(Request $request)
-    {
-        // $hum = DB::insert('insert into humidity (hum) values (?)', [$request->hum]);
-        $humidity = Humidity::create([
-            'hum' => $request->hum
-        ]);
-        broadcast(new HumEvent($humidity))->toOthers();
-        return response()->json($humidity);
-    }
+    // public function store(Request $request)
+    // {
+    //     // $hum = DB::insert('insert into humidity (hum) values (?)', [$request->hum]);
+    //     $humidity = Humidity::create([
+    //         'hum' => $request->hum
+    //     ]);
+    //     broadcast(new HumEvent($humidity))->toOthers();
+    //     return response()->json($humidity);
+    // }
 
     public function store2(Request $request)
     {
@@ -43,6 +43,7 @@ class ApiController extends Controller
         return response()->json($dataAllSensors);
     }
 
+    // HOME PAGE
     public function getDataDashed()
     {
         $array0 = [];
@@ -221,109 +222,333 @@ class ApiController extends Controller
         return response()->json($allData);
     }
 
-    public function getData()
+    //HUMIDITY
+    public function getDataRealtimeHumidity()
     {
-        // $data = DB::table('humidities')->get();
-        $query = DB::select("select *
+        $query = DB::select("select id, humi, created_at
         FROM (
-            select * FROM humidities ORDER BY id DESC LIMIT 10
+            select id, humi, created_at FROM all_sensors ORDER BY id DESC LIMIT 10
         ) sub
         ORDER BY id ASC");
-        // Humidity::all();
-        // foreach ($data as $row):
-        // $array[] = array(
-        //   $row->created_at,
-        //   $row->hum,
-        // );
-        // endforeach;
+
         return response()->json($query);
     }
 
-    public function getHistoricalData()
+    public function getHistoricalDataHumidity()
     {
-        $getDataLastMonth = Humidity::where('created_at', '>=', Carbon::today()->subDays(30))->avg('hum');
+        // $getDataLastMonth = AllSensors::where('created_at', '>=', Carbon::today()->subDays(30))->avg('humi');
+        $query = DB::select("select humi, created_at
+        FROM all_sensors");
 
-        return response()->json($getDataLastMonth);
+        return response()->json($query);
     }
 
-    public function getHistoricalData2()
+    public function getHistoricalData2Humidity()
     {
         $query = DB::select("select
         from_unixtime(round(unix_timestamp(created_at)/(60*60))*(60*60)) as timekey,
-        substring_index(group_concat(hum order by created_at), ',', 1) as first_open,
-        substring_index(group_concat(hum order by created_at desc), ',', 1) as last_close,
-        MAX(hum) AS max_value,
-        MIN(hum) As min_value
-        FROM humidities
+        substring_index(group_concat(humi order by created_at), ',', 1) as first_open,
+        substring_index(group_concat(humi order by created_at desc), ',', 1) as last_close,
+        MAX(humi) AS max_value,
+        MIN(humi) As min_value
+        FROM all_sensors
         GROUP BY timekey");
 
-        // $getDataLastHalfHour = Humidity::where('created_at', '>=', Carbon::now()->subHours(5)->toDateTimeString())->get();
-        // $highest = Humidity::where('created_at', '>=', Carbon::now()->subHours(5)->toDateTimeString())->max('hum');
-        // $lowest = Humidity::where('created_at', '>=', Carbon::now()->subHours(5)->toDateTimeString())->min('hum');
-        // $array[] = array(
-        //   //open
-        //   $getDataLastHalfHour[0]->hum,
-        //   $highest,
-        //   $lowest,
-        //   //close
-        //   $getDataLastHalfHour[count($getDataLastHalfHour)-1]->hum,
-        //   $getDataLastHalfHour[0]->created_at,
-        // );
-        // $query[] = array(
-        //  '33',
-        //  '80',
-        //  '35',
-        //  '28',
-        //  '2021-04-17 20:00:00',
-        // );
-        // $query[] = array(
-        //    '36',
-        //    '60',
-        //    '35',
-        //    '24',
-        //    '2021-04-17 20:30:00',
-        // );
-        // $query[] = array(
-        //    '25',
-        //    '45',
-        //    '28',
-        //    '40',
-        //    '2021-04-17 21:00:00',
-        // );
         return response()->json($query);
     }
 
-    public function getHistoricalData3()
+    public function getHistoricalData3Humidity()
     {
-        //avg values of hum for months which have data
-        //  $query = DB::table('humidities')->selectRaw('MONTH(created_at) as month, round(avg(hum), 2) as avg')
-        // ->groupBy('month')
-        // ->get();
         //avg values of hum for each months, when null value is 0
         $query = DB::select("
           select
-          sum(if(`month` = 1, hum, 0))  AS Jan,
-          sum(if(`month` = 2, hum, 0))  AS Feb,
-          sum(if(`month` = 3, hum, 0))  AS Mar,
-          sum(if(`month` = 4, hum, 0))  AS Apr,
-          sum(if(`month` = 5, hum, 0))  AS May,
-          sum(if(`month` = 6, hum, 0))  AS Jun,
-          sum(if(`month` = 7, hum, 0))  AS Jul,
-          sum(if(`month` = 8, hum, 0))  AS Aug,
-          sum(if(`month` = 9, hum, 0))  AS Sep,
-          sum(if(`month` = 10, hum, 0)) AS Oct,
-          sum(if(`month` = 11, hum, 0)) AS Nov,
-          sum(if(`month` = 12, hum, 0)) AS `Dec`
+          sum(if(`month` = 1, humi, 0))  AS Jan,
+          sum(if(`month` = 2, humi, 0))  AS Feb,
+          sum(if(`month` = 3, humi, 0))  AS Mar,
+          sum(if(`month` = 4, humi, 0))  AS Apr,
+          sum(if(`month` = 5, humi, 0))  AS May,
+          sum(if(`month` = 6, humi, 0))  AS Jun,
+          sum(if(`month` = 7, humi, 0))  AS Jul,
+          sum(if(`month` = 8, humi, 0))  AS Aug,
+          sum(if(`month` = 9, humi, 0))  AS Sep,
+          sum(if(`month` = 10, humi, 0)) AS Oct,
+          sum(if(`month` = 11, humi, 0)) AS Nov,
+          sum(if(`month` = 12, humi, 0)) AS `Dec`
         FROM
         (
-          SELECT
+          select
             (month(created_at)) `month`,
-            round(AVG(hum), 2) hum
-          FROM humidities
+            round(AVG(humi), 2) humi
+          FROM all_sensors
           GROUP BY (month(created_at))
         ) AS T
           GROUP BY (month(`month`));
         ");
+
+        return response()->json($query);
+    }
+
+    //Temperature gtmp + atmp
+    public function getDataRealtimeTemperature()
+    {
+        $query = DB::select("select id, gtmp, created_at
+        FROM (
+            select id, gtmp, created_at FROM all_sensors ORDER BY id DESC LIMIT 10
+        ) sub
+        ORDER BY id ASC");
+
+        return response()->json($query);
+    }
+
+    public function getHistoricalDataTemperature()
+    {
+        // $getDataLastMonth = AllSensors::where('created_at', '>=', Carbon::today()->subDays(30))->avg('humi');
+        $query = DB::select("select gtmp, created_at
+        FROM all_sensors");
+
+        return response()->json($query);
+    }
+
+    public function getHistoricalData2Temperature()
+    {
+        $query = DB::select("select
+        from_unixtime(round(unix_timestamp(created_at)/(60*60))*(60*60)) as timekey,
+        substring_index(group_concat(gtmp order by created_at), ',', 1) as first_open,
+        substring_index(group_concat(gtmp order by created_at desc), ',', 1) as last_close,
+        MAX(gtmp) AS max_value,
+        MIN(gtmp) As min_value
+        FROM all_sensors
+        GROUP BY timekey");
+
+        return response()->json($query);
+    }
+
+    public function getHistoricalData3Temperature()
+    {
+        //avg values of hum for each months, when null value is 0
+        $query = DB::select("
+          select
+          sum(if(`month` = 1, gtmp, 0))  AS Jan,
+          sum(if(`month` = 2, gtmp, 0))  AS Feb,
+          sum(if(`month` = 3, gtmp, 0))  AS Mar,
+          sum(if(`month` = 4, gtmp, 0))  AS Apr,
+          sum(if(`month` = 5, gtmp, 0))  AS May,
+          sum(if(`month` = 6, gtmp, 0))  AS Jun,
+          sum(if(`month` = 7, gtmp, 0))  AS Jul,
+          sum(if(`month` = 8, gtmp, 0))  AS Aug,
+          sum(if(`month` = 9, gtmp, 0))  AS Sep,
+          sum(if(`month` = 10, gtmp, 0)) AS Oct,
+          sum(if(`month` = 11, gtmp, 0)) AS Nov,
+          sum(if(`month` = 12, gtmp, 0)) AS `Dec`
+        FROM
+        (
+          select
+            (month(created_at)) `month`,
+            round(AVG(gtmp), 2) gtmp
+          FROM all_sensors
+          GROUP BY (month(created_at))
+        ) AS T
+          GROUP BY (month(`month`));
+        ");
+
+        return response()->json($query);
+    }
+
+    //Light
+    public function getDataRealtimeLight()
+    {
+        $query = DB::select("select id, light, created_at
+        FROM (
+            select id, light, created_at FROM all_sensors ORDER BY id DESC LIMIT 10
+        ) sub
+        ORDER BY id ASC");
+
+        return response()->json($query);
+    }
+
+    public function getHistoricalDataLight()
+    {
+        // $getDataLastMonth = AllSensors::where('created_at', '>=', Carbon::today()->subDays(30))->avg('humi');
+        $query = DB::select("select light, created_at
+        FROM all_sensors");
+
+        return response()->json($query);
+    }
+
+    public function getHistoricalData2Light()
+    {
+        $query = DB::select("select
+        from_unixtime(round(unix_timestamp(created_at)/(60*60))*(60*60)) as timekey,
+        substring_index(group_concat(light order by created_at), ',', 1) as first_open,
+        substring_index(group_concat(light order by created_at desc), ',', 1) as last_close,
+        MAX(light) AS max_value,
+        MIN(light) As min_value
+        FROM all_sensors
+        GROUP BY timekey");
+
+        return response()->json($query);
+    }
+
+    public function getHistoricalData3Light()
+    {
+        //avg values of hum for each months, when null value is 0
+        $query = DB::select("
+          select
+          sum(if(`month` = 1, light, 0))  AS Jan,
+          sum(if(`month` = 2, light, 0))  AS Feb,
+          sum(if(`month` = 3, light, 0))  AS Mar,
+          sum(if(`month` = 4, light, 0))  AS Apr,
+          sum(if(`month` = 5, light, 0))  AS May,
+          sum(if(`month` = 6, light, 0))  AS Jun,
+          sum(if(`month` = 7, light, 0))  AS Jul,
+          sum(if(`month` = 8, light, 0))  AS Aug,
+          sum(if(`month` = 9, light, 0))  AS Sep,
+          sum(if(`month` = 10, light, 0)) AS Oct,
+          sum(if(`month` = 11, light, 0)) AS Nov,
+          sum(if(`month` = 12, light, 0)) AS `Dec`
+        FROM
+        (
+          select
+            (month(created_at)) `month`,
+            round(AVG(light), 2) light
+          FROM all_sensors
+          GROUP BY (month(created_at))
+        ) AS T
+          GROUP BY (month(`month`));
+        ");
+
+        return response()->json($query);
+    }
+
+    //Pressure
+    public function getDataRealtimePressure()
+    {
+        $query = DB::select("select id, pres, created_at
+        FROM (
+            select id, pres, created_at FROM all_sensors ORDER BY id DESC LIMIT 10
+        ) sub
+        ORDER BY id ASC");
+
+        return response()->json($query);
+    }
+
+    public function getHistoricalDataPressure()
+    {
+        // $getDataLastMonth = AllSensors::where('created_at', '>=', Carbon::today()->subDays(30))->avg('humi');
+        $query = DB::select("select pres, created_at
+        FROM all_sensors");
+
+        return response()->json($query);
+    }
+
+    public function getHistoricalData2Pressure()
+    {
+        $query = DB::select("select
+        from_unixtime(round(unix_timestamp(created_at)/(60*60))*(60*60)) as timekey,
+        substring_index(group_concat(pres order by created_at), ',', 1) as first_open,
+        substring_index(group_concat(pres order by created_at desc), ',', 1) as last_close,
+        MAX(pres) AS max_value,
+        MIN(pres) As min_value
+        FROM all_sensors
+        GROUP BY timekey");
+
+        return response()->json($query);
+    }
+
+    public function getHistoricalData3Pressure()
+    {
+        //avg values of hum for each months, when null value is 0
+        $query = DB::select("
+          select
+          sum(if(`month` = 1, pres, 0))  AS Jan,
+          sum(if(`month` = 2, pres, 0))  AS Feb,
+          sum(if(`month` = 3, pres, 0))  AS Mar,
+          sum(if(`month` = 4, pres, 0))  AS Apr,
+          sum(if(`month` = 5, pres, 0))  AS May,
+          sum(if(`month` = 6, pres, 0))  AS Jun,
+          sum(if(`month` = 7, pres, 0))  AS Jul,
+          sum(if(`month` = 8, pres, 0))  AS Aug,
+          sum(if(`month` = 9, pres, 0))  AS Sep,
+          sum(if(`month` = 10, pres, 0)) AS Oct,
+          sum(if(`month` = 11, pres, 0)) AS Nov,
+          sum(if(`month` = 12, pres, 0)) AS `Dec`
+        FROM
+        (
+          select
+            (month(created_at)) `month`,
+            round(AVG(pres), 2) pres
+          FROM all_sensors
+          GROUP BY (month(created_at))
+        ) AS T
+          GROUP BY (month(`month`));
+        ");
+
+        return response()->json($query);
+    }
+
+    //Sound
+    public function getDataRealtimeSound()
+    {
+        $query = DB::select("select id, vol, created_at
+        FROM (
+            select id, vol, created_at FROM all_sensors ORDER BY id DESC LIMIT 10
+        ) sub
+        ORDER BY id ASC");
+
+        return response()->json($query);
+    }
+
+    public function getHistoricalDataSound()
+    {
+        // $getDataLastMonth = AllSensors::where('created_at', '>=', Carbon::today()->subDays(30))->avg('humi');
+        $query = DB::select("select vol, created_at
+        FROM all_sensors");
+
+        return response()->json($query);
+    }
+
+    public function getHistoricalData2Sound()
+    {
+        $query = DB::select("select
+        from_unixtime(round(unix_timestamp(created_at)/(60*60))*(60*60)) as timekey,
+        substring_index(group_concat(vol order by created_at), ',', 1) as first_open,
+        substring_index(group_concat(vol order by created_at desc), ',', 1) as last_close,
+        MAX(vol) AS max_value,
+        MIN(vol) As min_value
+        FROM all_sensors
+        GROUP BY timekey");
+
+        return response()->json($query);
+    }
+
+    public function getHistoricalData3Sound()
+    {
+        //avg values of hum for each months, when null value is 0
+        $query = DB::select("
+          select
+          sum(if(`month` = 1, vol, 0))  AS Jan,
+          sum(if(`month` = 2, vol, 0))  AS Feb,
+          sum(if(`month` = 3, vol, 0))  AS Mar,
+          sum(if(`month` = 4, vol, 0))  AS Apr,
+          sum(if(`month` = 5, vol, 0))  AS May,
+          sum(if(`month` = 6, vol, 0))  AS Jun,
+          sum(if(`month` = 7, vol, 0))  AS Jul,
+          sum(if(`month` = 8, vol, 0))  AS Aug,
+          sum(if(`month` = 9, vol, 0))  AS Sep,
+          sum(if(`month` = 10, vol, 0)) AS Oct,
+          sum(if(`month` = 11, vol, 0)) AS Nov,
+          sum(if(`month` = 12, vol, 0)) AS `Dec`
+        FROM
+        (
+          select
+            (month(created_at)) `month`,
+            round(AVG(vol), 2) vol
+          FROM all_sensors
+          GROUP BY (month(created_at))
+        ) AS T
+          GROUP BY (month(`month`));
+        ");
+
         return response()->json($query);
     }
 }

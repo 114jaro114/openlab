@@ -1,115 +1,185 @@
 <template>
-<v-lazy :options="{
+<div class="humidity custom-margin-page">
+  <v-lazy :options="{
         threshold: .4
       }" min-height="100vh" transition-group="scale-transition">
-  <div class="humidity custom-margin-page">
-    <v-card class="mx-auto ml-3 mr-3" elevation="0" tile>
-      <v-app-bar fixed app tile>
-        <v-app-bar-nav-icon @click.stop="drawer = !drawer"></v-app-bar-nav-icon>
+    <div>
+      <v-card class="mx-auto ml-3 mr-3" elevation="0" tile>
+        <v-app-bar fixed app tile>
+          <v-app-bar-nav-icon @click.stop="drawer = !drawer"></v-app-bar-nav-icon>
 
-        <v-toolbar-title>OpenLab FEI Tuke</v-toolbar-title>
+          <v-toolbar-title>OpenLab FEI Tuke</v-toolbar-title>
 
-        <v-spacer></v-spacer>
+          <v-spacer></v-spacer>
 
-        <v-btn icon to="/notifications">
-          <v-icon>mdi-bell</v-icon>
-        </v-btn>
+          <v-btn icon to="/notifications">
+            <v-icon>mdi-bell</v-icon>
+          </v-btn>
 
-        <v-btn icon to="/settings">
-          <v-icon>mdi-cog</v-icon>
-        </v-btn>
-      </v-app-bar>
-    </v-card>
+          <v-btn icon to="/settings">
+            <v-icon>mdi-cog</v-icon>
+          </v-btn>
+        </v-app-bar>
+      </v-card>
 
-    <v-row class="m-0">
-      <v-col class="mb-5" cols="12" lg="6" md="12" sm="12">
-        <v-card class="rounded" elevation="0">
-          <v-sheet class="v-sheet--offset mx-auto rounded" elevation="0" max-width="calc(100% - 32px)">
-            <div id="chart">
-              <apexchart type="radialBar" ref="circle_gradient" height="350" :options="chartOptionsCircle_gradient" :series="seriesCircle_gradient"></apexchart>
-            </div>
-          </v-sheet>
-
-          <v-card-text class="pt-0">
-            <div class="title font-weight-light mb-2">
-              Vlhkosť - Tlak - Teplota
-            </div>
-            <v-divider class="my-2"></v-divider>
-            <v-icon class="mr-2" small>
-              mdi-clock
-            </v-icon>
-            <span class="caption grey--text font-weight-light">Posledná aktualizácia pred 26 minutami</span>
-          </v-card-text>
-        </v-card>
-      </v-col>
-
-      <!-- <v-col class="mb-5" cols="12" lg="6" md="12" sm="12">
-        </v-col> -->
-
-      <v-col class="mb-5" cols="12" lg="12" md="12" sm="12">
-        <v-card class="rounded" elevation="0">
-          <v-sheet class="v-sheet--offset mx-auto rounded" elevation="0" max-width="calc(100% - 32px)" rounded>
-            <div id="chart">
-              <div class="toolbar pt-3">
-                <v-btn icon color="primary" id="one_hour" @click="updateData('one_hour')" class="mr-2" :class="{active: selection==='one_hour'}">
-                  1H
-                </v-btn>
-                <v-btn icon color="primary" id="one_day" @click="updateData('one_day')" class="mr-2" :class="{active: selection==='one_day'}">
-                  1D
-                </v-btn>
-                <v-btn icon color="primary" id="one_month" @click="updateData('one_month')" class="mr-2" :class="{active: selection==='one_month'}">
-                  1M
-                </v-btn>
-
-                <v-btn icon color="primary" id="six_months" @click="updateData('six_months')" class="mr-2" :class="{active: selection==='six_months'}">
-                  6M
-                </v-btn>
-
-                <v-btn icon color="primary" id="one_year" @click="updateData('one_year')" class="mr-2" :class="{active: selection==='one_year'}">
-                  1Y
-                </v-btn>
-
-                <v-btn icon color="primary" id="ytd" @click="updateData('ytd')" class="mr-2" :class="{active: selection==='ytd'}">
-                  YTD
-                </v-btn>
-
-                <v-btn icon color="primary" id="all" @click="updateData('all')" :class="{active: selection==='all'}">
-                  ALL
-                </v-btn>
+      <v-row class="m-0">
+        <!-- stroked gauge chart -->
+        <v-col class="mb-5" cols="12" lg="6" md="12" sm="12">
+          <v-card class="rounded" elevation="0">
+            <v-sheet class="v-sheet--offset mx-auto rounded" elevation="0" max-width="calc(100% - 32px)">
+              <div id="chart">
+                <apexchart type="radialBar" height="385" :options="chartOptionsCircle" :series="seriesCircle"></apexchart>
               </div>
+            </v-sheet>
 
-              <div id="chart-timeline">
-                <apexchart type="area" height="350" ref="chart" :options="chartOptions" :series="series"></apexchart>
+            <v-card-text class="pt-0">
+              <div class="title font-weight-light mb-2">
+                Aktuálna teplota okolia
               </div>
-            </div>
-          </v-sheet>
+              <v-divider class="my-2"></v-divider>
+              <v-icon class="mr-2" small>
+                mdi-clock
+              </v-icon>
+              <span class="caption grey--text font-weight-light">Posledná aktualizácia: </span>
+              <span class="font-weight-bold">{{lastUpdate}}</span>
+            </v-card-text>
+          </v-card>
+        </v-col>
+        <!-- column chart -->
+        <v-col class="mb-5" cols="12" lg="6" md="12" sm="12">
+          <v-card class="rounded" elevation="0">
+            <v-sheet class="v-sheet--offset mx-auto rounded" elevation="0" max-width="calc(100% - 32px)" rounded>
+              <div id="chart">
+                <apexchart type="bar" ref="column_chart" height="350" :options="chartOptionsColumn" :series="seriesColumn"></apexchart>
+              </div>
+            </v-sheet>
 
-          <v-card-text class="pt-0">
-            <div class="title font-weight-light mb-2">
-              Vlhkosť
-            </div>
-            <v-divider class="my-2"></v-divider>
-            <v-icon class="mr-2" small>
-              mdi-clock
-            </v-icon>
-            <span class="caption grey--text font-weight-light">Posledná aktualizácia pred 26 minutami</span>
-          </v-card-text>
-        </v-card>
-      </v-col>
-    </v-row>
-    <NavigationDrawer :drawer="drawer" />
-    <BottomNavigation />
-    <Footer />
-  </div>
-</v-lazy>
+            <v-card-text class="pt-0">
+              <div class="title font-weight-light mb-2">
+                Priemerná teplota okolia za jednotlivé mesiace v roku
+              </div>
+              <v-divider class="my-2"></v-divider>
+              <v-icon class="mr-2" small>
+                mdi-clock
+              </v-icon>
+              <span class="caption grey--text font-weight-light">Posledná aktualizácia: </span>
+              <span class="font-weight-bold">{{lastUpdate}}</span>
+            </v-card-text>
+          </v-card>
+        </v-col>
+        <!-- realtime chart -->
+        <v-col class="mb-5" cols="12" lg="12" md="12" sm="12">
+          <v-card class="rounded" elevation="0">
+            <v-sheet class="v-sheet--offset mx-auto rounded" elevation="0" max-width="calc(100% - 32px)">
+              <div id="chart">
+                <apexchart ref="realtimeChart" type="line" height="200" :options="chartOptionsRealtime" :series="seriesRealtime" />
+              </div>
+            </v-sheet>
+
+            <v-card-text class="pt-0">
+              <div class="title font-weight-light mb-2">
+                Teplota okolia posledných 5 minút
+              </div>
+              <v-divider class="my-2"></v-divider>
+              <v-icon class="mr-2" small>
+                mdi-clock
+              </v-icon>
+              <span class="caption grey--text font-weight-light">Posledná aktualizácia: </span>
+              <span class="font-weight-bold">{{lastUpdate}}</span>
+            </v-card-text>
+          </v-card>
+        </v-col>
+        <!-- candlestick chart -->
+        <v-col class="mb-5" cols="12" lg="12" md="12" sm="12">
+          <v-card class="rounded" elevation="0">
+            <v-sheet class="v-sheet--offset mx-auto rounded" elevation="0" max-width="calc(100% - 32px)">
+              <div id="chart">
+                <apexchart type="candlestick" ref="candlestick" height="350" :options="chartOptionsCandle_stick" :series="seriesCandle_stick"></apexchart>
+              </div>
+            </v-sheet>
+
+            <v-card-text class="pt-0">
+              <div class="title font-weight-light mb-2">
+                Najvyššia, najnižšia, prvá a posledná hodnota teploty okolia za 1-hodinové intervaly
+              </div>
+              <v-divider class="my-2"></v-divider>
+              <v-icon class="mr-2" small>
+                mdi-clock
+              </v-icon>
+              <span class="caption grey--text font-weight-light">Posledná aktualizácia: </span>
+              <span class="font-weight-bold">{{lastUpdate}}</span>
+            </v-card-text>
+          </v-card>
+        </v-col>
+        <!-- historical chart -->
+        <v-col class="mb-5" cols="12" lg="12" md="12" sm="12">
+          <v-card class="rounded" elevation="0">
+            <v-sheet class="v-sheet--offset mx-auto rounded" elevation="0" max-width="calc(100% - 32px)" rounded>
+              <div id="chart">
+                <div class="toolbar pt-3">
+                  <v-btn icon color="primary" id="one_hour" @click="updateData('one_hour')" class="mr-2" :class="{active: selection==='one_hour'}">
+                    1H
+                  </v-btn>
+                  <v-btn icon color="primary" id="one_day" @click="updateData('one_day')" class="mr-2" :class="{active: selection==='one_day'}">
+                    1D
+                  </v-btn>
+                  <v-btn icon color="primary" id="one_month" @click="updateData('one_month')" class="mr-2" :class="{active: selection==='one_month'}">
+                    1M
+                  </v-btn>
+
+                  <v-btn icon color="primary" id="six_months" @click="updateData('six_months')" class="mr-2" :class="{active: selection==='six_months'}">
+                    6M
+                  </v-btn>
+
+                  <v-btn icon color="primary" id="one_year" @click="updateData('one_year')" class="mr-2" :class="{active: selection==='one_year'}">
+                    1Y
+                  </v-btn>
+
+                  <v-btn icon color="primary" id="ytd" @click="updateData('ytd')" class="mr-2" :class="{active: selection==='ytd'}">
+                    YTD
+                  </v-btn>
+
+                  <v-btn icon color="primary" id="all" @click="updateData('all')" :class="{active: selection==='all'}">
+                    ALL
+                  </v-btn>
+                </div>
+
+                <div id="chart-timeline">
+                  <apexchart type="area" height="350" ref="historicalChart" :options="chartOptions" :series="series"></apexchart>
+                </div>
+              </div>
+            </v-sheet>
+
+            <v-card-text class="pt-0">
+              <div class="title font-weight-light mb-2">
+                Historický graf teploty okolia
+              </div>
+              <v-divider class="my-2"></v-divider>
+              <v-icon class="mr-2" small>
+                mdi-clock
+              </v-icon>
+              <span class="caption grey--text font-weight-light">Posledná aktualizácia: </span>
+              <span class="font-weight-bold">{{lastUpdate}}</span>
+            </v-card-text>
+          </v-card>
+        </v-col>
+      </v-row>
+    </div>
+  </v-lazy>
+  <NavigationDrawer :drawer="drawer" />
+  <BottomNavigation />
+  <SpeedDial />
+  <Footer />
+</div>
 </template>
 <script>
-import axios from 'axios';
+import axios from 'axios'
 import moment from 'moment'
-import VueApexCharts from 'vue-apexcharts';
+import VueApexCharts from 'vue-apexcharts'
 import Footer from "../components/Footer.vue";
 import NavigationDrawer from "../components/NavigationDrawer.vue";
 import BottomNavigation from "../components/BottomNavigation.vue";
+import SpeedDial from "../components/SpeedDial.vue";
 
 export default {
   name: "Humidity",
@@ -117,178 +187,21 @@ export default {
     Footer,
     NavigationDrawer,
     BottomNavigation,
+    SpeedDial,
     apexchart: VueApexCharts,
   },
   props: ['drawerNew'],
   data() {
     return {
       drawer: false,
-      series: [{
-        data: []
-      }],
-      chartOptions: {
-        chart: {
-          id: 'area-datetime',
-          type: 'area',
-          height: 350,
-          zoom: {
-            autoScaleYaxis: true
-          }
-        },
-        annotations: {
-          yaxis: [{
-            y: 30,
-            borderColor: '#999',
-            label: {
-              show: true,
-              text: 'Support',
-              style: {
-                color: "#fff",
-                background: '#00E396'
-              }
-            }
-          }],
-          xaxis: [{
-            // x: new Date('14 Nov 2012')
-            //   .getTime(),
-            borderColor: '#999',
-            yAxisIndex: 0,
-            label: {
-              show: true,
-              text: 'Rally',
-              style: {
-                color: "#fff",
-                background: '#775DD0'
-              }
-            }
-          }]
-        },
-        dataLabels: {
-          enabled: false
-        },
-        markers: {
-          size: 0,
-          style: 'hollow',
-        },
-        xaxis: {
-          type: 'datetime',
-          // min: new Date('01 Mar 2012')
-          //   .getTime(),
-          tickAmount: 6,
-        },
-        tooltip: {
-          x: {
-            format: 'dd MMM yyyy'
-          }
-        },
-        fill: {
-          type: 'gradient',
-          gradient: {
-            shadeIntensity: 1,
-            opacityFrom: 0.7,
-            opacityTo: 0.9,
-            stops: [0, 100]
-          }
-        },
-      },
-
-      selection: 'one_year',
-      // series: [{
-      //   data: [
-      //     // [1327359600000, 30.95],
-      //     // [1354489200000, 34.70],
-      //     // [1354575600000, 35.30],
-      //     // [1354662000000, 35.40],
-      //     // [1354748400000, 35.14],
-      //     // [1354834800000, 35.48],
-      //     // [1355094000000, 35.75],
-      //     // [1355180400000, 35.54],
-      //     // [1355266800000, 35.96],
-      //     // [1355353200000, 35.53],
-      //     // [1355439600000, 37.56],
-      //     // [1361833200000, 38.59],
-      //     // [1361919600000, 39.60],
-      //   ],
-      // }],
-      // chartOptions: {
-      //   chart: {
-      //     id: 'area-datetime',
-      //     type: 'area',
-      //     height: 350,
-      //     zoom: {
-      //       autoScaleYaxis: true
-      //     },
-      //     dynamicAnimation: {
-      //       speed: 1000
-      //     }
-      //   },
-      //   annotations: {
-      //     yaxis: [{
-      //       y: 30,
-      //       borderColor: '#999',
-      //       label: {
-      //         show: true,
-      //         text: 'Support',
-      //         style: {
-      //           color: "#fff",
-      //           background: '#00E396'
-      //         }
-      //       }
-      //     }],
-      //     xaxis: [{
-      //       x: new Date('14 Nov 2012')
-      //         .getTime(),
-      //       borderColor: '#999',
-      //       yAxisIndex: 0,
-      //       label: {
-      //         show: true,
-      //         text: 'Rally',
-      //         style: {
-      //           color: "#fff",
-      //           background: '#775DD0'
-      //         }
-      //       }
-      //     }]
-      //   },
-      //   dataLabels: {
-      //     enabled: false
-      //   },
-      //   markers: {
-      //     size: 0,
-      //     style: 'hollow',
-      //   },
-      //   xaxis: {
-      //     type: 'datetime',
-      //     min: new Date('01 Mar 2012')
-      //       .getTime(),
-      //     tickAmount: 6,
-      //   },
-      //   tooltip: {
-      //     x: {
-      //       format: 'dd MMM yyyy'
-      //     }
-      //   },
-      //   fill: {
-      //     type: 'gradient',
-      //     gradient: {
-      //       shadeIntensity: 1,
-      //       opacityFrom: 0.7,
-      //       opacityTo: 0.9,
-      //       stops: [0, 100]
-      //     }
-      //   },
-      // },
-
-      // selection: 'six_hour',
-      // circle gradient chart
-      seriesCircle_gradient: [70],
-      // seriesCircle_gradient: [],
-      chartOptionsCircle_gradient: {
+      lastUpdate: localStorage.getItem('lastUpdateHumidity'),
+      seriesCircle: [],
+      chartOptionsCircle: {
         chart: {
           height: 350,
           type: 'radialBar',
           toolbar: {
-            show: true
+            show: false
           }
         },
         plotOptions: {
@@ -302,28 +215,8 @@ export default {
               image: undefined,
               imageOffsetX: 0,
               imageOffsetY: 0,
-              position: 'front',
-              // dropShadow: {
-              //   enabled: true,
-              //   top: 3,
-              //   left: 0,
-              //   blur: 4,
-              //   opacity: 0.24
-              // }
+              position: 'front'
             },
-            // track: {
-            //   background: '#fff',
-            //   strokeWidth: '67%',
-            //   margin: 0, // margin is in pixels
-            //   dropShadow: {
-            //     enabled: true,
-            //     top: -3,
-            //     left: 0,
-            //     blur: 4,
-            //     opacity: 0.35
-            //   }
-            // },
-
             dataLabels: {
               show: true,
               name: {
@@ -334,32 +227,332 @@ export default {
               },
               value: {
                 formatter: function(val) {
-                  return parseInt(val);
+                  return parseInt(val * 100) / 100;
                 },
-                color: '#111',
+                color: '#0066ff',
                 fontSize: '36px',
                 show: true,
               }
             }
           }
         },
-        fill: {
-          type: 'gradient',
-          gradient: {
-            shade: 'dark',
-            type: 'horizontal',
-            shadeIntensity: 0.5,
-            gradientToColors: ['#ABE5A1'],
-            inverseColors: true,
-            opacityFrom: 1,
-            opacityTo: 1,
-            stops: [0, 100]
-          }
-        },
         stroke: {
           lineCap: 'round'
         },
-        labels: ['Percent'],
+        labels: ['%'],
+        colors: ['#0066ff'],
+      },
+      //column chart
+      seriesColumn: [{
+        name: 'Priemerná vlhkosť (%)',
+        data: []
+      }],
+      chartOptionsColumn: {
+        chart: {
+          type: 'bar',
+          toolbar: {
+            show: false,
+            tools: {
+              download: false,
+              selection: false,
+              zoom: false,
+              zoomin: false,
+              zoomout: false,
+              pan: false,
+              reset: false | '<img src="/static/icons/reset.png" width="20">',
+              //customIcons: []
+            }
+          }
+        },
+        plotOptions: {
+          bar: {
+            borderRadius: 10,
+            dataLabels: {
+              position: 'top', // top, center, bottom
+            },
+          }
+        },
+        dataLabels: {
+          enabled: false,
+          formatter: function(val) {
+            return val + "%";
+          },
+          offsetY: -20,
+          style: {
+            fontSize: '12px',
+            colors: ["#0066ff"]
+          }
+        },
+
+        xaxis: {
+          categories: ["Jan", "Feb", "Mar", "Apr", "May", "Jun", "Jul", "Aug", "Sep", "Oct", "Nov", "Dec"],
+          position: 'top',
+          axisBorder: {
+            show: false
+          },
+          axisTicks: {
+            show: false
+          },
+          tooltip: {
+            enabled: false,
+          }
+        },
+        yaxis: {
+          axisBorder: {
+            show: false
+          },
+          axisTicks: {
+            show: false,
+          },
+          labels: {
+            show: true,
+            formatter: function(val) {
+              return val + "%";
+            }
+          }
+
+        },
+        title: {
+          //text: 'Mesačná priemerná vlhkosť',
+          floating: true,
+          offsetY: 330,
+          align: 'center',
+          style: {
+            color: '#444'
+          }
+        },
+        tooltip: {
+          theme: localStorage.getItem('graph_theme'),
+        },
+        colors: ['#0066ff'],
+      },
+      //candlestick chart
+      seriesCandle_stick: [{
+        data: []
+      }],
+      chartOptionsCandle_stick: {
+        chart: {
+          type: 'candlestick',
+          toolbar: {
+            tools: {
+              download: false,
+            }
+          },
+          animations: {
+            enabled: false,
+          }
+        },
+        xaxis: {
+          type: 'datetime',
+          labels: {
+            datetimeUTC: false,
+          },
+          // type: 'category',
+          // labels: {
+          //   formatter: function(value) {
+          //     return moment(value)
+          //       .format('HH:mm');
+          //   },
+          // },
+          tooltip: {
+            enabled: false
+          }
+        },
+        yaxis: {
+          tooltip: {
+            enabled: false
+          }
+        },
+        tooltip: {
+          theme: localStorage.getItem('graph_theme'),
+          custom: function({
+            // seriesStroked_gauge,
+            seriesIndex,
+            dataPointIndex,
+            w,
+          }) {
+            const d = w.globals.seriesX[seriesIndex][dataPointIndex]
+            const o = w.globals.seriesCandleO[seriesIndex][dataPointIndex]
+            const h = w.globals.seriesCandleH[seriesIndex][dataPointIndex]
+            const l = w.globals.seriesCandleL[seriesIndex][dataPointIndex]
+            const c = w.globals.seriesCandleC[seriesIndex][dataPointIndex]
+            return (
+
+              '<div class="apexcharts-tooltip-candlestick">' +
+              '<div class="p-2">Dátum: <span class="font-weight-bold">' +
+              moment(d)
+              .format("D MMMM YYYY HH:mm") +
+              '</span></div>' +
+              '<div>Open: <span class="font-weight-bold value">' +
+              o +
+              '</span></div>' +
+              '<div>High: <span class="font-weight-bold value">' +
+              h +
+              '</span></div>' +
+              '<div>Low: <span class="font-weight-bold value">' +
+              l +
+              '</span></div>' +
+              '<div>Close: <span class="font-weight-bold value">' +
+              c +
+              '</span></div>' +
+              '</div>'
+            )
+          }
+        }
+      },
+      //area historical
+      series: [{
+        name: 'Vlhkosť (%)',
+        data: []
+      }],
+      chartOptions: {
+        chart: {
+          id: 'area-datetime',
+          type: 'area',
+          height: 350,
+          zoom: {
+            autoScaleYaxis: true
+          },
+          dynamicAnimation: {
+            speed: 1000
+          },
+          toolbar: {
+            tools: {
+              download: false,
+            }
+          }
+        },
+
+        dataLabels: {
+          enabled: false
+        },
+
+        markers: {
+          size: 0,
+          style: 'hollow',
+        },
+
+        xaxis: {
+          type: 'datetime',
+          labels: {
+            datetimeUTC: false,
+            formatter: function(value) {
+              return moment(value)
+                .format('HH:mm');
+            },
+          },
+          // type: 'category',
+          // labels: {
+          //   formatter: function(value) {
+          //     return moment(value)
+          //       .format('YYYY-MM-DD HH:mm:ss');
+          //   },
+          //   show: true,
+          // },
+          tickAmount: 6,
+          tooltip: {
+            enabled: false,
+          }
+        },
+        tooltip: {
+          theme: localStorage.getItem('graph_theme'),
+          x: {
+            datetimeUTC: false,
+            formatter: function(value) {
+              return moment(value)
+                .format('DD MMM yy HH:mm');
+            },
+          },
+        },
+        colors: ['#0066ff'],
+      },
+      selection: '',
+
+      // realtime
+      seriesRealtime: [{
+        name: 'Vlhkosť (%)',
+        data: [],
+      }],
+      chartOptionsRealtime: {
+        chart: {
+          type: 'line',
+          animations: {
+            enabled: true,
+            easing: 'linear',
+            dynamicAnimation: {
+              speed: 1000
+            }
+          },
+          toolbar: {
+            show: false
+          }
+        },
+        grid: {
+          show: true,
+          strokeDashArray: 0,
+          yaxis: {
+            lines: {
+              show: true,
+            },
+          },
+          xaxis: {
+            lines: {
+              show: false,
+            },
+          },
+        },
+        stroke: {
+          curve: 'smooth',
+          width: 5,
+        },
+        dropShadow: {
+          enabled: true,
+          opacity: 0.3,
+          blur: 5,
+          left: -7,
+          top: 22,
+        },
+        dataLabels: {
+          enabled: false,
+        },
+        title: {},
+        xaxis: {
+          // show: false,
+          // type: 'category',
+          // labels: {
+          //   formatter: function(value) {
+          //     return moment(value)
+          //       .format('YYYY-MM-DD HH:mm:ss');
+          //   },
+          //   show: false,
+          // },
+          type: 'datetime',
+          labels: {
+            datetimeUTC: false,
+            formatter: function(value) {
+              return moment(value)
+                .format('HH:mm:ss');
+            },
+          },
+          tickAmount: 6,
+          tooltip: {
+            enabled: false,
+          },
+        },
+        tooltip: {
+          theme: localStorage.getItem('graph_theme'),
+          x: {
+            datetimeUTC: false,
+            formatter: function(value) {
+              return moment(value)
+                .format('DD MMM yy HH:mm:ss');
+            },
+          }
+        },
+        legend: {
+          show: false
+        },
+        colors: ['#0066ff'],
       },
     }
   },
@@ -367,170 +560,197 @@ export default {
   updated() {
     this.drawer = this.drawerNew;
   },
+  computed: {},
 
   methods: {
-    getHistoricalData() {
-      axios.get('http://127.0.0.1:8000/api/getHistoricalData')
-        .then(res => {
-          this.seriesCircle_gradient.push(res.data);
-          //update chart
-          this.$refs.circle_gradient.updateSeries([{
-            data: this.seriesCircle_gradient[0],
-          }]);
-        })
-    },
-
-    // updateData(timeline) {
-    //   this.selection = timeline;
-    //
-    //   switch (timeline) {
-    //     case 'one_hour':
-    //       this.$refs.chart.zoomX(
-    //         moment(new Date())
-    //         .subtract(1, 'hours')
-    //         .valueOf(),
-    //         new Date()
-    //         .getTime()
-    //       )
-    //       break
-    //     case 'six_hour':
-    //       this.$refs.chart.zoomX(
-    //         moment(new Date())
-    //         .subtract(6, 'hours')
-    //         .valueOf(),
-    //         new Date()
-    //         .getTime()
-    //       )
-    //       break
-    //     case 'one_day':
-    //       this.$refs.chart.zoomX(
-    //         moment(new Date())
-    //         .subtract(1, 'days')
-    //         .valueOf(),
-    //         new Date()
-    //         .getTime()
-    //       )
-    //       break
-    //     case 'one_month':
-    //       this.$refs.chart.zoomX(
-    //         // new Date('28 Mar 2021')
-    //         // .getTime(),
-    //         moment(new Date())
-    //         .subtract(1, 'months')
-    //         .valueOf(),
-    //         new Date()
-    //         .getTime()
-    //       )
-    //       break
-    //     case 'six_months':
-    //       this.$refs.chart.zoomX(
-    //         moment(new Date())
-    //         .subtract(6, 'months')
-    //         .valueOf(),
-    //         new Date()
-    //         .getTime()
-    //       )
-    //       break
-    //     case 'one_year':
-    //       this.$refs.chart.zoomX(
-    //         moment(new Date())
-    //         .subtract(1, 'years')
-    //         .valueOf(),
-    //         new Date()
-    //         .getTime()
-    //       )
-    //       break
-    //     case 'ytd':
-    //       this.$refs.chart.zoomX(
-    //         moment()
-    //         .startOf('year')
-    //         .valueOf(),
-    //         new Date()
-    //         .getTime())
-    //       break
-    //     case 'all':
-    //       this.$refs.chart.zoomX(
-    //         new Date('01 Jan 2012')
-    //         .getTime(),
-    //         new Date()
-    //         .getTime()
-    //       )
-    //       break
-    //     default:
-    //   }
-    // },
-    updateData: function(timeline) {
-      this.selection = timeline
+    //for area historical chart
+    updateData(timeline) {
+      this.selection = timeline;
 
       switch (timeline) {
+        case 'one_hour':
+          this.$refs.historicalChart.zoomX(
+            moment(new Date())
+            .subtract(1, 'hours')
+            .valueOf(),
+            new Date()
+            .getTime()
+          )
+          break
+        case 'one_day':
+          this.$refs.historicalChart.zoomX(
+            moment(new Date())
+            .subtract(1, 'days')
+            .valueOf(),
+            new Date()
+            .getTime()
+          )
+          break
         case 'one_month':
-          this.$refs.chart.zoomX(
-            new Date('28 Jan 2013')
-            .getTime(),
-            new Date('27 Feb 2013')
+          this.$refs.historicalChart.zoomX(
+            // new Date('28 Mar 2021')
+            // .getTime(),
+            moment(new Date())
+            .subtract(1, 'months')
+            .valueOf(),
+            new Date()
             .getTime()
           )
           break
         case 'six_months':
-          this.$refs.chart.zoomX(
-            new Date('27 Sep 2012')
-            .getTime(),
-            new Date('27 Feb 2013')
+          this.$refs.historicalChart.zoomX(
+            moment(new Date())
+            .subtract(6, 'months')
+            .valueOf(),
+            new Date()
             .getTime()
           )
           break
         case 'one_year':
-          this.$refs.chart.zoomX(
-            new Date('27 Feb 2012')
-            .getTime(),
-            new Date('27 Feb 2013')
+          this.$refs.historicalChart.zoomX(
+            moment(new Date())
+            .subtract(1, 'years')
+            .valueOf(),
+            new Date()
             .getTime()
           )
           break
         case 'ytd':
-          this.$refs.chart.zoomX(
-            new Date('01 Jan 2013')
-            .getTime(),
-            new Date('27 Feb 2013')
-            .getTime()
-          )
+          this.$refs.historicalChart.zoomX(
+            moment()
+            .startOf('year')
+            .valueOf(),
+            new Date()
+            .getTime())
           break
         case 'all':
-          this.$refs.chart.zoomX(
-            new Date('23 Jan 2012')
+          this.$refs.historicalChart.zoomX(
+            new Date('01 Jan 2012')
             .getTime(),
-            new Date('27 Feb 2013')
+            new Date()
             .getTime()
           )
           break
         default:
       }
-    }
+    },
+
+    getHistoricalData2() {
+      axios.get('http://127.0.0.1:8000/api/getHistoricalData2Temperature')
+        .then(res => {
+          this.seriesCandle_stick[0].data.splice(0, 1)
+          for (var i = 0; i < res.data.length; i++) {
+            this.seriesCandle_stick[0].data.push({
+              x: moment(res.data[i].timekey)
+                .valueOf(),
+              y: [res.data[i].first_open, res.data[i].max_value, res.data[i].min_value, res.data[i].last_close]
+            });
+          }
+          this.seriesCandle_stick = [{
+            data: this.seriesCandle_stick[0].data
+          }];
+        })
+    },
+
+    getHistoricalData3() {
+      axios.get('http://127.0.0.1:8000/api/getHistoricalData3Temperature')
+        .then(res => {
+          // this.seriesColumn[0].data = [];
+          this.seriesColumn[0].data.splice(0, 12);
+          this.seriesColumn[0].data.push(
+            res.data[0].Jan, res.data[0].Feb,
+            res.data[0].Mar, res.data[0].Apr,
+            res.data[0].May, res.data[0].Jun,
+            res.data[0].Jul, res.data[0].Aug,
+            res.data[0].Sep, res.data[0].Oct,
+            res.data[0].Nov, res.data[0].Dec,
+          );
+
+          this.seriesColumn = [{
+            data: this.seriesColumn[0].data
+          }];
+        });
+    },
+
+    getDataRealtime() {
+      axios.get('http://127.0.0.1:8000/api/getDataRealtimeTemperature')
+        .then(res => {
+          localStorage.setItem("lastUpdateLights", moment(res.data[res.data.length - 1].created_at)
+            .format('YYYY-MM-DD HH:mm:ss'));
+          this.seriesRealtime[0].data.splice(0, 10);
+          for (var i = 0; i < res.data.length; i++) {
+            this.seriesRealtime[0].data.push([
+              moment(res.data[i].created_at)
+              .valueOf(),
+              parseFloat(`${res.data[i].gtmp}`)
+            ]);
+          }
+
+          this.seriesRealtime = [{
+            name: 'Vlhkosť (%)',
+            data: this.seriesRealtime[0].data
+          }];
+
+          this.seriesCircle.splice(0, 1);
+          this.seriesCircle.push(parseFloat(res.data[res.data.length - 1].gtmp));
+        })
+    },
+
+    getHistoricalData() {
+      axios.get('http://127.0.0.1:8000/api/getHistoricalDataTemperature')
+        .then(res => {
+          this.series[0].data.splice(0, res.data.length);
+          for (var i = 0; i < res.data.length; i++) {
+            this.series[0].data.push([
+              moment(res.data[i].created_at)
+              .valueOf(),
+              parseFloat(`${res.data[i].gtmp}`)
+            ]);
+          }
+          this.series = [{
+            name: 'Vlhkosť (%)',
+            data: this.series[0].data
+          }];
+        })
+    },
   },
 
   watch: {},
 
   mounted() {
     //do something after mounting vue instance
-    console.log('Component Welcome mounted.')
-    axios.get('http://127.0.0.1:8000/api/getHum')
-      .then(res => {
-        for (var i = 0; i < res.data.length; i++) {
-          this.series[0].data.push([
-            moment(res.data[i].created_at)
-            .valueOf(),
-            parseFloat(`${res.data[i].hum}`)
-          ]);
-        }
-        this.$refs.chart.updateSeries([{
-          data: this.series[0].data,
-        }]);
-      })
+    this.getDataRealtime();
+    this.getHistoricalData();
+    this.getHistoricalData2();
+    this.getHistoricalData3();
   },
 
   created() {
-    console.log('Component Welcome created')
-  },
+    //do something after creating vue instance
+    window.Echo.channel('dataAllSensors')
+      .listen('AllSensorsEvent', (e) => {
+        //last update datetime
+        this.lastUpdate = moment(e.dataAllSensors.created_at)
+          .format('YYYY-MM-DD HH:mm:ss');
+        localStorage.setItem("lastUpdateLights", moment(e.dataAllSensors.created_at)
+          .format('YYYY-MM-DD HH:mm:ss'));
+        //
+        this.series[0].data.push([
+          moment(e.dataAllSensors.created_at)
+          .valueOf(),
+          parseFloat(`${e.dataAllSensors.gtmp}`)
+        ]);
+        this.series = [{
+          data: this.series[0].data
+        }];
+        //
+        this.seriesCircle.splice(0, 1);
+        this.seriesCircle.push(parseFloat(e.dataAllSensors.gtmp));
+        this.getDataRealtime();
+        this.getHistoricalData2();
+        this.getHistoricalData3();
+      })
+  }
 }
 </script>
 <style type="scss">

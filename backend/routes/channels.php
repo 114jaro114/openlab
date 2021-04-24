@@ -21,10 +21,10 @@ Broadcast::channel('App.Models.User.{id}', function ($user, $id) {
 });
 
 //channel for humidity
-Broadcast::channel('test', function (Humidity $humidity) {
-    return $humidity;
-});
-
-Broadcast::channel('test', function (AllSensors $allsensors) {
-    return $allsensors;
-});
+// Broadcast::channel('test', function (Humidity $humidity) {
+//     return $humidity;
+// });
+//
+// Broadcast::channel('dataAllSensors', function (AllSensors $allsensors) {
+//     return $allsensors;
+// });
