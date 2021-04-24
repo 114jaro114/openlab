@@ -34,7 +34,7 @@
 
             <v-card-text class="pt-0">
               <div class="title font-weight-light mb-2">
-                Aktuálna teplota okolia
+                Aktuálna vlhkosť
               </div>
               <v-divider class="my-2"></v-divider>
               <v-icon class="mr-2" small>
@@ -56,7 +56,7 @@
 
             <v-card-text class="pt-0">
               <div class="title font-weight-light mb-2">
-                Priemerná teplota okolia za jednotlivé mesiace v roku
+                Vlhkosť za jednotlivé mesiace v roku
               </div>
               <v-divider class="my-2"></v-divider>
               <v-icon class="mr-2" small>
@@ -78,7 +78,7 @@
 
             <v-card-text class="pt-0">
               <div class="title font-weight-light mb-2">
-                Teplota okolia posledných 5 minút
+                Vlhkosť posledných 5 minút
               </div>
               <v-divider class="my-2"></v-divider>
               <v-icon class="mr-2" small>
@@ -100,7 +100,7 @@
 
             <v-card-text class="pt-0">
               <div class="title font-weight-light mb-2">
-                Najvyššia, najnižšia, prvá a posledná hodnota teploty okolia za 1-hodinové intervaly
+                Najvyššia, najnižšia, prvá a posledná hodnota vlhkosti za 1-hodinové intervaly
               </div>
               <v-divider class="my-2"></v-divider>
               <v-icon class="mr-2" small>
@@ -117,29 +117,29 @@
             <v-sheet class="v-sheet--offset mx-auto rounded" elevation="0" max-width="calc(100% - 32px)" rounded>
               <div id="chart">
                 <div class="toolbar pt-3">
-                  <v-btn icon color="primary" id="one_hour" @click="updateData('one_hour')" class="mr-2" :class="{active: selection==='one_hour'}">
+                  <v-btn icon color="#0066ff" id="one_hour" @click="updateData('one_hour')" class="mr-2" :class="{active: selection==='one_hour'}">
                     1H
                   </v-btn>
-                  <v-btn icon color="primary" id="one_day" @click="updateData('one_day')" class="mr-2" :class="{active: selection==='one_day'}">
+                  <v-btn icon color="#0066ff" id="one_day" @click="updateData('one_day')" class="mr-2" :class="{active: selection==='one_day'}">
                     1D
                   </v-btn>
-                  <v-btn icon color="primary" id="one_month" @click="updateData('one_month')" class="mr-2" :class="{active: selection==='one_month'}">
+                  <v-btn icon color="#0066ff" id="one_month" @click="updateData('one_month')" class="mr-2" :class="{active: selection==='one_month'}">
                     1M
                   </v-btn>
 
-                  <v-btn icon color="primary" id="six_months" @click="updateData('six_months')" class="mr-2" :class="{active: selection==='six_months'}">
+                  <v-btn icon color="#0066ff" id="six_months" @click="updateData('six_months')" class="mr-2" :class="{active: selection==='six_months'}">
                     6M
                   </v-btn>
 
-                  <v-btn icon color="primary" id="one_year" @click="updateData('one_year')" class="mr-2" :class="{active: selection==='one_year'}">
+                  <v-btn icon color="#0066ff" id="one_year" @click="updateData('one_year')" class="mr-2" :class="{active: selection==='one_year'}">
                     1Y
                   </v-btn>
 
-                  <v-btn icon color="primary" id="ytd" @click="updateData('ytd')" class="mr-2" :class="{active: selection==='ytd'}">
+                  <v-btn icon color="#0066ff" id="ytd" @click="updateData('ytd')" class="mr-2" :class="{active: selection==='ytd'}">
                     YTD
                   </v-btn>
 
-                  <v-btn icon color="primary" id="all" @click="updateData('all')" :class="{active: selection==='all'}">
+                  <v-btn icon color="#0066ff" id="all" @click="updateData('all')" :class="{active: selection==='all'}">
                     ALL
                   </v-btn>
                 </div>
@@ -152,7 +152,7 @@
 
             <v-card-text class="pt-0">
               <div class="title font-weight-light mb-2">
-                Historický graf teploty okolia
+                Historický graf vlhkosti
               </div>
               <v-divider class="my-2"></v-divider>
               <v-icon class="mr-2" small>
@@ -275,7 +275,7 @@ export default {
         dataLabels: {
           enabled: false,
           formatter: function(val) {
-            return val + "%";
+            return val + "";
           },
           offsetY: -20,
           style: {
@@ -307,7 +307,7 @@ export default {
           labels: {
             show: true,
             formatter: function(val) {
-              return val + "%";
+              return val + "";
             }
           }
 
@@ -636,7 +636,7 @@ export default {
     },
 
     getHistoricalData2() {
-      axios.get('http://127.0.0.1:8000/api/getHistoricalData2Temperature')
+      axios.get('http://127.0.0.1:8000/api/getHistoricalData2Humidity')
         .then(res => {
           this.seriesCandle_stick[0].data.splice(0, 1)
           for (var i = 0; i < res.data.length; i++) {
@@ -653,7 +653,7 @@ export default {
     },
 
     getHistoricalData3() {
-      axios.get('http://127.0.0.1:8000/api/getHistoricalData3Temperature')
+      axios.get('http://127.0.0.1:8000/api/getHistoricalData3Humidity')
         .then(res => {
           // this.seriesColumn[0].data = [];
           this.seriesColumn[0].data.splice(0, 12);
@@ -673,16 +673,16 @@ export default {
     },
 
     getDataRealtime() {
-      axios.get('http://127.0.0.1:8000/api/getDataRealtimeTemperature')
+      axios.get('http://127.0.0.1:8000/api/getDataRealtimeHumidity')
         .then(res => {
-          localStorage.setItem("lastUpdateLights", moment(res.data[res.data.length - 1].created_at)
+          localStorage.setItem("lastUpdateHumidity", moment(res.data[res.data.length - 1].created_at)
             .format('YYYY-MM-DD HH:mm:ss'));
           this.seriesRealtime[0].data.splice(0, 10);
           for (var i = 0; i < res.data.length; i++) {
             this.seriesRealtime[0].data.push([
               moment(res.data[i].created_at)
               .valueOf(),
-              parseFloat(`${res.data[i].gtmp}`)
+              parseFloat(`${res.data[i].humi}`)
             ]);
           }
 
@@ -692,19 +692,19 @@ export default {
           }];
 
           this.seriesCircle.splice(0, 1);
-          this.seriesCircle.push(parseFloat(res.data[res.data.length - 1].gtmp));
+          this.seriesCircle.push(parseFloat(res.data[res.data.length - 1].humi));
         })
     },
 
     getHistoricalData() {
-      axios.get('http://127.0.0.1:8000/api/getHistoricalDataTemperature')
+      axios.get('http://127.0.0.1:8000/api/getHistoricalDataHumidity')
         .then(res => {
           this.series[0].data.splice(0, res.data.length);
           for (var i = 0; i < res.data.length; i++) {
             this.series[0].data.push([
               moment(res.data[i].created_at)
               .valueOf(),
-              parseFloat(`${res.data[i].gtmp}`)
+              parseFloat(`${res.data[i].humi}`)
             ]);
           }
           this.series = [{
@@ -732,20 +732,18 @@ export default {
         //last update datetime
         this.lastUpdate = moment(e.dataAllSensors.created_at)
           .format('YYYY-MM-DD HH:mm:ss');
-        localStorage.setItem("lastUpdateLights", moment(e.dataAllSensors.created_at)
+        localStorage.setItem("lastUpdateHumidity", moment(e.dataAllSensors.created_at)
           .format('YYYY-MM-DD HH:mm:ss'));
         //
         this.series[0].data.push([
           moment(e.dataAllSensors.created_at)
           .valueOf(),
-          parseFloat(`${e.dataAllSensors.gtmp}`)
+          parseFloat(`${e.dataAllSensors.humi}`)
         ]);
         this.series = [{
           data: this.series[0].data
         }];
         //
-        this.seriesCircle.splice(0, 1);
-        this.seriesCircle.push(parseFloat(e.dataAllSensors.gtmp));
         this.getDataRealtime();
         this.getHistoricalData2();
         this.getHistoricalData3();

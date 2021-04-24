@@ -4,23 +4,35 @@ namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
-use App\Models\Humidity;
+use App\Models\PowerConsumption;
 use App\Models\AllSensors;
-use App\Events\HumEvent;
+// use App\Events\PowerConsumption;
 use App\Events\AllSensorsEvent;
 use Carbon\Carbon;
 
 class ApiController extends Controller
 {
-    // public function store(Request $request)
-    // {
-    //     // $hum = DB::insert('insert into humidity (hum) values (?)', [$request->hum]);
-    //     $humidity = Humidity::create([
-    //         'hum' => $request->hum
-    //     ]);
-    //     broadcast(new HumEvent($humidity))->toOthers();
-    //     return response()->json($humidity);
-    // }
+    public function store(Request $request)
+    {
+        $U = preg_replace('/(.*)"U":{(.*)},"I":(.*)/sm', '\2', $request->data); //regullr expression for get gtmp
+        $I = preg_replace('/(.*)"I":{(.*)},"P":(.*)/sm', '\2', $request->data); //regullr expression for get vol
+        $P = preg_replace('/(.*)"P":{(.*)},"S":(.*)/sm', '\2', $request->data); //regullr expression for get light
+        $S = preg_replace('/(.*)"S":{(.*)},"Q":(.*)/sm', '\2', $request->data); //regullr expression for get pres
+        $Q = preg_replace('/(.*)"Q":{(.*)},"E_I":(.*)/sm', '\2', $request->data); //regullr expression for get humi
+        $E_I = preg_replace('/(.*)"E_I":{(.*)},"E_E":(.*)/sm', '\2', $request->data); //regullr expression for get atmp
+        $E_E = preg_replace('/(.*)"E_E":{(.*)}}(.*)/sm', '\2', $request->data); //regullr expression for get timestamp
+        $dataEnergy = PowerConsumption::create([
+            'U' => $U,
+            'I' => $I,
+            'P' => $P,
+            'S' => $S,
+            'Q' => $Q,
+            'E_I' => $E_I,
+            'E_E' => $E_E,
+        ]);
+
+        return response()->json($dataEnergy);
+    }
 
     public function store2(Request $request)
     {
@@ -289,7 +301,7 @@ class ApiController extends Controller
     }
 
     //Temperature gtmp + atmp
-    public function getDataRealtimeTemperature()
+    public function getDataRealtimeTemperatureGtmp()
     {
         $query = DB::select("select id, gtmp, created_at
         FROM (
@@ -300,16 +312,15 @@ class ApiController extends Controller
         return response()->json($query);
     }
 
-    public function getHistoricalDataTemperature()
+    public function getHistoricalDataTemperatureGtmp()
     {
-        // $getDataLastMonth = AllSensors::where('created_at', '>=', Carbon::today()->subDays(30))->avg('humi');
         $query = DB::select("select gtmp, created_at
         FROM all_sensors");
 
         return response()->json($query);
     }
 
-    public function getHistoricalData2Temperature()
+    public function getHistoricalData2TemperatureGtmp()
     {
         $query = DB::select("select
         from_unixtime(round(unix_timestamp(created_at)/(60*60))*(60*60)) as timekey,
@@ -323,7 +334,7 @@ class ApiController extends Controller
         return response()->json($query);
     }
 
-    public function getHistoricalData3Temperature()
+    public function getHistoricalData3TemperatureGtmp()
     {
         //avg values of hum for each months, when null value is 0
         $query = DB::select("
@@ -345,6 +356,69 @@ class ApiController extends Controller
           select
             (month(created_at)) `month`,
             round(AVG(gtmp), 2) gtmp
+          FROM all_sensors
+          GROUP BY (month(created_at))
+        ) AS T
+          GROUP BY (month(`month`));
+        ");
+
+        return response()->json($query);
+    }
+    public function getDataRealtimeTemperatureAtmp()
+    {
+        $query = DB::select("select id, atmp, created_at
+        FROM (
+            select id, atmp, created_at FROM all_sensors ORDER BY id DESC LIMIT 10
+        ) sub
+        ORDER BY id ASC");
+
+        return response()->json($query);
+    }
+
+    public function getHistoricalDataTemperatureAtmp()
+    {
+        $query = DB::select("select atmp, created_at
+        FROM all_sensors");
+
+        return response()->json($query);
+    }
+
+    public function getHistoricalData2TemperatureAtmp()
+    {
+        $query = DB::select("select
+        from_unixtime(round(unix_timestamp(created_at)/(60*60))*(60*60)) as timekey,
+        substring_index(group_concat(atmp order by created_at), ',', 1) as first_open,
+        substring_index(group_concat(atmp order by created_at desc), ',', 1) as last_close,
+        MAX(atmp) AS max_value,
+        MIN(atmp) As min_value
+        FROM all_sensors
+        GROUP BY timekey");
+
+        return response()->json($query);
+    }
+
+    public function getHistoricalData3TemperatureAtmp()
+    {
+        //avg values of hum for each months, when null value is 0
+        $query = DB::select("
+          select
+          sum(if(`month` = 1, atmp, 0))  AS Jan,
+          sum(if(`month` = 2, atmp, 0))  AS Feb,
+          sum(if(`month` = 3, atmp, 0))  AS Mar,
+          sum(if(`month` = 4, atmp, 0))  AS Apr,
+          sum(if(`month` = 5, atmp, 0))  AS May,
+          sum(if(`month` = 6, atmp, 0))  AS Jun,
+          sum(if(`month` = 7, atmp, 0))  AS Jul,
+          sum(if(`month` = 8, atmp, 0))  AS Aug,
+          sum(if(`month` = 9, atmp, 0))  AS Sep,
+          sum(if(`month` = 10, atmp, 0)) AS Oct,
+          sum(if(`month` = 11, atmp, 0)) AS Nov,
+          sum(if(`month` = 12, atmp, 0)) AS `Dec`
+        FROM
+        (
+          select
+            (month(created_at)) `month`,
+            round(AVG(atmp), 2) atmp
           FROM all_sensors
           GROUP BY (month(created_at))
         ) AS T

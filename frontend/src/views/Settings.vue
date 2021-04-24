@@ -97,7 +97,7 @@
 
                 <v-list-item-content>
                   <v-list-item-title>Automatický režim </v-list-item-title>
-                  <v-list-item-subtitle>Automatické nastavenie tmavého/svetlého režimu</v-list-item-subtitle>
+                  <v-list-item-subtitle>Automatické nastavenie tmavého/svetlého režimu (nemusí fungovať na všetkých prehliadačoch)</v-list-item-subtitle>
                 </v-list-item-content>
               </template>
             </v-list-item>

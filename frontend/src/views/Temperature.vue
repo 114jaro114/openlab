@@ -23,7 +23,7 @@
       </v-card>
 
       <v-row class="m-0">
-        <!-- stroked gauge chart -->
+        <!-- circle chart fot gtmp -->
         <v-col class="mb-5" cols="12" lg="6" md="12" sm="12">
           <v-card class="rounded" elevation="0">
             <v-sheet class="v-sheet--offset mx-auto rounded" elevation="0" max-width="calc(100% - 32px)">
@@ -45,12 +45,35 @@
             </v-card-text>
           </v-card>
         </v-col>
-        <!-- column chart -->
+        <!-- circle chart fot atmp -->
+        <v-col class="mb-5" cols="12" lg="6" md="12" sm="12">
+          <v-card class="rounded" elevation="0">
+            <v-sheet class="v-sheet--offset mx-auto rounded" elevation="0" max-width="calc(100% - 32px)">
+              <div id="chart">
+                <apexchart type="radialBar" height="385" :options="chartOptionsCircleAtmp" :series="seriesCircleAtmp"></apexchart>
+              </div>
+            </v-sheet>
+
+            <v-card-text class="pt-0">
+              <div class="title font-weight-light mb-2">
+                Aktuálna teplota na čipe
+              </div>
+              <v-divider class="my-2"></v-divider>
+              <v-icon class="mr-2" small>
+                mdi-clock
+              </v-icon>
+              <span class="caption grey--text font-weight-light">Posledná aktualizácia: </span>
+              <span class="font-weight-bold">{{lastUpdate}}</span>
+            </v-card-text>
+          </v-card>
+        </v-col>
+
+        <!-- column chart gtmp-->
         <v-col class="mb-5" cols="12" lg="6" md="12" sm="12">
           <v-card class="rounded" elevation="0">
             <v-sheet class="v-sheet--offset mx-auto rounded" elevation="0" max-width="calc(100% - 32px)" rounded>
               <div id="chart">
-                <apexchart type="bar" ref="column_chart" height="350" :options="chartOptionsColumn" :series="seriesColumn"></apexchart>
+                <apexchart type="bar" height="350" :options="chartOptionsColumn" :series="seriesColumn"></apexchart>
               </div>
             </v-sheet>
 
@@ -67,12 +90,35 @@
             </v-card-text>
           </v-card>
         </v-col>
-        <!-- realtime chart -->
+        <!-- column chart atmp-->
+        <v-col class="mb-5" cols="12" lg="6" md="12" sm="12">
+          <v-card class="rounded" elevation="0">
+            <v-sheet class="v-sheet--offset mx-auto rounded" elevation="0" max-width="calc(100% - 32px)" rounded>
+              <div id="chart">
+                <apexchart type="bar" height="350" :options="chartOptionsColumnAtmp" :series="seriesColumnAtmp"></apexchart>
+              </div>
+            </v-sheet>
+
+            <v-card-text class="pt-0">
+              <div class="title font-weight-light mb-2">
+                Priemerná teplota na čipe za jednotlivé mesiace v roku
+              </div>
+              <v-divider class="my-2"></v-divider>
+              <v-icon class="mr-2" small>
+                mdi-clock
+              </v-icon>
+              <span class="caption grey--text font-weight-light">Posledná aktualizácia: </span>
+              <span class="font-weight-bold">{{lastUpdate}}</span>
+            </v-card-text>
+          </v-card>
+        </v-col>
+
+        <!-- realtime chart gtmp-->
         <v-col class="mb-5" cols="12" lg="12" md="12" sm="12">
           <v-card class="rounded" elevation="0">
             <v-sheet class="v-sheet--offset mx-auto rounded" elevation="0" max-width="calc(100% - 32px)">
               <div id="chart">
-                <apexchart ref="realtimeChart" type="line" height="200" :options="chartOptionsRealtime" :series="seriesRealtime" />
+                <apexchart type="line" height="200" :options="chartOptionsRealtime" :series="seriesRealtime" />
               </div>
             </v-sheet>
 
@@ -89,18 +135,18 @@
             </v-card-text>
           </v-card>
         </v-col>
-        <!-- candlestick chart -->
+        <!-- realtime chart atmp-->
         <v-col class="mb-5" cols="12" lg="12" md="12" sm="12">
           <v-card class="rounded" elevation="0">
             <v-sheet class="v-sheet--offset mx-auto rounded" elevation="0" max-width="calc(100% - 32px)">
               <div id="chart">
-                <apexchart type="candlestick" ref="candlestick" height="350" :options="chartOptionsCandle_stick" :series="seriesCandle_stick"></apexchart>
+                <apexchart type="line" height="200" :options="chartOptionsRealtimeAtmp" :series="seriesRealtimeAtmp" />
               </div>
             </v-sheet>
 
             <v-card-text class="pt-0">
               <div class="title font-weight-light mb-2">
-                Najvyššia, najnižšia, prvá a posledná hodnota teploty okolia za 1-hodinové intervaly
+                Teplota na čipe posledných 5 minút
               </div>
               <v-divider class="my-2"></v-divider>
               <v-icon class="mr-2" small>
@@ -111,35 +157,81 @@
             </v-card-text>
           </v-card>
         </v-col>
-        <!-- historical chart -->
+
+        <!-- candlestick chart gtmp-->
+        <v-col class="mb-5" cols="12" lg="12" md="12" sm="12">
+          <v-card class="rounded" elevation="0">
+            <v-sheet class="v-sheet--offset mx-auto rounded" elevation="0" max-width="calc(100% - 32px)">
+              <div id="chart">
+                <apexchart type="candlestick" height="350" :options="chartOptionsCandle_stick" :series="seriesCandle_stick"></apexchart>
+              </div>
+            </v-sheet>
+
+            <v-card-text class="pt-0">
+              <div class="title font-weight-light mb-2">
+                <span>Najvyššia, najnižšia, prvá a posledná hodnota </span><span class="font-weight-bold">teploty okolia </span><span>za 1-hodinové intervaly</span>
+              </div>
+              <v-divider class="my-2"></v-divider>
+              <v-icon class="mr-2" small>
+                mdi-clock
+              </v-icon>
+              <span class="caption grey--text font-weight-light">Posledná aktualizácia: </span>
+              <span class="font-weight-bold">{{lastUpdate}}</span>
+            </v-card-text>
+          </v-card>
+        </v-col>
+        <!-- candlestick chart atmp-->
+        <v-col class="mb-5" cols="12" lg="12" md="12" sm="12">
+          <v-card class="rounded" elevation="0">
+            <v-sheet class="v-sheet--offset mx-auto rounded" elevation="0" max-width="calc(100% - 32px)">
+              <div id="chart">
+                <apexchart type="candlestick" height="350" :options="chartOptionsCandle_stickAtmp" :series="seriesCandle_stickAtmp"></apexchart>
+              </div>
+            </v-sheet>
+
+            <v-card-text class="pt-0">
+              <div class="title font-weight-light mb-2">
+                <span>Najvyššia, najnižšia, prvá a posledná hodnota </span><span class="font-weight-bold">teploty na čipe </span><span>za 1-hodinové intervaly</span>
+              </div>
+              <v-divider class="my-2"></v-divider>
+              <v-icon class="mr-2" small>
+                mdi-clock
+              </v-icon>
+              <span class="caption grey--text font-weight-light">Posledná aktualizácia: </span>
+              <span class="font-weight-bold">{{lastUpdate}}</span>
+            </v-card-text>
+          </v-card>
+        </v-col>
+
+        <!-- historical chart gtmp-->
         <v-col class="mb-5" cols="12" lg="12" md="12" sm="12">
           <v-card class="rounded" elevation="0">
             <v-sheet class="v-sheet--offset mx-auto rounded" elevation="0" max-width="calc(100% - 32px)" rounded>
               <div id="chart">
                 <div class="toolbar pt-3">
-                  <v-btn icon color="primary" id="one_hour" @click="updateData('one_hour')" class="mr-2" :class="{active: selection==='one_hour'}">
+                  <v-btn icon color="#ff0000" id="one_hour" @click="updateData('one_hour')" class="mr-2" :class="{active: selection==='one_hour'}">
                     1H
                   </v-btn>
-                  <v-btn icon color="primary" id="one_day" @click="updateData('one_day')" class="mr-2" :class="{active: selection==='one_day'}">
+                  <v-btn icon color="#ff0000" id="one_day" @click="updateData('one_day')" class="mr-2" :class="{active: selection==='one_day'}">
                     1D
                   </v-btn>
-                  <v-btn icon color="primary" id="one_month" @click="updateData('one_month')" class="mr-2" :class="{active: selection==='one_month'}">
+                  <v-btn icon color="#ff0000" id="one_month" @click="updateData('one_month')" class="mr-2" :class="{active: selection==='one_month'}">
                     1M
                   </v-btn>
 
-                  <v-btn icon color="primary" id="six_months" @click="updateData('six_months')" class="mr-2" :class="{active: selection==='six_months'}">
+                  <v-btn icon color="#ff0000" id="six_months" @click="updateData('six_months')" class="mr-2" :class="{active: selection==='six_months'}">
                     6M
                   </v-btn>
 
-                  <v-btn icon color="primary" id="one_year" @click="updateData('one_year')" class="mr-2" :class="{active: selection==='one_year'}">
+                  <v-btn icon color="#ff0000" id="one_year" @click="updateData('one_year')" class="mr-2" :class="{active: selection==='one_year'}">
                     1Y
                   </v-btn>
 
-                  <v-btn icon color="primary" id="ytd" @click="updateData('ytd')" class="mr-2" :class="{active: selection==='ytd'}">
+                  <v-btn icon color="#ff0000" id="ytd" @click="updateData('ytd')" class="mr-2" :class="{active: selection==='ytd'}">
                     YTD
                   </v-btn>
 
-                  <v-btn icon color="primary" id="all" @click="updateData('all')" :class="{active: selection==='all'}">
+                  <v-btn icon color="#ff0000" id="all" @click="updateData('all')" :class="{active: selection==='all'}">
                     ALL
                   </v-btn>
                 </div>
@@ -153,6 +245,58 @@
             <v-card-text class="pt-0">
               <div class="title font-weight-light mb-2">
                 Historický graf teploty okolia
+              </div>
+              <v-divider class="my-2"></v-divider>
+              <v-icon class="mr-2" small>
+                mdi-clock
+              </v-icon>
+              <span class="caption grey--text font-weight-light">Posledná aktualizácia: </span>
+              <span class="font-weight-bold">{{lastUpdate}}</span>
+            </v-card-text>
+          </v-card>
+        </v-col>
+        <!-- historical chart atmp-->
+        <v-col class="mb-5" cols="12" lg="12" md="12" sm="12">
+          <v-card class="rounded" elevation="0">
+            <v-sheet class="v-sheet--offset mx-auto rounded" elevation="0" max-width="calc(100% - 32px)" rounded>
+              <div id="chart">
+                <div class="toolbar pt-3">
+                  <v-btn icon color="#ff6600" id="one_hour" @click="updateDataAtmp('one_hour')" class="mr-2" :class="{active: selectionAtmp==='one_hour'}">
+                    1H
+                  </v-btn>
+                  <v-btn icon color="#ff6600" id="one_day" @click="updateDataAtmp('one_day')" class="mr-2" :class="{active: selectionAtmp==='one_day'}">
+                    1D
+                  </v-btn>
+                  <v-btn icon color="#ff6600" id="one_month" @click="updateDataAtmp('one_month')" class="mr-2" :class="{active: selectionAtmp==='one_month'}">
+                    1M
+                  </v-btn>
+
+                  <v-btn icon color="#ff6600" id="six_months" @click="updateDataAtmp('six_months')" class="mr-2" :class="{active: selectionAtmp==='six_months'}">
+                    6M
+                  </v-btn>
+
+                  <v-btn icon color="#ff6600" id="one_year" @click="updateDataAtmp('one_year')" class="mr-2" :class="{active: selectionAtmp==='one_year'}">
+                    1Y
+                  </v-btn>
+
+                  <v-btn icon color="#ff6600" id="ytd" @click="updateDataAtmp('ytd')" class="mr-2" :class="{active: selectionAtmp==='ytd'}">
+                    YTD
+                  </v-btn>
+
+                  <v-btn icon color="#ff6600" id="all" @click="updateDataAtmp('all')" :class="{active: selectionAtmp==='all'}">
+                    ALL
+                  </v-btn>
+                </div>
+
+                <div id="chart-timeline">
+                  <apexchart type="area" height="350" ref="historicalChartAtmp" :options="chartOptionsAtmp" :series="seriesAtmp"></apexchart>
+                </div>
+              </div>
+            </v-sheet>
+
+            <v-card-text class="pt-0">
+              <div class="title font-weight-light mb-2">
+                Historický graf teploty na čipe
               </div>
               <v-divider class="my-2"></v-divider>
               <v-icon class="mr-2" small>
@@ -196,6 +340,7 @@ export default {
     return {
       drawer: false,
       lastUpdate: localStorage.getItem('lastUpdateTemperatures'),
+      //circle chart gtmp
       seriesCircle: [],
       chartOptionsCircle: {
         chart: {
@@ -243,6 +388,7 @@ export default {
         labels: ['°C'],
         colors: ['#ff0000'],
       },
+
       //column chart
       seriesColumn: [{
         name: 'Teplota okolia (°C)',
@@ -276,7 +422,7 @@ export default {
         dataLabels: {
           enabled: false,
           formatter: function(val) {
-            return val + "°C";
+            return val;
           },
           offsetY: -20,
           style: {
@@ -308,7 +454,7 @@ export default {
           labels: {
             show: true,
             formatter: function(val) {
-              return val + "°C";
+              return val;
             }
           }
 
@@ -555,6 +701,364 @@ export default {
         },
         colors: ['#ff0000'],
       },
+
+
+
+
+      ///////////////////////charts atmp///////////////////////////////////////
+      //circle atmp
+      seriesCircleAtmp: [],
+      chartOptionsCircleAtmp: {
+        chart: {
+          height: 350,
+          type: 'radialBar',
+          toolbar: {
+            show: false
+          }
+        },
+        plotOptions: {
+          radialBar: {
+            startAngle: -135,
+            endAngle: 225,
+            hollow: {
+              margin: 0,
+              size: '70%',
+              background: 'rgba(255,255,255, 0)',
+              image: undefined,
+              imageOffsetX: 0,
+              imageOffsetY: 0,
+              position: 'front'
+            },
+            dataLabels: {
+              show: true,
+              name: {
+                offsetY: -10,
+                show: true,
+                color: '#888',
+                fontSize: '17px'
+              },
+              value: {
+                formatter: function(val) {
+                  return parseInt(val * 100) / 100;
+                },
+                color: '#ff6600',
+                fontSize: '36px',
+                show: true,
+              }
+            }
+          }
+        },
+        stroke: {
+          lineCap: 'round'
+        },
+        labels: ['°C'],
+        colors: ['#ff6600'],
+      },
+      //column chart atmp
+      seriesColumnAtmp: [{
+        name: 'Teplota na čipe (°C)',
+        data: []
+      }],
+      chartOptionsColumnAtmp: {
+        chart: {
+          type: 'bar',
+          toolbar: {
+            show: false,
+            tools: {
+              download: false,
+              selection: false,
+              zoom: false,
+              zoomin: false,
+              zoomout: false,
+              pan: false,
+              reset: false | '<img src="/static/icons/reset.png" width="20">',
+              //customIcons: []
+            }
+          }
+        },
+        plotOptions: {
+          bar: {
+            borderRadius: 10,
+            dataLabels: {
+              position: 'top', // top, center, bottom
+            },
+          }
+        },
+        dataLabels: {
+          enabled: false,
+          formatter: function(val) {
+            return val;
+          },
+          offsetY: -20,
+          style: {
+            fontSize: '12px',
+            colors: ["#ff6600"]
+          }
+        },
+
+        xaxis: {
+          categories: ["Jan", "Feb", "Mar", "Apr", "May", "Jun", "Jul", "Aug", "Sep", "Oct", "Nov", "Dec"],
+          position: 'top',
+          axisBorder: {
+            show: false
+          },
+          axisTicks: {
+            show: false
+          },
+          tooltip: {
+            enabled: false,
+          }
+        },
+        yaxis: {
+          axisBorder: {
+            show: false
+          },
+          axisTicks: {
+            show: false,
+          },
+          labels: {
+            show: true,
+            formatter: function(val) {
+              return val;
+            }
+          }
+
+        },
+        title: {
+          floating: true,
+          offsetY: 330,
+          align: 'center',
+          style: {
+            color: '#444'
+          }
+        },
+        tooltip: {
+          theme: localStorage.getItem('graph_theme'),
+        },
+        colors: ['#ff6600'],
+      },
+      // realtime
+      seriesRealtimeAtmp: [{
+        name: 'Teplota na čipe (°C)',
+        data: [],
+      }],
+      chartOptionsRealtimeAtmp: {
+        // colors: ['#FCCF31', '#17ead9', '#f02fc2'],
+        chart: {
+          type: 'line',
+          animations: {
+            enabled: true,
+            easing: 'linear',
+            dynamicAnimation: {
+              speed: 1000
+            }
+          },
+          toolbar: {
+            show: false
+          }
+        },
+        grid: {
+          show: true,
+          strokeDashArray: 0,
+          yaxis: {
+            lines: {
+              show: true,
+            },
+          },
+          xaxis: {
+            lines: {
+              show: false,
+            },
+          },
+        },
+        stroke: {
+          curve: 'smooth',
+          width: 5,
+        },
+        dropShadow: {
+          enabled: true,
+          opacity: 0.3,
+          blur: 5,
+          left: -7,
+          top: 22,
+        },
+        dataLabels: {
+          enabled: false,
+        },
+        title: {},
+        xaxis: {
+          // show: false,
+          // type: 'category',
+          // labels: {
+          //   formatter: function(value) {
+          //     return moment(value)
+          //       .format('YYYY-MM-DD HH:mm:ss');
+          //   },
+          //   show: false,
+          // },
+          type: 'datetime',
+          labels: {
+            datetimeUTC: false,
+            formatter: function(value) {
+              return moment(value)
+                .format('HH:mm:ss');
+            },
+          },
+          tickAmount: 6,
+          tooltip: {
+            enabled: false,
+          },
+        },
+        tooltip: {
+          theme: localStorage.getItem('graph_theme'),
+          x: {
+            datetimeUTC: false,
+            formatter: function(value) {
+              return moment(value)
+                .format('DD MMM yy HH:mm:ss');
+            },
+          }
+        },
+        legend: {
+          show: false
+        },
+        colors: ['#ff6600'],
+      },
+
+      //candlestick chart
+      seriesCandle_stickAtmp: [{
+        data: []
+      }],
+      chartOptionsCandle_stickAtmp: {
+        chart: {
+          type: 'candlestick',
+          toolbar: {
+            tools: {
+              download: false,
+            }
+          },
+          animations: {
+            enabled: false,
+          }
+        },
+        xaxis: {
+          type: 'datetime',
+          labels: {
+            datetimeUTC: false,
+          },
+          // type: 'category',
+          // labels: {
+          //   formatter: function(value) {
+          //     return moment(value)
+          //       .format('HH:mm');
+          //   },
+          // },
+          tooltip: {
+            enabled: false
+          }
+        },
+        yaxis: {
+          tooltip: {
+            enabled: false
+          }
+        },
+        tooltip: {
+          theme: localStorage.getItem('graph_theme'),
+          custom: function({
+            // seriesStroked_gauge,
+            seriesIndex,
+            dataPointIndex,
+            w,
+          }) {
+            const d = w.globals.seriesX[seriesIndex][dataPointIndex]
+            const o = w.globals.seriesCandleO[seriesIndex][dataPointIndex]
+            const h = w.globals.seriesCandleH[seriesIndex][dataPointIndex]
+            const l = w.globals.seriesCandleL[seriesIndex][dataPointIndex]
+            const c = w.globals.seriesCandleC[seriesIndex][dataPointIndex]
+            return (
+
+              '<div class="apexcharts-tooltip-candlestick">' +
+              '<div class="p-2">Dátum: <span class="font-weight-bold">' +
+              moment(d)
+              .format("D MMMM YYYY HH:mm") +
+              '</span></div>' +
+              '<div>Open: <span class="font-weight-bold value">' +
+              o +
+              '</span></div>' +
+              '<div>High: <span class="font-weight-bold value">' +
+              h +
+              '</span></div>' +
+              '<div>Low: <span class="font-weight-bold value">' +
+              l +
+              '</span></div>' +
+              '<div>Close: <span class="font-weight-bold value">' +
+              c +
+              '</span></div>' +
+              '</div>'
+            )
+          }
+        }
+      },
+
+      //area historical
+      seriesAtmp: [{
+        name: 'Teplota na čipe (°C)',
+        data: []
+      }],
+      chartOptionsAtmp: {
+        chart: {
+          id: 'area-datetime',
+          type: 'area',
+          height: 350,
+          zoom: {
+            autoScaleYaxis: true
+          },
+          dynamicAnimation: {
+            speed: 1000
+          },
+          toolbar: {
+            tools: {
+              download: false,
+            }
+          }
+        },
+
+        dataLabels: {
+          enabled: false
+        },
+
+        markers: {
+          size: 0,
+          style: 'hollow',
+        },
+
+        xaxis: {
+          type: 'datetime',
+          labels: {
+            datetimeUTC: false,
+            formatter: function(value) {
+              return moment(value)
+                .format('HH:mm');
+            },
+          },
+          tickAmount: 6,
+          tooltip: {
+            enabled: false,
+          }
+        },
+        tooltip: {
+          theme: localStorage.getItem('graph_theme'),
+          x: {
+            datetimeUTC: false,
+            formatter: function(value) {
+              return moment(value)
+                .format('DD MMM yy HH:mm');
+            },
+          },
+        },
+        colors: ['#ff6600'],
+      },
+      selectionAtmp: '',
     }
   },
 
@@ -564,7 +1068,7 @@ export default {
   computed: {},
 
   methods: {
-    //for area historical chart
+    //for area historical chart gtmp
     updateData(timeline) {
       this.selection = timeline;
 
@@ -636,8 +1140,97 @@ export default {
       }
     },
 
-    getHistoricalData2() {
-      axios.get('http://127.0.0.1:8000/api/getHistoricalData2Temperature')
+    //for area historical chart atmp
+    updateDataAtmp(timeline) {
+      this.selectionAtmp = timeline;
+
+      switch (timeline) {
+        case 'one_hour':
+          this.$refs.historicalChartAtmp.zoomX(
+            moment(new Date())
+            .subtract(1, 'hours')
+            .valueOf(),
+            new Date()
+            .getTime()
+          )
+          break
+        case 'one_day':
+          this.$refs.historicalChartAtmp.zoomX(
+            moment(new Date())
+            .subtract(1, 'days')
+            .valueOf(),
+            new Date()
+            .getTime()
+          )
+          break
+        case 'one_month':
+          this.$refs.historicalChartAtmp.zoomX(
+            moment(new Date())
+            .subtract(1, 'months')
+            .valueOf(),
+            new Date()
+            .getTime()
+          )
+          break
+        case 'six_months':
+          this.$refs.historicalChartAtmp.zoomX(
+            moment(new Date())
+            .subtract(6, 'months')
+            .valueOf(),
+            new Date()
+            .getTime()
+          )
+          break
+        case 'one_year':
+          this.$refs.historicalChartAtmp.zoomX(
+            moment(new Date())
+            .subtract(1, 'years')
+            .valueOf(),
+            new Date()
+            .getTime()
+          )
+          break
+        case 'ytd':
+          this.$refs.historicalChartAtmp.zoomX(
+            moment()
+            .startOf('year')
+            .valueOf(),
+            new Date()
+            .getTime())
+          break
+        case 'all':
+          this.$refs.historicalChartAtmp.zoomX(
+            new Date('01 Jan 2012')
+            .getTime(),
+            new Date()
+            .getTime()
+          )
+          break
+        default:
+      }
+    },
+
+    //gets for gtmp value of temperature
+    getHistoricalDataGtmp() {
+      axios.get('http://127.0.0.1:8000/api/getHistoricalDataTemperatureGtmp')
+        .then(res => {
+          this.series[0].data.splice(0, res.data.length);
+          for (var i = 0; i < res.data.length; i++) {
+            this.series[0].data.push([
+              moment(res.data[i].created_at)
+              .valueOf(),
+              parseFloat(`${res.data[i].gtmp}`)
+            ]);
+          }
+          this.series = [{
+            name: 'Teplota okolia (°C)',
+            data: this.series[0].data
+          }];
+        })
+    },
+
+    getHistoricalData2Gtmp() {
+      axios.get('http://127.0.0.1:8000/api/getHistoricalData2TemperatureGtmp')
         .then(res => {
           this.seriesCandle_stick[0].data.splice(0, 1)
           for (var i = 0; i < res.data.length; i++) {
@@ -653,8 +1246,8 @@ export default {
         })
     },
 
-    getHistoricalData3() {
-      axios.get('http://127.0.0.1:8000/api/getHistoricalData3Temperature')
+    getHistoricalData3Gtmp() {
+      axios.get('http://127.0.0.1:8000/api/getHistoricalData3TemperatureGtmp')
         .then(res => {
           // this.seriesColumn[0].data = [];
           this.seriesColumn[0].data.splice(0, 12);
@@ -673,10 +1266,10 @@ export default {
         });
     },
 
-    getDataRealtime() {
-      axios.get('http://127.0.0.1:8000/api/getDataRealtimeTemperature')
+    getDataRealtimeGtmp() {
+      axios.get('http://127.0.0.1:8000/api/getDataRealtimeTemperatureGtmp')
         .then(res => {
-          localStorage.setItem("lastUpdateLights", moment(res.data[res.data.length - 1].created_at)
+          localStorage.setItem("lastUpdateTemperatures", moment(res.data[res.data.length - 1].created_at)
             .format('YYYY-MM-DD HH:mm:ss'));
           this.seriesRealtime[0].data.splice(0, 10);
           for (var i = 0; i < res.data.length; i++) {
@@ -691,27 +1284,91 @@ export default {
             name: 'Teplota okolia (°C)',
             data: this.seriesRealtime[0].data
           }];
-
+          console.log(res.data);
           this.seriesCircle.splice(0, 1);
           this.seriesCircle.push(parseFloat(res.data[res.data.length - 1].gtmp));
         })
     },
 
-    getHistoricalData() {
-      axios.get('http://127.0.0.1:8000/api/getHistoricalDataTemperature')
+
+
+    //gets for atmp value of temperature
+    getHistoricalDataAtmp() {
+      axios.get('http://127.0.0.1:8000/api/getHistoricalDataTemperatureAtmp')
         .then(res => {
-          this.series[0].data.splice(0, res.data.length);
+          this.seriesAtmp[0].data.splice(0, res.data.length);
           for (var i = 0; i < res.data.length; i++) {
-            this.series[0].data.push([
+            this.seriesAtmp[0].data.push([
               moment(res.data[i].created_at)
               .valueOf(),
-              parseFloat(`${res.data[i].gtmp}`)
+              parseFloat(`${res.data[i].atmp}`)
             ]);
           }
-          this.series = [{
-            name: 'Teplota okolia (°C)',
-            data: this.series[0].data
+          this.seriesAtmp = [{
+            name: 'Teplota na čipe (°C)',
+            data: this.seriesAtmp[0].data
           }];
+        })
+    },
+
+    getHistoricalData2Atmp() {
+      axios.get('http://127.0.0.1:8000/api/getHistoricalData2TemperatureAtmp')
+        .then(res => {
+          this.seriesCandle_stickAtmp[0].data.splice(0, 1)
+          for (var i = 0; i < res.data.length; i++) {
+            this.seriesCandle_stickAtmp[0].data.push({
+              x: moment(res.data[i].timekey)
+                .valueOf(),
+              y: [res.data[i].first_open, res.data[i].max_value, res.data[i].min_value, res.data[i].last_close]
+            });
+          }
+          this.seriesCandle_stickAtmp = [{
+            data: this.seriesCandle_stickAtmp[0].data
+          }];
+        })
+    },
+
+    getHistoricalData3Atmp() {
+      axios.get('http://127.0.0.1:8000/api/getHistoricalData3TemperatureAtmp')
+        .then(res => {
+          // this.seriesColumn[0].data = [];
+          this.seriesColumnAtmp[0].data.splice(0, 12);
+          this.seriesColumnAtmp[0].data.push(
+            res.data[0].Jan, res.data[0].Feb,
+            res.data[0].Mar, res.data[0].Apr,
+            res.data[0].May, res.data[0].Jun,
+            res.data[0].Jul, res.data[0].Aug,
+            res.data[0].Sep, res.data[0].Oct,
+            res.data[0].Nov, res.data[0].Dec,
+          );
+
+          this.seriesColumnAtmp = [{
+            data: this.seriesColumnAtmp[0].data
+          }];
+        });
+    },
+
+    getDataRealtimeAtmp() {
+      axios.get('http://127.0.0.1:8000/api/getDataRealtimeTemperatureAtmp')
+        .then(res => {
+          localStorage.setItem("lastUpdateTemperatures", moment(res.data[res.data.length - 1].created_at)
+            .format('YYYY-MM-DD HH:mm:ss'));
+          this.seriesRealtimeAtmp[0].data.splice(0, 10);
+          for (var i = 0; i < res.data.length; i++) {
+            this.seriesRealtimeAtmp[0].data.push([
+              moment(res.data[i].created_at)
+              .valueOf(),
+              parseFloat(`${res.data[i].atmp}`)
+            ]);
+          }
+
+          this.seriesRealtimeAtmp = [{
+            name: 'Teplota okolia (°C)',
+            data: this.seriesRealtimeAtmp[0].data
+          }];
+
+          this.seriesCircleAtmp.splice(0, 1);
+          this.seriesCircleAtmp.push(parseFloat(res.data[res.data.length - 1].atmp));
         })
     },
   },
@@ -720,10 +1377,14 @@ export default {
 
   mounted() {
     //do something after mounting vue instance
-    this.getDataRealtime();
-    this.getHistoricalData();
-    this.getHistoricalData2();
-    this.getHistoricalData3();
+    this.getDataRealtimeGtmp();
+    this.getDataRealtimeAtmp();
+    this.getHistoricalDataGtmp();
+    this.getHistoricalDataAtmp();
+    this.getHistoricalData2Gtmp();
+    this.getHistoricalData2Atmp();
+    this.getHistoricalData3Gtmp();
+    this.getHistoricalData3Atmp();
   },
 
   created() {
@@ -733,7 +1394,7 @@ export default {
         //last update datetime
         this.lastUpdate = moment(e.dataAllSensors.created_at)
           .format('YYYY-MM-DD HH:mm:ss');
-        localStorage.setItem("lastUpdateLights", moment(e.dataAllSensors.created_at)
+        localStorage.setItem("lastUpdateTemperatures", moment(e.dataAllSensors.created_at)
           .format('YYYY-MM-DD HH:mm:ss'));
         //
         this.series[0].data.push([
@@ -745,11 +1406,22 @@ export default {
           data: this.series[0].data
         }];
         //
-        this.seriesCircle.splice(0, 1);
-        this.seriesCircle.push(parseFloat(e.dataAllSensors.gtmp));
-        this.getDataRealtime();
-        this.getHistoricalData2();
-        this.getHistoricalData3();
+        this.seriesAtmp[0].data.push([
+          moment(e.dataAllSensors.created_at)
+          .valueOf(),
+          parseFloat(`${e.dataAllSensors.atmp}`)
+        ]);
+        this.seriesAtmp = [{
+          data: this.seriesAtmp[0].data
+        }];
+        //
+        this.getDataRealtimeGtmp();
+        this.getHistoricalData2Gtmp();
+        this.getHistoricalData3Gtmp();
+        //
+        this.getDataRealtimeAtmp();
+        this.getHistoricalData2Atmp();
+        this.getHistoricalData3Atmp();
       })
   }
 }

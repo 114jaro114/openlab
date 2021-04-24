@@ -41,7 +41,7 @@ Route::post('/broadcast', function (Request $request) {
     return $pusher->socket_auth($request->request->get('channel_name'), $request->request->get('socket_id'));
 });
 
-Route::post('/saveData', [ApiController::class, 'store']);
+Route::post('/saveDataPowerConsumption', [ApiController::class, 'store']);
 Route::post('/saveDataAllSensors', [ApiController::class, 'store2']);
 
 //for graph in humidity page
@@ -50,11 +50,16 @@ Route::get('/getHistoricalDataHumidity', [ApiController::class, 'getHistoricalDa
 Route::get('/getHistoricalData2Humidity', [ApiController::class, 'getHistoricalData2Humidity']);
 Route::get('/getHistoricalData3Humidity', [ApiController::class, 'getHistoricalData3Humidity']);
 
-//for graph in temperature page
-Route::get('/getDataRealtimeTemperature', [ApiController::class, 'getDataRealtimeTemperature']);
-Route::get('/getHistoricalDataTemperature', [ApiController::class, 'getHistoricalDataTemperature']);
-Route::get('/getHistoricalData2Temperature', [ApiController::class, 'getHistoricalData2Temperature']);
-Route::get('/getHistoricalData3Temperature', [ApiController::class, 'getHistoricalData3Temperature']);
+//for graph in temperature page gtmp + atmp
+Route::get('/getDataRealtimeTemperatureGtmp', [ApiController::class, 'getDataRealtimeTemperatureGtmp']);
+Route::get('/getHistoricalDataTemperatureGtmp', [ApiController::class, 'getHistoricalDataTemperatureGtmp']);
+Route::get('/getHistoricalData2TemperatureGtmp', [ApiController::class, 'getHistoricalData2TemperatureGtmp']);
+Route::get('/getHistoricalData3TemperatureGtmp', [ApiController::class, 'getHistoricalData3TemperatureGtmp']);
+
+Route::get('/getDataRealtimeTemperatureAtmp', [ApiController::class, 'getDataRealtimeTemperatureAtmp']);
+Route::get('/getHistoricalDataTemperatureAtmp', [ApiController::class, 'getHistoricalDataTemperatureAtmp']);
+Route::get('/getHistoricalData2TemperatureAtmp', [ApiController::class, 'getHistoricalData2TemperatureAtmp']);
+Route::get('/getHistoricalData3TemperatureAtmp', [ApiController::class, 'getHistoricalData3TemperatureAtmp']);
 
 //for graph in lights page
 Route::get('/getDataRealtimeLight', [ApiController::class, 'getDataRealtimeLight']);
