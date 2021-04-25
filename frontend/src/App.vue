@@ -47,6 +47,7 @@ export default {
       });
     }
   },
+
   updated() {
     //do something after updating vue instance
     this.initDarkMode();

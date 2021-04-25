@@ -24,23 +24,157 @@
     </v-card>
 
     <v-row class="m-0">
+      <!-- char for I -->
       <v-col class="mb-5" cols="12" lg="6" md="12" sm="12">
         <v-card class="rounded" elevation="0">
-          <v-sheet class="v-sheet--offset mx-auto rounded" elevation="0" max-width="calc(100% - 32px)">
+          <v-sheet class="v-sheet--offset mx-auto rounded" elevation="0" max-width="calc(100% - 32px)" rounded>
             <div id="chart">
-              <apexchart type="bar" height="350" :options="chartOptionsBar" :series="seriesBar"></apexchart>
+              <apexchart type="line" height="350" ref="dashedChart" :options="chartOptionsDashedI" :series="seriesDashedI"></apexchart>
             </div>
           </v-sheet>
 
           <v-card-text class="pt-0">
             <div class="title font-weight-light mb-2">
-              Vlhkosť - Tlak - Teplota
+              <span>Hodnoty </span><span class="font-weight-bold">prúdu (I) </span><span>z 3 fáz za poslednú hodinu</span>
             </div>
             <v-divider class="my-2"></v-divider>
             <v-icon class="mr-2" small>
               mdi-clock
             </v-icon>
-            <span class="caption grey--text font-weight-light">Posledná aktualizácia pred 26 minutami</span>
+            <span class="caption grey--text font-weight-light">Posledná aktualizácia: </span>
+            <span class="font-weight-bold">{{lastUpdate}}</span>
+          </v-card-text>
+        </v-card>
+      </v-col>
+      <!-- char for U -->
+      <v-col class="mb-5" cols="12" lg="6" md="12" sm="12">
+        <v-card class="rounded" elevation="0">
+          <v-sheet class="v-sheet--offset mx-auto rounded" elevation="0" max-width="calc(100% - 32px)" rounded>
+            <div id="chart">
+              <apexchart type="line" height="350" ref="dashedChart" :options="chartOptionsDashedU" :series="seriesDashedU"></apexchart>
+            </div>
+          </v-sheet>
+
+          <v-card-text class="pt-0">
+            <div class="title font-weight-light mb-2">
+              <span>Hodnoty </span><span class="font-weight-bold">napätia (U) </span><span>z 3 fáz za poslednú hodinu</span>
+            </div>
+            <v-divider class="my-2"></v-divider>
+            <v-icon class="mr-2" small>
+              mdi-clock
+            </v-icon>
+            <span class="caption grey--text font-weight-light">Posledná aktualizácia: </span>
+            <span class="font-weight-bold">{{lastUpdate}}</span>
+          </v-card-text>
+        </v-card>
+      </v-col>
+      <!-- char for P -->
+      <v-col class="mb-5" cols="12" lg="6" md="12" sm="12">
+        <v-card class="rounded" elevation="0">
+          <v-sheet class="v-sheet--offset mx-auto rounded" elevation="0" max-width="calc(100% - 32px)" rounded>
+            <div id="chart">
+              <apexchart type="line" height="350" ref="dashedChart" :options="chartOptionsDashedP" :series="seriesDashedP"></apexchart>
+            </div>
+          </v-sheet>
+
+          <v-card-text class="pt-0">
+            <div class="title font-weight-light mb-2">
+              <span>Hodnoty </span><span class="font-weight-bold">činného výkonu (P) </span><span>z 3 fáz za poslednú hodinu</span>
+            </div>
+            <v-divider class="my-2"></v-divider>
+            <v-icon class="mr-2" small>
+              mdi-clock
+            </v-icon>
+            <span class="caption grey--text font-weight-light">Posledná aktualizácia: </span>
+            <span class="font-weight-bold">{{lastUpdate}}</span>
+          </v-card-text>
+        </v-card>
+      </v-col>
+      <!-- char for Q -->
+      <v-col class="mb-5" cols="12" lg="6" md="12" sm="12">
+        <v-card class="rounded" elevation="0">
+          <v-sheet class="v-sheet--offset mx-auto rounded" elevation="0" max-width="calc(100% - 32px)" rounded>
+            <div id="chart">
+              <apexchart type="line" height="350" ref="dashedChart" :options="chartOptionsDashedQ" :series="seriesDashedQ"></apexchart>
+            </div>
+          </v-sheet>
+
+          <v-card-text class="pt-0">
+            <div class="title font-weight-light mb-2">
+              <span>Hodnoty </span><span class="font-weight-bold">jalového výkonu (Q) </span><span>z 3 fáz za poslednú hodinu</span>
+            </div>
+            <v-divider class="my-2"></v-divider>
+            <v-icon class="mr-2" small>
+              mdi-clock
+            </v-icon>
+            <span class="caption grey--text font-weight-light">Posledná aktualizácia: </span>
+            <span class="font-weight-bold">{{lastUpdate}}</span>
+          </v-card-text>
+        </v-card>
+      </v-col>
+      <!-- char for S -->
+      <v-col class="mb-5" cols="12" lg="12" md="12" sm="12">
+        <v-card class="rounded" elevation="0">
+          <v-sheet class="v-sheet--offset mx-auto rounded" elevation="0" max-width="calc(100% - 32px)" rounded>
+            <div id="chart">
+              <apexchart type="line" height="350" ref="dashedChart" :options="chartOptionsDashedS" :series="seriesDashedS"></apexchart>
+            </div>
+          </v-sheet>
+
+          <v-card-text class="pt-0">
+            <div class="title font-weight-light mb-2">
+              <span>Hodnoty </span><span class="font-weight-bold">komplexného napájania (S) </span><span>z 3 fáz za poslednú hodinu</span>
+            </div>
+            <v-divider class="my-2"></v-divider>
+            <v-icon class="mr-2" small>
+              mdi-clock
+            </v-icon>
+            <span class="caption grey--text font-weight-light">Posledná aktualizácia: </span>
+            <span class="font-weight-bold">{{lastUpdate}}</span>
+          </v-card-text>
+        </v-card>
+      </v-col>
+      <!-- char for E_E -->
+      <v-col class="mb-5" cols="12" lg="6" md="12" sm="12">
+        <v-card class="rounded" elevation="0">
+          <v-sheet class="v-sheet--offset mx-auto rounded" elevation="0" max-width="calc(100% - 32px)" rounded>
+            <div id="chart">
+              <apexchart type="line" height="350" ref="dashedChart" :options="chartOptionsDashedE_E" :series="seriesDashedE_E"></apexchart>
+            </div>
+          </v-sheet>
+
+          <v-card-text class="pt-0">
+            <div class="title font-weight-light mb-2">
+              <span>Hodnoty </span><span class="font-weight-bold">exportu energie (E_E) </span><span>z 3 fázy za poslednú hodinu</span>
+            </div>
+            <v-divider class="my-2"></v-divider>
+            <v-icon class="mr-2" small>
+              mdi-clock
+            </v-icon>
+            <span class="caption grey--text font-weight-light">Posledná aktualizácia: </span>
+            <span class="font-weight-bold">{{lastUpdate}}</span>
+          </v-card-text>
+        </v-card>
+      </v-col>
+      <!-- char for E_I -->
+      <v-col class="mb-5" cols="12" lg="6" md="12" sm="12">
+        <v-card class="rounded" elevation="0">
+          <v-sheet class="v-sheet--offset mx-auto rounded" elevation="0" max-width="calc(100% - 32px)" rounded>
+            <div id="chart">
+              <apexchart type="line" height="350" ref="dashedChart" :options="chartOptionsDashedE_I" :series="seriesDashedE_I"></apexchart>
+            </div>
+          </v-sheet>
+
+          <v-card-text class="pt-0">
+            <div class="title font-weight-light mb-2">
+              <span>Hodnoty </span><span class="font-weight-bold">importu energie (E_I) </span><span>z 3 fázy za poslednú hodinu</span>
+            </div>
+            <v-divider class="my-2"></v-divider>
+            <v-icon class="mr-2" small>
+              mdi-clock
+            </v-icon>
+            <span class="caption grey--text font-weight-light">Posledná aktualizácia: </span>
+            <span class="font-weight-bold">{{lastUpdate}}</span>
           </v-card-text>
         </v-card>
       </v-col>
@@ -52,18 +186,12 @@
 </v-lazy>
 </template>
 <script>
-// import moment from 'moment'
-import mqtt from 'mqtt'
-import VueApexCharts from 'vue-apexcharts'
+import axios from 'axios';
+import moment from 'moment';
+import VueApexCharts from 'vue-apexcharts';
 import Footer from "../components/Footer.vue";
 import NavigationDrawer from "../components/NavigationDrawer.vue";
 import BottomNavigation from "../components/BottomNavigation.vue";
-
-var _seed = 42;
-Math.random = function() {
-  _seed = _seed * 16807 % 2147483647;
-  return (_seed - 1) / 2147483646;
-};
 
 export default {
   name: "Energy",
@@ -77,79 +205,617 @@ export default {
   data() {
     return {
       drawer: false,
-
-      //mqtt settings
-      connection: {
-        host: 'openlab.kpi.fei.tuke.sk',
-        port: 80,
-        endpoint: '/mqtt',
-        clean: true, // Reserved session
-        connectTimeout: 4000, // Time out
-        reconnectPeriod: 4000, // Reconnection interval
-        // Certification Information
-        // clientId: 'mqttjs_3be2c321',
-        // username: 'emqx_test',
-        // password: 'emqx_test',
-      },
-      receiveNews: '',
-      subscription: {
-        topic: 'openlab/sensorkits/B8:27:EB:2F:7B:7D/humi',
-        qos: 0,
-      },
-      client: {
-        connected: false,
-      },
-      subscribeSuccess: false,
-      //bar chart
-      series: [{
-        name: 'Net Profit',
-        data: [44, 55, 57, 56, 61, 58, 63, 60, 66]
-      }, {
-        name: 'Revenue',
-        data: [76, 85, 101, 98, 87, 105, 91, 114, 94]
-      }, {
-        name: 'Free Cash Flow',
-        data: [35, 41, 36, 26, 45, 48, 52, 53, 41]
-      }],
-      chartOptions: {
-        chart: {
-          type: 'bar',
-          height: 350
+      lastUpdate: localStorage.getItem('lastUpdateEnergy'),
+      //dashed chart for I
+      seriesDashedI: [{
+          name: "L1:",
+          data: []
         },
-        plotOptions: {
-          bar: {
-            horizontal: false,
-            columnWidth: '55%',
-            endingShape: 'rounded'
+        {
+          name: "L2:",
+          data: []
+        },
+        {
+          name: 'L3:',
+          data: []
+        }
+      ],
+      chartOptionsDashedI: {
+        chart: {
+          foreColor: localStorage.getItem('graph_text_color'),
+          height: 350,
+          type: 'line',
+          zoom: {
+            enabled: false
+          },
+          toolbar: {
+            tools: {
+              download: false,
+            },
+          },
+          animations: {
+            enabled: true,
+            easing: 'linear',
+            dynamicAnimation: {
+              speed: 1000
+            }
           },
         },
         dataLabels: {
           enabled: false
         },
         stroke: {
-          show: true,
-          width: 2,
-          colors: ['transparent']
+          width: [5, 7, 5],
+          curve: 'straight',
+          dashArray: [0, 8, 5],
+          colors: ["#ff0000", "#ff6600", "#0066ff"],
+        },
+        colors: ["#ff0000", "#ff6600", "#0066ff"],
+        legend: {
+          tooltipHoverFormatter: function(val, opts) {
+            return val + ' - <strong>' + opts.w.globals.series[opts.seriesIndex][opts.dataPointIndex] + '</strong>'
+          }
         },
         xaxis: {
-          categories: ['Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul', 'Aug', 'Sep', 'Oct'],
-        },
-        yaxis: {
-          title: {
-            text: '$ (thousands)'
-          }
-        },
-        fill: {
-          opacity: 1
+          categories: [],
+          tooltip: {
+            enabled: false,
+          },
         },
         tooltip: {
-          y: {
-            formatter: function(val) {
-              return "$ " + val + " thousands"
+          theme: localStorage.getItem('graph_theme'),
+
+          y: [{
+              title: {
+                formatter: function(val) {
+                  return val + ""
+                }
+              }
+            },
+            {
+              title: {
+                formatter: function(val) {
+                  return val + ""
+                }
+              }
+            },
+            {
+              title: {
+                formatter: function(val) {
+                  return val;
+                }
+              }
             }
-          }
+          ]
+        },
+        grid: {
+          borderColor: '#f1f1f1',
         }
       },
+
+      //dashed chart for U
+      seriesDashedU: [{
+          name: "L1:",
+          data: []
+        },
+        {
+          name: "L2:",
+          data: []
+        },
+        {
+          name: 'L3:',
+          data: []
+        }
+      ],
+      chartOptionsDashedU: {
+        chart: {
+          foreColor: localStorage.getItem('graph_text_color'),
+          height: 350,
+          type: 'line',
+          zoom: {
+            enabled: false
+          },
+          toolbar: {
+            tools: {
+              download: false,
+            },
+          },
+          animations: {
+            enabled: true,
+            easing: 'linear',
+            dynamicAnimation: {
+              speed: 1000
+            }
+          },
+        },
+        dataLabels: {
+          enabled: false
+        },
+        stroke: {
+          width: [5, 7, 5],
+          curve: 'straight',
+          dashArray: [0, 8, 5],
+          colors: ["#ff0000", "#ff6600", "#0066ff"],
+        },
+        colors: ["#ff0000", "#ff6600", "#0066ff"],
+        legend: {
+          tooltipHoverFormatter: function(val, opts) {
+            return val + ' - <strong>' + opts.w.globals.series[opts.seriesIndex][opts.dataPointIndex] + '</strong>'
+          }
+        },
+        xaxis: {
+          categories: [],
+          tooltip: {
+            enabled: false,
+          },
+        },
+        tooltip: {
+          theme: localStorage.getItem('graph_theme'),
+
+          y: [{
+              title: {
+                formatter: function(val) {
+                  return val + ""
+                }
+              }
+            },
+            {
+              title: {
+                formatter: function(val) {
+                  return val + ""
+                }
+              }
+            },
+            {
+              title: {
+                formatter: function(val) {
+                  return val;
+                }
+              }
+            }
+          ]
+        },
+        grid: {
+          borderColor: '#f1f1f1',
+        }
+      },
+
+      //dashed chart for P
+      seriesDashedP: [{
+          name: "L1:",
+          data: []
+        },
+        {
+          name: "L2:",
+          data: []
+        },
+        {
+          name: 'L3:',
+          data: []
+        }
+      ],
+      chartOptionsDashedP: {
+        chart: {
+          foreColor: localStorage.getItem('graph_text_color'),
+          height: 350,
+          type: 'line',
+          zoom: {
+            enabled: false
+          },
+          toolbar: {
+            tools: {
+              download: false,
+            },
+          },
+          animations: {
+            enabled: true,
+            easing: 'linear',
+            dynamicAnimation: {
+              speed: 1000
+            }
+          },
+        },
+        dataLabels: {
+          enabled: false
+        },
+        stroke: {
+          width: [5, 7, 5],
+          curve: 'straight',
+          dashArray: [0, 8, 5],
+          colors: ["#ff0000", "#ff6600", "#0066ff"],
+        },
+        colors: ["#ff0000", "#ff6600", "#0066ff"],
+        legend: {
+          tooltipHoverFormatter: function(val, opts) {
+            return val + ' - <strong>' + opts.w.globals.series[opts.seriesIndex][opts.dataPointIndex] + '</strong>'
+          }
+        },
+        xaxis: {
+          categories: [],
+          tooltip: {
+            enabled: false,
+          },
+        },
+        tooltip: {
+          theme: localStorage.getItem('graph_theme'),
+
+          y: [{
+              title: {
+                formatter: function(val) {
+                  return val + ""
+                }
+              }
+            },
+            {
+              title: {
+                formatter: function(val) {
+                  return val + ""
+                }
+              }
+            },
+            {
+              title: {
+                formatter: function(val) {
+                  return val;
+                }
+              }
+            }
+          ]
+        },
+        grid: {
+          borderColor: '#f1f1f1',
+        }
+      },
+
+      //dashed chart for Q
+      seriesDashedQ: [{
+          name: "L1:",
+          data: []
+        },
+        {
+          name: "L2:",
+          data: []
+        },
+        {
+          name: 'L3:',
+          data: []
+        }
+      ],
+      chartOptionsDashedQ: {
+        chart: {
+          foreColor: localStorage.getItem('graph_text_color'),
+          height: 350,
+          type: 'line',
+          zoom: {
+            enabled: false
+          },
+          toolbar: {
+            tools: {
+              download: false,
+            },
+          },
+          animations: {
+            enabled: true,
+            easing: 'linear',
+            dynamicAnimation: {
+              speed: 1000
+            }
+          },
+        },
+        dataLabels: {
+          enabled: false
+        },
+        stroke: {
+          width: [5, 7, 5],
+          curve: 'straight',
+          dashArray: [0, 8, 5],
+          colors: ["#ff0000", "#ff6600", "#0066ff"],
+        },
+        colors: ["#ff0000", "#ff6600", "#0066ff"],
+        legend: {
+          tooltipHoverFormatter: function(val, opts) {
+            return val + ' - <strong>' + opts.w.globals.series[opts.seriesIndex][opts.dataPointIndex] + '</strong>'
+          }
+        },
+        xaxis: {
+          categories: [],
+          tooltip: {
+            enabled: false,
+          },
+        },
+        tooltip: {
+          theme: localStorage.getItem('graph_theme'),
+
+          y: [{
+              title: {
+                formatter: function(val) {
+                  return val + ""
+                }
+              }
+            },
+            {
+              title: {
+                formatter: function(val) {
+                  return val + ""
+                }
+              }
+            },
+            {
+              title: {
+                formatter: function(val) {
+                  return val;
+                }
+              }
+            }
+          ]
+        },
+        grid: {
+          borderColor: '#f1f1f1',
+        }
+      },
+
+      //dashed chart for S
+      seriesDashedS: [{
+          name: "L1:",
+          data: []
+        },
+        {
+          name: "L2:",
+          data: []
+        },
+        {
+          name: 'L3:',
+          data: []
+        }
+      ],
+      chartOptionsDashedS: {
+        chart: {
+          foreColor: localStorage.getItem('graph_text_color'),
+          height: 350,
+          type: 'line',
+          zoom: {
+            enabled: false
+          },
+          toolbar: {
+            tools: {
+              download: false,
+            },
+          },
+          animations: {
+            enabled: true,
+            easing: 'linear',
+            dynamicAnimation: {
+              speed: 1000
+            }
+          },
+        },
+        dataLabels: {
+          enabled: false
+        },
+        stroke: {
+          width: [5, 7, 5],
+          curve: 'straight',
+          dashArray: [0, 8, 5],
+          colors: ["#ff0000", "#ff6600", "#0066ff"],
+        },
+        colors: ["#ff0000", "#ff6600", "#0066ff"],
+        legend: {
+          tooltipHoverFormatter: function(val, opts) {
+            return val + ' - <strong>' + opts.w.globals.series[opts.seriesIndex][opts.dataPointIndex] + '</strong>'
+          }
+        },
+        xaxis: {
+          categories: [],
+          tooltip: {
+            enabled: false,
+          },
+        },
+        tooltip: {
+          theme: localStorage.getItem('graph_theme'),
+
+          y: [{
+              title: {
+                formatter: function(val) {
+                  return val + ""
+                }
+              }
+            },
+            {
+              title: {
+                formatter: function(val) {
+                  return val + ""
+                }
+              }
+            },
+            {
+              title: {
+                formatter: function(val) {
+                  return val;
+                }
+              }
+            }
+          ]
+        },
+        grid: {
+          borderColor: '#f1f1f1',
+        }
+      },
+
+      //dashed chart for E_E
+      seriesDashedE_E: [{
+          name: "L1:",
+          data: []
+        },
+        {
+          name: "L2:",
+          data: []
+        },
+        {
+          name: 'L3:',
+          data: []
+        }
+      ],
+
+      chartOptionsDashedE_E: {
+        chart: {
+          foreColor: localStorage.getItem('graph_text_color'),
+          height: 350,
+          type: 'line',
+          zoom: {
+            enabled: false
+          },
+          toolbar: {
+            tools: {
+              download: false,
+            },
+          },
+          animations: {
+            enabled: true,
+            easing: 'linear',
+            dynamicAnimation: {
+              speed: 1000
+            }
+          },
+        },
+        dataLabels: {
+          enabled: false
+        },
+        stroke: {
+          width: [5, 7, 5],
+          curve: 'straight',
+          dashArray: [0, 8, 5],
+          colors: ["#ff0000", "#ff6600", "#0066ff"],
+        },
+        colors: ["#ff0000", "#ff6600", "#0066ff"],
+        legend: {
+          tooltipHoverFormatter: function(val, opts) {
+            return val + ' - <strong>' + opts.w.globals.series[opts.seriesIndex][opts.dataPointIndex] + '</strong>'
+          }
+        },
+        xaxis: {
+          categories: [],
+          tooltip: {
+            enabled: false,
+          },
+        },
+        tooltip: {
+          theme: localStorage.getItem('graph_theme'),
+
+          y: [{
+              title: {
+                formatter: function(val) {
+                  return val + ""
+                }
+              }
+            },
+            {
+              title: {
+                formatter: function(val) {
+                  return val + ""
+                }
+              }
+            },
+            {
+              title: {
+                formatter: function(val) {
+                  return val;
+                }
+              }
+            }
+          ]
+        },
+        grid: {
+          borderColor: '#f1f1f1',
+        }
+      },
+
+      //dashed chart for E_I
+      seriesDashedE_I: [{
+          name: "L1:",
+          data: []
+        },
+        {
+          name: "L2:",
+          data: []
+        },
+        {
+          name: 'L3:',
+          data: []
+        }
+      ],
+      chartOptionsDashedE_I: {
+        chart: {
+          foreColor: localStorage.getItem('graph_text_color'),
+          height: 350,
+          type: 'line',
+          zoom: {
+            enabled: false
+          },
+          toolbar: {
+            tools: {
+              download: false,
+            },
+          },
+          animations: {
+            enabled: true,
+            easing: 'linear',
+            dynamicAnimation: {
+              speed: 1000
+            }
+          },
+        },
+        dataLabels: {
+          enabled: false
+        },
+        stroke: {
+          width: [5, 7, 5],
+          curve: 'straight',
+          dashArray: [0, 8, 5],
+          colors: ["#ff0000", "#ff6600", "#0066ff"],
+        },
+        colors: ["#ff0000", "#ff6600", "#0066ff"],
+        legend: {
+          tooltipHoverFormatter: function(val, opts) {
+            return val + ' - <strong>' + opts.w.globals.series[opts.seriesIndex][opts.dataPointIndex] + '</strong>'
+          }
+        },
+        xaxis: {
+          categories: [],
+          tooltip: {
+            enabled: false,
+          },
+        },
+        tooltip: {
+          theme: localStorage.getItem('graph_theme'),
+
+          y: [{
+              title: {
+                formatter: function(val) {
+                  return val + ""
+                }
+              }
+            },
+            {
+              title: {
+                formatter: function(val) {
+                  return val + ""
+                }
+              }
+            },
+            {
+              title: {
+                formatter: function(val) {
+                  return val;
+                }
+              }
+            }
+          ]
+        },
+        grid: {
+          borderColor: '#f1f1f1',
+        }
+      },
+
     }
   },
 
@@ -158,69 +824,185 @@ export default {
   },
 
   methods: {
-    // Create connection
-    createConnection() {
-      // Connect string, and specify the connection method used through protocol
-      // ws unencrypted WebSocket connection
-      // wss encrypted WebSocket connection
-      // mqtt unencrypted TCP connection
-      // mqtts encrypted TCP connection
-      // wxs WeChat mini app connection
-      // alis Alipay mini app connection
-      const {
-        host,
-        port,
-        endpoint,
-        ...options
-      } = this.connection
-      const connectUrl = `ws://${host}:${port}${endpoint}`
-      try {
-        this.client = mqtt.connect(connectUrl, options)
-      } catch (error) {
-        console.log('mqtt.connect error', error)
-      }
-      this.client.on('connect', () => {
-        console.log('Connection succeeded!')
-        this.doSubscribe();
-      })
-      this.client.on('error', error => {
-        console.log('Connection failed', error)
-      })
-      this.client.on('message', (topic, message) => {
-        this.receiveNews = this.receiveNews.concat(message)
-        // console.log(`Received message ${message} from topic ${topic}`)
-      })
-    },
+    getDataDashedU() {
+      axios.get('http://127.0.0.1:8000/api/getDataDashedU')
+        .then(res => {
+          this.seriesDashedU[0].data = res.data[0][0]
+          this.seriesDashedU[1].data = res.data[0][1]
+          this.seriesDashedU[2].data = res.data[0][2]
 
-    doSubscribe() {
-      const {
-        topic,
-        qos
-      } = this.subscription
-      this.client.subscribe(topic, {
-        qos
-      }, (error, res) => {
-        if (error) {
-          console.log('Subscribe to topics error', error)
-          return
-        }
-        this.subscribeSuccess = true
-        console.log('Subscribe to topics res', res)
-      })
+          this.chartOptionsDashedU.xaxis.categories = res.data[0][3];
+          this.chartOptionsDashedU = {
+            ...this.chartOptionsDashedU,
+            ...{
+              xaxis: {
+                categories: this.chartOptionsDashedU.xaxis.categories,
+                tooltip: {
+                  enabled: false,
+                },
+              }
+            }
+          }
+        })
     },
+    getDataDashedI() {
+      axios.get('http://127.0.0.1:8000/api/getDataDashedI')
+        .then(res => {
+          this.seriesDashedI[0].data = res.data[0][0]
+          this.seriesDashedI[1].data = res.data[0][1]
+          this.seriesDashedI[2].data = res.data[0][2]
+
+          this.chartOptionsDashedI.xaxis.categories = res.data[0][3];
+          this.chartOptionsDashedI = {
+            ...this.chartOptionsDashedI,
+            ...{
+              xaxis: {
+                categories: this.chartOptionsDashedI.xaxis.categories,
+                tooltip: {
+                  enabled: false,
+                },
+              }
+            }
+          }
+        })
+    },
+    getDataDashedP() {
+      axios.get('http://127.0.0.1:8000/api/getDataDashedP')
+        .then(res => {
+          this.seriesDashedP[0].data = res.data[0][0]
+          this.seriesDashedP[1].data = res.data[0][1]
+          this.seriesDashedP[2].data = res.data[0][2]
+
+          this.chartOptionsDashedP.xaxis.categories = res.data[0][3];
+          this.chartOptionsDashedP = {
+            ...this.chartOptionsDashedP,
+            ...{
+              xaxis: {
+                categories: this.chartOptionsDashedP.xaxis.categories,
+                tooltip: {
+                  enabled: false,
+                },
+              }
+            }
+          }
+        })
+    },
+    getDataDashedS() {
+      axios.get('http://127.0.0.1:8000/api/getDataDashedS')
+        .then(res => {
+          this.seriesDashedS[0].data = res.data[0][0]
+          this.seriesDashedS[1].data = res.data[0][1]
+          this.seriesDashedS[2].data = res.data[0][2]
+
+          this.chartOptionsDashedS.xaxis.categories = res.data[0][3];
+          this.chartOptionsDashedS = {
+            ...this.chartOptionsDashedS,
+            ...{
+              xaxis: {
+                categories: this.chartOptionsDashedS.xaxis.categories,
+                tooltip: {
+                  enabled: false,
+                },
+              }
+            }
+          }
+        })
+    },
+    getDataDashedQ() {
+      axios.get('http://127.0.0.1:8000/api/getDataDashedQ')
+        .then(res => {
+          this.seriesDashedQ[0].data = res.data[0][0]
+          this.seriesDashedQ[1].data = res.data[0][1]
+          this.seriesDashedQ[2].data = res.data[0][2]
+
+          this.chartOptionsDashedQ.xaxis.categories = res.data[0][3];
+          this.chartOptionsDashedQ = {
+            ...this.chartOptionsDashedQ,
+            ...{
+              xaxis: {
+                categories: this.chartOptionsDashedQ.xaxis.categories,
+                tooltip: {
+                  enabled: false,
+                },
+              }
+            }
+          }
+        })
+    },
+    getDataDashedE_I() {
+      axios.get('http://127.0.0.1:8000/api/getDataDashedE_I')
+        .then(res => {
+          this.seriesDashedE_I[0].data = res.data[0][0]
+          this.seriesDashedE_I[1].data = res.data[0][1]
+          this.seriesDashedE_I[2].data = res.data[0][2]
+
+          this.chartOptionsDashedE_I.xaxis.categories = res.data[0][3];
+          this.chartOptionsDashedE_I = {
+            ...this.chartOptionsDashedE_I,
+            ...{
+              xaxis: {
+                categories: this.chartOptionsDashedE_I.xaxis.categories,
+                tooltip: {
+                  enabled: false,
+                },
+              }
+            }
+          }
+        })
+    },
+    getDataDashedE_E() {
+      axios.get('http://127.0.0.1:8000/api/getDataDashedE_E')
+        .then(res => {
+          this.seriesDashedE_E[0].data = res.data[0][0]
+          this.seriesDashedE_E[1].data = res.data[0][1]
+          this.seriesDashedE_E[2].data = res.data[0][2]
+
+          this.chartOptionsDashedE_E.xaxis.categories = res.data[0][3];
+          this.chartOptionsDashedE_E = {
+            ...this.chartOptionsDashedE_E,
+            ...{
+              xaxis: {
+                categories: this.chartOptionsDashedE_E.xaxis.categories,
+                tooltip: {
+                  enabled: false,
+                },
+              }
+            }
+          }
+        })
+    }
   },
 
-  watch: {},
-
   mounted() {
-    this.createConnection();
     //do something after mounting vue instance
     console.log('Component Welcome mounted.')
+    this.getDataDashedU();
+    this.getDataDashedI();
+    this.getDataDashedP();
+    this.getDataDashedQ();
+    this.getDataDashedS();
+    this.getDataDashedE_I();
+    this.getDataDashedE_E();
   },
 
   created() {
-    console.log('Component Welcome created')
-  },
+    //do something after creating vue instance
+    window.Echo.channel('PowerConsumption')
+      .listen('PowerConsumptionEvent', (e) => {
+        //last update datetime
+        this.lastUpdate = moment(e.allData[0].U.created_at)
+          .format('YYYY-MM-DD HH:mm:ss');
+        localStorage.setItem("lastUpdateEnergy", moment(e.allData[0].U.created_at)
+          .format('YYYY-MM-DD HH:mm:ss'));
+        this.getDataDashedU();
+        this.getDataDashedI();
+        this.getDataDashedP();
+        this.getDataDashedQ();
+        this.getDataDashedS();
+        this.getDataDashedE_I();
+        this.getDataDashedE_E();
+      })
+  }
 }
 </script>
 <style type="scss">

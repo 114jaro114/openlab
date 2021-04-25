@@ -75,7 +75,6 @@ export default {
 
   updated() {
     //do something after updating vue instance
-    console.log(localStorage.getItem('notifCounter'));
   }
 }
 </script>

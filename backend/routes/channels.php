@@ -2,9 +2,6 @@
 
 use Illuminate\Support\Facades\Broadcast;
 
-use App\Models\Humidity;
-use App\Models\AllSensors;
-
 /*
 |--------------------------------------------------------------------------
 | Broadcast Channels

@@ -1,5 +1,5 @@
 <template>
-<v-footer class="p-0">
+<v-footer class="p-0" style="bottom: 0">
   <v-card flat tile width="100%" class="text-center">
     <!-- <v-divider class="primary mt-0" /> -->
     <v-card-text class="p-0 pt-3">

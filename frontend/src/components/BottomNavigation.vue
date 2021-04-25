@@ -48,18 +48,6 @@ export default {
     //do something after updating vue instance
     // console.log("BottomNavigation updated");
     this.bottomNavigationStyle();
-    // if (window.innerWidth <= 480 && this.$store.getters['bottomNavigationState'].state == true) {
-    //   this.test = 'margin-top:56px;display:block';
-    // } else {
-    //   this.test = 'margin-top:0px;display:none';
-    // }
-    // window.addEventListener('resize', () => {
-    //   if (window.innerWidth <= 480 && this.$store.getters['bottomNavigationState'].state == true) {
-    //     this.test = 'margin-top:56px;display:block';
-    //   } else {
-    //     this.test = 'margin-top:0px;display:none';
-    //   }
-    // });
   },
 
   methods: {

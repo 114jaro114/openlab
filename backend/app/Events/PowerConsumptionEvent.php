@@ -9,20 +9,19 @@ use Illuminate\Broadcasting\PrivateChannel;
 use Illuminate\Contracts\Broadcasting\ShouldBroadcast;
 use Illuminate\Foundation\Events\Dispatchable;
 use Illuminate\Queue\SerializesModels;
-use App\Models\Humidity;
 
-class HumEvent implements ShouldBroadcast
+class PowerConsumptionEvent implements ShouldBroadcast
 {
     use Dispatchable, InteractsWithSockets, SerializesModels;
-    public $humidity;
+    public $allData;
     /**
      * Create a new event instance.
      *
      * @return void
      */
-    public function __construct($humidity)
+    public function __construct($allData)
     {
-        $this->humidity = $humidity;
+        $this->allData = $allData;
     }
 
     /**
@@ -32,6 +31,6 @@ class HumEvent implements ShouldBroadcast
      */
     public function broadcastOn()
     {
-        return new Channel('test');
+        return new Channel('PowerConsumption');
     }
 }

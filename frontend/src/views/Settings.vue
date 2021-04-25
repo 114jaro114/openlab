@@ -109,7 +109,7 @@
           <v-subheader>Nastavenie hraničných hodnôt</v-subheader>
           <v-row class="pl-3 pr-3 pb-3" justify="center">
             <v-col cols="12" sm="12">
-              <v-expansion-panels>
+              <v-expansion-panels color="primary">
                 <v-expansion-panel>
                   <v-expansion-panel-header>
                     Teplota okolia
@@ -122,7 +122,7 @@
                   </v-expansion-panel-header>
                   <v-expansion-panel-content>
                     <v-switch v-model="switch1" color="#ff0000" inset></v-switch>
-                    <v-range-slider :disabled="!switch1" color="#ff0000" track-color="#ff0000" track-fill-color="#ff0000" v-model="slider1" thumb-label :thumb-size="24" max="100" min="-100"></v-range-slider>
+                    <v-range-slider class="mt-3" :disabled="!switch1" color="#ff0000" track-color="#ff0000" track-fill-color="#ff0000" v-model="slider1" thumb-label :thumb-size="24" max="100" min="-100"></v-range-slider>
                     <span>Nastavenie hraničných hodnôt pre teplotu okolia</span>
                   </v-expansion-panel-content>
                 </v-expansion-panel>
@@ -139,7 +139,7 @@
                   </v-expansion-panel-header>
                   <v-expansion-panel-content>
                     <v-switch v-model="switch2" color="#ff6600" inset></v-switch>
-                    <v-range-slider :disabled="!switch2" color="#ff6600" track-color="#ff6600" track-fill-color="#ff6600" v-model="slider2" thumb-label :thumb-size="24" max="100" min="-100"></v-range-slider>
+                    <v-range-slider class="mt-3" :disabled="!switch2" color="#ff6600" track-color="#ff6600" track-fill-color="#ff6600" v-model="slider2" thumb-label :thumb-size="24" max="100" min="-100"></v-range-slider>
                     <span>Nastavenie hraničných hodnôt pre teplotu na čipe</span>
                   </v-expansion-panel-content>
                 </v-expansion-panel>
@@ -156,7 +156,7 @@
                   </v-expansion-panel-header>
                   <v-expansion-panel-content>
                     <v-switch v-model="switch3" color="#0066ff" inset></v-switch>
-                    <v-range-slider :disabled="!switch3" color="#0066ff" track-color="#0066ff" track-fill-color="#0066ff" v-model="slider3" thumb-label :thumb-size="24" max="100" min="-100"></v-range-slider>
+                    <v-range-slider class="mt-3" :disabled="!switch3" color="#0066ff" track-color="#0066ff" track-fill-color="#0066ff" v-model="slider3" thumb-label :thumb-size="24" max="100" min="-100"></v-range-slider>
                     <span>Nastavenie hraničných hodnôt pre vlhkosť</span>
                   </v-expansion-panel-content>
                 </v-expansion-panel>
@@ -173,7 +173,7 @@
                   </v-expansion-panel-header>
                   <v-expansion-panel-content>
                     <v-switch v-model="switch4" color="#ffcc00" inset></v-switch>
-                    <v-range-slider :disabled="!switch4" color="#ffcc00" track-color="#ffcc00" track-fill-color="#ffcc00" v-model="slider4" thumb-label :thumb-size="24" max="100" min="-100"></v-range-slider>
+                    <v-range-slider class="mt-3" :disabled="!switch4" color="#ffcc00" track-color="#ffcc00" track-fill-color="#ffcc00" v-model="slider4" thumb-label :thumb-size="24" max="100" min="-100"></v-range-slider>
                     <span>Nastavenie hraničných hodnôt pre hlasitosť</span>
                   </v-expansion-panel-content>
                 </v-expansion-panel>
@@ -190,7 +190,7 @@
                   </v-expansion-panel-header>
                   <v-expansion-panel-content>
                     <v-switch v-model="switch5" color="#737373" inset></v-switch>
-                    <v-range-slider :disabled="!switch5" color="#737373" track-color="#737373" track-fill-color="#737373" v-model="slider5" thumb-label :thumb-size="24" max="100" min="-100"></v-range-slider>
+                    <v-range-slider class="mt-3" :disabled="!switch5" color="#737373" track-color="#737373" track-fill-color="#737373" v-model="slider5" thumb-label :thumb-size="24" max="100" min="-100"></v-range-slider>
                     <span>Nastavenie hraničných hodnôt pre svetlo</span>
                   </v-expansion-panel-content>
                 </v-expansion-panel>
@@ -207,7 +207,7 @@
                   </v-expansion-panel-header>
                   <v-expansion-panel-content>
                     <v-switch v-model="switch6" color="#00b300" inset></v-switch>
-                    <v-range-slider :disabled="!switch6" color="#00b300" track-color="#00b300" track-fill-color="#00b300" v-model="slider6" thumb-label :thumb-size="24" max="100" min="-100"></v-range-slider>
+                    <v-range-slider class="mt-3" :disabled="!switch6" color="#00b300" track-color="#00b300" track-fill-color="#00b300" v-model="slider6" thumb-label :thumb-size="24" max="100" min="-100"></v-range-slider>
                     <span>Nastavenie hraničných hodnôt pre tlak</span>
                   </v-expansion-panel-content>
                 </v-expansion-panel>
@@ -308,16 +308,16 @@ export default {
       drawer: false,
       select: localStorage.getItem('language'),
       countries: [{
-          name: "Slovensky",
+          name: "Slovenský jazyk",
           flag: "sk"
         },
         {
-          name: "Anglicky",
+          name: "Anglický jazyk",
           flag: "gb"
         },
         {
-          name: "Nemecky",
-          flag: "de"
+          name: "Ruský jazyk",
+          flag: "rus"
         },
       ],
       ntf: [],
@@ -364,9 +364,11 @@ export default {
       if (theme === "true") {
         this.$vuetify.theme.dark = true;
         localStorage.setItem('graph_theme', 'dark');
+        localStorage.setItem('graph_text_color', '#ffffff');
       } else {
         this.$vuetify.theme.dark = false;
         localStorage.setItem('graph_theme', 'light');
+        localStorage.setItem('graph_text_color', '#2c3e50');
       }
     }
 
@@ -424,8 +426,10 @@ export default {
       localStorage.setItem("dark_theme", this.$vuetify.theme.dark.toString());
       if (this.$vuetify.theme.dark == true) {
         localStorage.setItem('graph_theme', 'dark');
+        localStorage.setItem('graph_text_color', '#ffffff');
       } else {
         localStorage.setItem('graph_theme', 'light');
+        localStorage.setItem('graph_text_color', '#2c3e50');
       }
     },
   },
@@ -456,10 +460,12 @@ export default {
         this.$vuetify.theme.dark = true;
         localStorage.setItem("dark_theme", this.$vuetify.theme.dark.toString());
         localStorage.setItem('graph_theme', 'dark');
+        localStorage.setItem('graph_text_color', '#ffffff');
       } else {
         this.$vuetify.theme.dark = false;
         localStorage.setItem("dark_theme", this.$vuetify.theme.dark.toString());
         localStorage.setItem('graph_theme', 'light');
+        localStorage.setItem('graph_text_color', '#2c3e50');
       }
     } else {
       this.autoDLMon = false;

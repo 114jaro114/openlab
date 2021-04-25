@@ -346,6 +346,7 @@ export default {
       seriesCircle: [],
       chartOptionsCircle: {
         chart: {
+          foreColor: localStorage.getItem('graph_text_color'),
           height: 350,
           type: 'radialBar',
           toolbar: {
@@ -398,6 +399,7 @@ export default {
       }],
       chartOptionsColumn: {
         chart: {
+          foreColor: localStorage.getItem('graph_text_color'),
           type: 'bar',
           toolbar: {
             show: false,
@@ -480,6 +482,7 @@ export default {
       }],
       chartOptionsCandle_stick: {
         chart: {
+          foreColor: localStorage.getItem('graph_text_color'),
           type: 'candlestick',
           toolbar: {
             tools: {
@@ -555,6 +558,7 @@ export default {
       }],
       chartOptions: {
         chart: {
+          foreColor: localStorage.getItem('graph_text_color'),
           id: 'area-datetime',
           type: 'area',
           height: 350,
@@ -624,6 +628,7 @@ export default {
       chartOptionsRealtime: {
         // colors: ['#FCCF31', '#17ead9', '#f02fc2'],
         chart: {
+          foreColor: localStorage.getItem('graph_text_color'),
           type: 'line',
           animations: {
             enabled: true,
@@ -712,6 +717,7 @@ export default {
       seriesCircleAtmp: [],
       chartOptionsCircleAtmp: {
         chart: {
+          foreColor: localStorage.getItem('graph_text_color'),
           height: 350,
           type: 'radialBar',
           toolbar: {
@@ -763,6 +769,7 @@ export default {
       }],
       chartOptionsColumnAtmp: {
         chart: {
+          foreColor: localStorage.getItem('graph_text_color'),
           type: 'bar',
           toolbar: {
             show: false,
@@ -847,6 +854,7 @@ export default {
       chartOptionsRealtimeAtmp: {
         // colors: ['#FCCF31', '#17ead9', '#f02fc2'],
         chart: {
+          foreColor: localStorage.getItem('graph_text_color'),
           type: 'line',
           animations: {
             enabled: true,
@@ -933,6 +941,7 @@ export default {
       }],
       chartOptionsCandle_stickAtmp: {
         chart: {
+          foreColor: localStorage.getItem('graph_text_color'),
           type: 'candlestick',
           toolbar: {
             tools: {
@@ -1009,6 +1018,7 @@ export default {
       }],
       chartOptionsAtmp: {
         chart: {
+          foreColor: localStorage.getItem('graph_text_color'),
           id: 'area-datetime',
           type: 'area',
           height: 350,

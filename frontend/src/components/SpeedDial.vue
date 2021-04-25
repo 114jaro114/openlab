@@ -115,6 +115,6 @@ export default {
 }
 
 .v-speed-dial--bottom {
-  bottom: 200px !important;
+  bottom: 160px !important;
 }
 </style>

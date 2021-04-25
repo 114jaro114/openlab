@@ -84,3 +84,12 @@ Route::get('/getDataHome', [ApiController::class, 'getDataDashed']);
 Route::get('/getDataLine', [ApiController::class, 'getDataLine']);
 Route::get('/getDataCircleMultiple', [ApiController::class, 'getDataCircleMultiple']);
 Route::get('/getDataAreasGroup', [ApiController::class, 'getDataAreasGroup']);
+
+//for graph in energy page
+Route::get('/getDataDashedU', [ApiController::class, 'getDataDashedU']);
+Route::get('/getDataDashedI', [ApiController::class, 'getDataDashedI']);
+Route::get('/getDataDashedP', [ApiController::class, 'getDataDashedP']);
+Route::get('/getDataDashedS', [ApiController::class, 'getDataDashedS']);
+Route::get('/getDataDashedQ', [ApiController::class, 'getDataDashedQ']);
+Route::get('/getDataDashedE_I', [ApiController::class, 'getDataDashedE_I']);
+Route::get('/getDataDashedE_E', [ApiController::class, 'getDataDashedE_E']);

@@ -25,15 +25,15 @@
     <v-row class="m-0">
       <v-col class="mb-5" cols="12" lg="6" md="12" sm="12">
         <v-card class="rounded" elevation="0">
-          <v-sheet class="v-sheet--offset mx-auto rounded" elevation="0" max-width="calc(100% - 32px)">
+          <v-sheet class="v-sheet--offset mx-auto" elevation="0" max-width="calc(100% - 32px)" rounded>
             <div id="chart">
-              <apexchart type="bar" height="350" ref="barChart" :options="chartOptionsBar" :series="seriesBar"></apexchart>
+              <apexchart type="radialBar" height="400" ref="circleMultipleChart" :options="chartOptionsCircle_multiple" :series="seriesCircle_multiple"></apexchart>
             </div>
           </v-sheet>
 
           <v-card-text class="pt-0">
             <div class="title font-weight-light mb-2">
-              Priemerné hodnoty za jednotlivé mesiace v danom roku
+              Aktuálne hodnoty jednotlivých veličín
             </div>
             <v-divider class="my-2"></v-divider>
             <v-icon class="mr-2" small>
@@ -69,28 +69,28 @@
 
       <v-col class="mb-5" cols="12" lg="12" md="12" sm="12">
         <v-card class="rounded" elevation="0">
-          <!-- <v-sheet class="v-sheet--offset mx-auto rounded" elevation="0" max-width="calc(100% - 32px)"> -->
-          <div id="wrapper">
-            <div id="chart-area1">
-              <apexchart type="area" height="160" ref="area1Chart" :options="chartOptionsArea1" :series="seriesArea1"></apexchart>
+          <v-sheet class="v-sheet--offset mx-auto rounded" elevation="0" max-width="calc(100% - 32px)">
+            <div id="wrapper">
+              <div id="chart-area1">
+                <apexchart type="area" height="160" ref="area1Chart" :options="chartOptionsArea1" :series="seriesArea1"></apexchart>
+              </div>
+              <div id="chart-area2">
+                <apexchart type="area" height="160" ref="area2Chart" :options="chartOptionsArea2" :series="seriesArea2"></apexchart>
+              </div>
+              <div id="chart-area3">
+                <apexchart type="area" height="160" ref="area3Chart" :options="chartOptionsArea3" :series="seriesArea3"></apexchart>
+              </div>
+              <div id="chart-area3">
+                <apexchart type="area" height="160" ref="area4Chart" :options="chartOptionsArea4" :series="seriesArea4"></apexchart>
+              </div>
+              <div id="chart-area3">
+                <apexchart type="area" height="160" ref="area5Chart" :options="chartOptionsArea5" :series="seriesArea5"></apexchart>
+              </div>
+              <div id="chart-area3">
+                <apexchart type="area" height="160" ref="area6Chart" :options="chartOptionsArea6" :series="seriesArea6"></apexchart>
+              </div>
             </div>
-            <div id="chart-area2">
-              <apexchart type="area" height="160" ref="area2Chart" :options="chartOptionsArea2" :series="seriesArea2"></apexchart>
-            </div>
-            <div id="chart-area3">
-              <apexchart type="area" height="160" ref="area3Chart" :options="chartOptionsArea3" :series="seriesArea3"></apexchart>
-            </div>
-            <div id="chart-area3">
-              <apexchart type="area" height="160" ref="area4Chart" :options="chartOptionsArea4" :series="seriesArea4"></apexchart>
-            </div>
-            <div id="chart-area3">
-              <apexchart type="area" height="160" ref="area5Chart" :options="chartOptionsArea5" :series="seriesArea5"></apexchart>
-            </div>
-            <div id="chart-area3">
-              <apexchart type="area" height="160" ref="area6Chart" :options="chartOptionsArea6" :series="seriesArea6"></apexchart>
-            </div>
-          </div>
-          <!-- </v-sheet> -->
+          </v-sheet>
 
           <v-card-text class="pt-0">
             <div class="title font-weight-light mb-2">
@@ -105,18 +105,17 @@
           </v-card-text>
         </v-card>
       </v-col>
-
-      <v-col class="mb-5" cols="12" lg="6" md="12" sm="12">
+      <v-col class="mb-5" cols="12" lg="12" md="12" sm="12">
         <v-card class="rounded" elevation="0">
-          <!-- <v-sheet class="v-sheet--offset mx-auto" elevation="0" max-width="calc(100% - 32px)" rounded> -->
-          <div id="chart">
-            <apexchart type="radialBar" height="400" ref="circleMultipleChart" :options="chartOptionsCircle_multiple" :series="seriesCircle_multiple"></apexchart>
-          </div>
-          <!-- </v-sheet> -->
+          <v-sheet class="v-sheet--offset mx-auto rounded" elevation="0" max-width="calc(100% - 32px)">
+            <div id="chart">
+              <apexchart type="bar" height="350" ref="barChart" :options="chartOptionsBar" :series="seriesBar"></apexchart>
+            </div>
+          </v-sheet>
 
           <v-card-text class="pt-0">
             <div class="title font-weight-light mb-2">
-              Aktuálne hodnoty jednotlivých veličín
+              Priemerné hodnoty za jednotlivé mesiace v danom roku
             </div>
             <v-divider class="my-2"></v-divider>
             <v-icon class="mr-2" small>
@@ -165,6 +164,7 @@ export default {
       }],
       chartOptionsArea1: {
         chart: {
+          foreColor: localStorage.getItem('graph_text_color'),
           id: 'as',
           group: 'AllSensors',
           type: 'area',
@@ -219,6 +219,7 @@ export default {
       }],
       chartOptionsArea2: {
         chart: {
+          foreColor: localStorage.getItem('graph_text_color'),
           id: 'as',
           group: 'AllSensors',
           type: 'area',
@@ -288,6 +289,7 @@ export default {
       }],
       chartOptionsArea3: {
         chart: {
+          foreColor: localStorage.getItem('graph_text_color'),
           id: 'as',
           group: 'AllSensors',
           type: 'area',
@@ -342,6 +344,7 @@ export default {
       }],
       chartOptionsArea4: {
         chart: {
+          foreColor: localStorage.getItem('graph_text_color'),
           id: 'as',
           group: 'AllSensors',
           type: 'area',
@@ -397,6 +400,7 @@ export default {
       }],
       chartOptionsArea5: {
         chart: {
+          foreColor: localStorage.getItem('graph_text_color'),
           id: 'as',
           group: 'AllSensors',
           type: 'area',
@@ -451,6 +455,7 @@ export default {
       }],
       chartOptionsArea6: {
         chart: {
+          foreColor: localStorage.getItem('graph_text_color'),
           id: 'as',
           group: 'AllSensors',
           type: 'area',
@@ -500,7 +505,7 @@ export default {
       },
       //dashed chart
       seriesDashed: [{
-          name: "Teplota okolia (°C)",
+          name: "Vlhkosť (%)",
           data: []
         },
         {
@@ -508,12 +513,13 @@ export default {
           data: []
         },
         {
-          name: 'Vlhkosť (%)',
+          name: 'Teplota okolia (°C)',
           data: []
         }
       ],
       chartOptionsDashed: {
         chart: {
+          foreColor: localStorage.getItem('graph_text_color'),
           height: 350,
           type: 'line',
           zoom: {
@@ -538,10 +544,10 @@ export default {
         stroke: {
           width: [5, 7, 5],
           curve: 'straight',
-          dashArray: [0, 8, 5],
-          colors: ["#ff0000", "#ff6600", "#0066ff"],
+          dashArray: [5, 8, 0],
+          colors: ["#0066ff", "#ff6600", "#ff0000"],
         },
-        colors: ["#ff0000", "#ff6600", "#0066ff"],
+        colors: ["#0066ff", "#ff6600", "#ff0000"],
         legend: {
           tooltipHoverFormatter: function(val, opts) {
             return val + ' - <strong>' + opts.w.globals.series[opts.seriesIndex][opts.dataPointIndex] + '</strong>'
@@ -596,6 +602,7 @@ export default {
       }],
       chartOptionsBar: {
         chart: {
+          foreColor: localStorage.getItem('graph_text_color'),
           type: 'bar',
           height: 350,
           toolbar: {
@@ -718,6 +725,7 @@ export default {
       // },
       chartOptionsCircle_multiple: {
         chart: {
+          foreColor: localStorage.getItem('graph_text_color'),
           height: 350,
           type: 'radialBar',
           toolbar: {
@@ -776,8 +784,8 @@ export default {
             return seriesName + ":  " + opts.w.globals.series[opts.seriesIndex]
           },
         },
-        colors: ['#ff0000', '#ff6600', '#0066ff', '#ffcc00', '#737373'],
-        labels: ['Teplota okolia', 'Teplota na čipe', 'Vlhkosť', 'Hlasitosť', 'Svetlo'],
+        colors: ['#00b300', '#ff0000', '#ff6600', '#0066ff', '#ffcc00', '#737373'],
+        labels: ['Tlak', 'Teplota okolia', 'Teplota na čipe', 'Vlhkosť', 'Hlasitosť', 'Svetlo'],
       },
     }
   },
@@ -825,27 +833,21 @@ export default {
             });
           }
           this.seriesArea1 = [{
-            name: 'Teplota okolia (°C)',
             data: this.seriesArea1[0].data
           }];
           this.seriesArea2 = [{
-            name: 'Teplota okolia (°C)',
             data: this.seriesArea2[0].data
           }];
           this.seriesArea3 = [{
-            name: 'Teplota okolia (°C)',
             data: this.seriesArea3[0].data
           }];
           this.seriesArea4 = [{
-            name: 'Teplota okolia (°C)',
             data: this.seriesArea4[0].data
           }];
           this.seriesArea5 = [{
-            name: 'Teplota okolia (°C)',
             data: this.seriesArea5[0].data
           }];
           this.seriesArea6 = [{
-            name: 'Teplota okolia (°C)',
             data: this.seriesArea6[0].data
           }];
           // this.$refs.area1Chart.updateSeries([{
@@ -871,9 +873,9 @@ export default {
     getDataDashed() {
       axios.get('http://127.0.0.1:8000/api/getDataHome')
         .then(res => {
-          this.seriesDashed[0].data = res.data[0][0]
+          this.seriesDashed[0].data = res.data[0][2]
           this.seriesDashed[1].data = res.data[0][1]
-          this.seriesDashed[2].data = res.data[0][2]
+          this.seriesDashed[2].data = res.data[0][0]
 
           this.chartOptionsDashed.xaxis.categories = res.data[0][3];
           this.chartOptionsDashed = {
@@ -944,7 +946,7 @@ export default {
         .then(res => {
           this.seriesCircle_multiple.splice(0, this.seriesCircle_multiple.length);
           this.seriesCircle_multiple.push(
-            parseFloat(res.data[0].gtmp),
+            parseFloat(res.data[0].pres), parseFloat(res.data[0].gtmp),
             parseFloat(res.data[0].atmp), parseFloat(res.data[0].humi),
             parseFloat(res.data[0].vol), parseFloat(res.data[0].light),
           );
@@ -981,7 +983,7 @@ export default {
 
         this.seriesCircle_multiple.splice(0, this.seriesCircle_multiple.length);
         this.seriesCircle_multiple.push(
-          parseFloat(e.dataAllSensors.gtmp),
+          parseFloat(e.dataAllSensors.pres), parseFloat(e.dataAllSensors.gtmp),
           parseFloat(e.dataAllSensors.atmp), parseFloat(e.dataAllSensors.humi),
           parseFloat(e.dataAllSensors.vol), parseFloat(e.dataAllSensors.light),
         );
