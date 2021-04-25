@@ -26,13 +26,11 @@
 
       <v-row class="m-0">
         <!-- circle chart fot gtmp -->
-        <v-col class="mb-5" cols="12" lg="6" md="12" sm="12">
-          <v-card class="rounded" elevation="0">
-            <v-sheet class="v-sheet--offset mx-auto rounded" elevation="0" max-width="calc(100% - 32px)">
-              <div id="chart">
-                <apexchart type="radialBar" height="385" :options="chartOptionsCircle" :series="seriesCircle"></apexchart>
-              </div>
-            </v-sheet>
+        <v-col cols="12" lg="6" md="12" sm="12">
+          <v-card class="rounded" elevation="0" loader-height="6" :loading="loaderStateCircle">
+            <div class="pt-3" id="chart">
+              <apexchart type="radialBar" height="385" :options="chartOptionsCircle" :series="seriesCircle"></apexchart>
+            </div>
 
             <v-card-text class="pt-0">
               <div class="title font-weight-light mb-2">
@@ -48,13 +46,11 @@
           </v-card>
         </v-col>
         <!-- circle chart fot atmp -->
-        <v-col class="mb-5" cols="12" lg="6" md="12" sm="12">
-          <v-card class="rounded" elevation="0">
-            <v-sheet class="v-sheet--offset mx-auto rounded" elevation="0" max-width="calc(100% - 32px)">
-              <div id="chart">
-                <apexchart type="radialBar" height="385" :options="chartOptionsCircleAtmp" :series="seriesCircleAtmp"></apexchart>
-              </div>
-            </v-sheet>
+        <v-col cols="12" lg="6" md="12" sm="12">
+          <v-card class="rounded" elevation="0" loader-height="6" :loading="loaderStateCircleAtmp">
+            <div class="pt-3" id="chart">
+              <apexchart type="radialBar" height="385" :options="chartOptionsCircleAtmp" :series="seriesCircleAtmp"></apexchart>
+            </div>
 
             <v-card-text class="pt-0">
               <div class="title font-weight-light mb-2">
@@ -71,13 +67,11 @@
         </v-col>
 
         <!-- column chart gtmp-->
-        <v-col class="mb-5" cols="12" lg="6" md="12" sm="12">
-          <v-card class="rounded" elevation="0">
-            <v-sheet class="v-sheet--offset mx-auto rounded" elevation="0" max-width="calc(100% - 32px)" rounded>
-              <div id="chart">
-                <apexchart type="bar" height="350" :options="chartOptionsColumn" :series="seriesColumn"></apexchart>
-              </div>
-            </v-sheet>
+        <v-col cols="12" lg="6" md="12" sm="12">
+          <v-card class="rounded" elevation="0" loader-height="6" :loading="loaderStateColumn">
+            <div class="pt-3" id="chart">
+              <apexchart type="bar" height="350" :options="chartOptionsColumn" :series="seriesColumn"></apexchart>
+            </div>
 
             <v-card-text class="pt-0">
               <div class="title font-weight-light mb-2">
@@ -93,13 +87,11 @@
           </v-card>
         </v-col>
         <!-- column chart atmp-->
-        <v-col class="mb-5" cols="12" lg="6" md="12" sm="12">
-          <v-card class="rounded" elevation="0">
-            <v-sheet class="v-sheet--offset mx-auto rounded" elevation="0" max-width="calc(100% - 32px)" rounded>
-              <div id="chart">
-                <apexchart type="bar" height="350" :options="chartOptionsColumnAtmp" :series="seriesColumnAtmp"></apexchart>
-              </div>
-            </v-sheet>
+        <v-col cols="12" lg="6" md="12" sm="12">
+          <v-card class="rounded" elevation="0" loader-height="6" :loading="loaderStateColumnAtmp">
+            <div class="pt-3" id="chart">
+              <apexchart type="bar" height="350" :options="chartOptionsColumnAtmp" :series="seriesColumnAtmp"></apexchart>
+            </div>
 
             <v-card-text class="pt-0">
               <div class="title font-weight-light mb-2">
@@ -116,13 +108,11 @@
         </v-col>
 
         <!-- realtime chart gtmp-->
-        <v-col class="mb-5" cols="12" lg="12" md="12" sm="12">
-          <v-card class="rounded" elevation="0">
-            <v-sheet class="v-sheet--offset mx-auto rounded" elevation="0" max-width="calc(100% - 32px)">
-              <div id="chart">
-                <apexchart type="line" height="200" :options="chartOptionsRealtime" :series="seriesRealtime" />
-              </div>
-            </v-sheet>
+        <v-col cols="12" lg="12" md="12" sm="12">
+          <v-card class="rounded" elevation="0" loader-height="6" :loading="loaderStateRealtime">
+            <div class="pt-3" id="chart">
+              <apexchart type="line" height="200" :options="chartOptionsRealtime" :series="seriesRealtime" />
+            </div>
 
             <v-card-text class="pt-0">
               <div class="title font-weight-light mb-2">
@@ -138,13 +128,11 @@
           </v-card>
         </v-col>
         <!-- realtime chart atmp-->
-        <v-col class="mb-5" cols="12" lg="12" md="12" sm="12">
-          <v-card class="rounded" elevation="0">
-            <v-sheet class="v-sheet--offset mx-auto rounded" elevation="0" max-width="calc(100% - 32px)">
-              <div id="chart">
-                <apexchart type="line" height="200" :options="chartOptionsRealtimeAtmp" :series="seriesRealtimeAtmp" />
-              </div>
-            </v-sheet>
+        <v-col cols="12" lg="12" md="12" sm="12">
+          <v-card class="rounded" elevation="0" loader-height="6" :loading="loaderStateRealtimeAtmp">
+            <div class="pt-3" id="chart">
+              <apexchart type="line" height="200" :options="chartOptionsRealtimeAtmp" :series="seriesRealtimeAtmp" />
+            </div>
 
             <v-card-text class="pt-0">
               <div class="title font-weight-light mb-2">
@@ -161,13 +149,12 @@
         </v-col>
 
         <!-- candlestick chart gtmp-->
-        <v-col class="mb-5" cols="12" lg="12" md="12" sm="12">
-          <v-card class="rounded" elevation="0">
-            <v-sheet class="v-sheet--offset mx-auto rounded" elevation="0" max-width="calc(100% - 32px)">
-              <div id="chart">
-                <apexchart type="candlestick" height="350" :options="chartOptionsCandle_stick" :series="seriesCandle_stick"></apexchart>
-              </div>
-            </v-sheet>
+        <v-col cols="12" lg="12" md="12" sm="12">
+          <v-card class="rounded" elevation="0" loader-height="6" :loading="loaderStateCandle_stick">
+            <div class="pt-3" id="chart">
+              <apexchart type="candlestick" height="350" :options="chartOptionsCandle_stick" :series="seriesCandle_stick"></apexchart>
+            </div>
+
 
             <v-card-text class="pt-0">
               <div class="title font-weight-light mb-2">
@@ -183,13 +170,11 @@
           </v-card>
         </v-col>
         <!-- candlestick chart atmp-->
-        <v-col class="mb-5" cols="12" lg="12" md="12" sm="12">
-          <v-card class="rounded" elevation="0">
-            <v-sheet class="v-sheet--offset mx-auto rounded" elevation="0" max-width="calc(100% - 32px)">
-              <div id="chart">
-                <apexchart type="candlestick" height="350" :options="chartOptionsCandle_stickAtmp" :series="seriesCandle_stickAtmp"></apexchart>
-              </div>
-            </v-sheet>
+        <v-col cols="12" lg="12" md="12" sm="12">
+          <v-card class="rounded" elevation="0" loader-height="6" :loading="loaderStateCandle_stickAtmp">
+            <div class="pt-3" id="chart">
+              <apexchart type="candlestick" height="350" :options="chartOptionsCandle_stickAtmp" :series="seriesCandle_stickAtmp"></apexchart>
+            </div>
 
             <v-card-text class="pt-0">
               <div class="title font-weight-light mb-2">
@@ -206,43 +191,41 @@
         </v-col>
 
         <!-- historical chart gtmp-->
-        <v-col class="mb-5" cols="12" lg="12" md="12" sm="12">
-          <v-card class="rounded" elevation="0">
-            <v-sheet class="v-sheet--offset mx-auto rounded" elevation="0" max-width="calc(100% - 32px)" rounded>
-              <div id="chart">
-                <div class="toolbar pt-3">
-                  <v-btn icon color="#ff0000" id="one_hour" @click="updateData('one_hour')" class="mr-2" :class="{active: selection==='one_hour'}">
-                    1H
-                  </v-btn>
-                  <v-btn icon color="#ff0000" id="one_day" @click="updateData('one_day')" class="mr-2" :class="{active: selection==='one_day'}">
-                    1D
-                  </v-btn>
-                  <v-btn icon color="#ff0000" id="one_month" @click="updateData('one_month')" class="mr-2" :class="{active: selection==='one_month'}">
-                    1M
-                  </v-btn>
+        <v-col cols="12" lg="12" md="12" sm="12">
+          <v-card class="rounded" elevation="0" loader-height="6" :loading="loaderStateSeries">
+            <div class="pt-3" id="chart">
+              <div class="toolbar pt-3">
+                <v-btn icon color="#ff0000" id="one_hour" @click="updateData('one_hour')" class="mr-2" :class="{active: selection==='one_hour'}">
+                  1H
+                </v-btn>
+                <v-btn icon color="#ff0000" id="one_day" @click="updateData('one_day')" class="mr-2" :class="{active: selection==='one_day'}">
+                  1D
+                </v-btn>
+                <v-btn icon color="#ff0000" id="one_month" @click="updateData('one_month')" class="mr-2" :class="{active: selection==='one_month'}">
+                  1M
+                </v-btn>
 
-                  <v-btn icon color="#ff0000" id="six_months" @click="updateData('six_months')" class="mr-2" :class="{active: selection==='six_months'}">
-                    6M
-                  </v-btn>
+                <v-btn icon color="#ff0000" id="six_months" @click="updateData('six_months')" class="mr-2" :class="{active: selection==='six_months'}">
+                  6M
+                </v-btn>
 
-                  <v-btn icon color="#ff0000" id="one_year" @click="updateData('one_year')" class="mr-2" :class="{active: selection==='one_year'}">
-                    1Y
-                  </v-btn>
+                <v-btn icon color="#ff0000" id="one_year" @click="updateData('one_year')" class="mr-2" :class="{active: selection==='one_year'}">
+                  1Y
+                </v-btn>
 
-                  <v-btn icon color="#ff0000" id="ytd" @click="updateData('ytd')" class="mr-2" :class="{active: selection==='ytd'}">
-                    YTD
-                  </v-btn>
+                <v-btn icon color="#ff0000" id="ytd" @click="updateData('ytd')" class="mr-2" :class="{active: selection==='ytd'}">
+                  YTD
+                </v-btn>
 
-                  <v-btn icon color="#ff0000" id="all" @click="updateData('all')" :class="{active: selection==='all'}">
-                    ALL
-                  </v-btn>
-                </div>
-
-                <div id="chart-timeline">
-                  <apexchart type="area" height="350" ref="historicalChart" :options="chartOptions" :series="series"></apexchart>
-                </div>
+                <v-btn icon color="#ff0000" id="all" @click="updateData('all')" :class="{active: selection==='all'}">
+                  ALL
+                </v-btn>
               </div>
-            </v-sheet>
+
+              <div id="chart-timeline">
+                <apexchart type="area" height="350" ref="historicalChart" :options="chartOptions" :series="series"></apexchart>
+              </div>
+            </div>
 
             <v-card-text class="pt-0">
               <div class="title font-weight-light mb-2">
@@ -259,42 +242,41 @@
         </v-col>
         <!-- historical chart atmp-->
         <v-col class="mb-5" cols="12" lg="12" md="12" sm="12">
-          <v-card class="rounded" elevation="0">
-            <v-sheet class="v-sheet--offset mx-auto rounded" elevation="0" max-width="calc(100% - 32px)" rounded>
-              <div id="chart">
-                <div class="toolbar pt-3">
-                  <v-btn icon color="#ff6600" id="one_hour" @click="updateDataAtmp('one_hour')" class="mr-2" :class="{active: selectionAtmp==='one_hour'}">
-                    1H
-                  </v-btn>
-                  <v-btn icon color="#ff6600" id="one_day" @click="updateDataAtmp('one_day')" class="mr-2" :class="{active: selectionAtmp==='one_day'}">
-                    1D
-                  </v-btn>
-                  <v-btn icon color="#ff6600" id="one_month" @click="updateDataAtmp('one_month')" class="mr-2" :class="{active: selectionAtmp==='one_month'}">
-                    1M
-                  </v-btn>
+          <v-card class="rounded" elevation="0" loader-height="6" :loading="loaderStateSeriesAtmp">
+            <div class="pt-3" id="chart">
+              <div class="toolbar pt-3">
+                <v-btn icon color="#ff6600" id="one_hour" @click="updateDataAtmp('one_hour')" class="mr-2" :class="{active: selectionAtmp==='one_hour'}">
+                  1H
+                </v-btn>
+                <v-btn icon color="#ff6600" id="one_day" @click="updateDataAtmp('one_day')" class="mr-2" :class="{active: selectionAtmp==='one_day'}">
+                  1D
+                </v-btn>
+                <v-btn icon color="#ff6600" id="one_month" @click="updateDataAtmp('one_month')" class="mr-2" :class="{active: selectionAtmp==='one_month'}">
+                  1M
+                </v-btn>
 
-                  <v-btn icon color="#ff6600" id="six_months" @click="updateDataAtmp('six_months')" class="mr-2" :class="{active: selectionAtmp==='six_months'}">
-                    6M
-                  </v-btn>
+                <v-btn icon color="#ff6600" id="six_months" @click="updateDataAtmp('six_months')" class="mr-2" :class="{active: selectionAtmp==='six_months'}">
+                  6M
+                </v-btn>
 
-                  <v-btn icon color="#ff6600" id="one_year" @click="updateDataAtmp('one_year')" class="mr-2" :class="{active: selectionAtmp==='one_year'}">
-                    1Y
-                  </v-btn>
+                <v-btn icon color="#ff6600" id="one_year" @click="updateDataAtmp('one_year')" class="mr-2" :class="{active: selectionAtmp==='one_year'}">
+                  1Y
+                </v-btn>
 
-                  <v-btn icon color="#ff6600" id="ytd" @click="updateDataAtmp('ytd')" class="mr-2" :class="{active: selectionAtmp==='ytd'}">
-                    YTD
-                  </v-btn>
+                <v-btn icon color="#ff6600" id="ytd" @click="updateDataAtmp('ytd')" class="mr-2" :class="{active: selectionAtmp==='ytd'}">
+                  YTD
+                </v-btn>
 
-                  <v-btn icon color="#ff6600" id="all" @click="updateDataAtmp('all')" :class="{active: selectionAtmp==='all'}">
-                    ALL
-                  </v-btn>
-                </div>
-
-                <div id="chart-timeline">
-                  <apexchart type="area" height="350" ref="historicalChartAtmp" :options="chartOptionsAtmp" :series="seriesAtmp"></apexchart>
-                </div>
+                <v-btn icon color="#ff6600" id="all" @click="updateDataAtmp('all')" :class="{active: selectionAtmp==='all'}">
+                  ALL
+                </v-btn>
               </div>
-            </v-sheet>
+
+              <div id="chart-timeline">
+                <apexchart type="area" height="350" ref="historicalChartAtmp" :options="chartOptionsAtmp" :series="seriesAtmp"></apexchart>
+              </div>
+            </div>
+
 
             <v-card-text class="pt-0">
               <div class="title font-weight-light mb-2">
@@ -341,6 +323,16 @@ export default {
   data() {
     return {
       drawer: false,
+      loaderStateCircle: true,
+      loaderStateColumn: true,
+      loaderStateRealtime: true,
+      loaderStateCandle_stick: true,
+      loaderStateSeries: true,
+      loaderStateCircleAtmp: true,
+      loaderStateColumnAtmp: true,
+      loaderStateRealtimeAtmp: true,
+      loaderStateCandle_stickAtmp: true,
+      loaderStateSeriesAtmp: true,
       lastUpdate: localStorage.getItem('lastUpdateTemperatures'),
       //circle chart gtmp
       seriesCircle: [],
@@ -1238,6 +1230,8 @@ export default {
             name: 'Teplota okolia (°C)',
             data: this.series[0].data
           }];
+
+          this.loaderStateSeries = false;
         })
     },
 
@@ -1255,6 +1249,8 @@ export default {
           this.seriesCandle_stick = [{
             data: this.seriesCandle_stick[0].data
           }];
+
+          this.loaderStateCandle_stick = false;
         })
     },
 
@@ -1275,13 +1271,17 @@ export default {
           this.seriesColumn = [{
             data: this.seriesColumn[0].data
           }];
+
+          this.loaderStateColumn = false;
         });
     },
 
     getDataRealtimeGtmp() {
       axios.get('http://127.0.0.1:8000/api/getDataRealtimeTemperatureGtmp')
         .then(res => {
-          localStorage.setItem("lastUpdateTemperatures", moment(res.data[res.data.length - 1].created_at)
+          this.lastUpdate = moment(new Date)
+            .format('YYYY-MM-DD HH:mm:ss');
+          localStorage.setItem("lastUpdateTemperatures", moment(new Date)
             .format('YYYY-MM-DD HH:mm:ss'));
           this.seriesRealtime[0].data.splice(0, 10);
           for (var i = 0; i < res.data.length; i++) {
@@ -1296,9 +1296,11 @@ export default {
             name: 'Teplota okolia (°C)',
             data: this.seriesRealtime[0].data
           }];
-          console.log(res.data);
           this.seriesCircle.splice(0, 1);
           this.seriesCircle.push(parseFloat(res.data[res.data.length - 1].gtmp));
+
+          this.loaderStateRealtime = false;
+          this.loaderStateCircle = false;
         })
     },
 
@@ -1320,6 +1322,8 @@ export default {
             name: 'Teplota na čipe (°C)',
             data: this.seriesAtmp[0].data
           }];
+
+          this.loaderStateSeriesAtmp = false;
         })
     },
 
@@ -1337,6 +1341,8 @@ export default {
           this.seriesCandle_stickAtmp = [{
             data: this.seriesCandle_stickAtmp[0].data
           }];
+
+          this.loaderStateCandle_stickAtmp = false;
         })
     },
 
@@ -1357,13 +1363,17 @@ export default {
           this.seriesColumnAtmp = [{
             data: this.seriesColumnAtmp[0].data
           }];
+
+          this.loaderStateColumnAtmp = false;
         });
     },
 
     getDataRealtimeAtmp() {
       axios.get('http://127.0.0.1:8000/api/getDataRealtimeTemperatureAtmp')
         .then(res => {
-          localStorage.setItem("lastUpdateTemperatures", moment(res.data[res.data.length - 1].created_at)
+          this.lastUpdate = moment(new Date)
+            .format('YYYY-MM-DD HH:mm:ss');
+          localStorage.setItem("lastUpdateTemperatures", moment(new Date)
             .format('YYYY-MM-DD HH:mm:ss'));
           this.seriesRealtimeAtmp[0].data.splice(0, 10);
           for (var i = 0; i < res.data.length; i++) {
@@ -1381,6 +1391,9 @@ export default {
 
           this.seriesCircleAtmp.splice(0, 1);
           this.seriesCircleAtmp.push(parseFloat(res.data[res.data.length - 1].atmp));
+
+          this.loaderStateRealtimeAtmp = false;
+          this.loaderStateCircleAtmp = false;
         })
     },
   },

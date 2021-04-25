@@ -22,7 +22,7 @@
       <v-row class="m-0">
         <v-col class="mb-5" cols="12" lg="12" md="12" sm="12">
           <v-card>
-            <v-toolbar class="notiftoolbar" extended extension-height="4" color="primary" dark>
+            <v-toolbar class="notiftoolbar rounded-top" extended extension-height="4" color="primary" dark style="box-shadow: unset">
               <div class="w-75" v-if="selected.length == '0'">
                 <v-text-field color="white white--color" v-model="search" append-icon="mdi-magnify" label="Vyhľadať" single-line hide-details clearable disabled v-if="myloadingvariable || notif.length == 0"></v-text-field>
                 <v-text-field color="white white--color" v-model="search" append-icon="mdi-magnify" label="Vyhľadať" single-line hide-details clearable v-if="!myloadingvariable &&  notif.length != 0"></v-text-field>
@@ -49,7 +49,7 @@
               </v-progress-linear>
             </v-toolbar>
 
-            <v-list class="pb-0" three-line>
+            <v-list class="pt-0 pb-0" three-line>
               <v-list-item-group v-model="selected" active-class="primary--text" multiple>
                 <v-list-item style="height:95px" class="justify-center" v-if="myloadingvariable" disabled>
                   Načítavanie... Prosím počkajte
@@ -320,7 +320,7 @@ export default {
 
   mounted() {
     //do something after mounting vue instance
-    console.log('Component Welcome mounted.')
+    // console.log('Component Notifications mounted.')
     this.getTodos();
     this.updatenotifStatus();
   },
@@ -331,7 +331,7 @@ export default {
   },
 
   created() {
-    console.log('Component Welcome created')
+    // console.log('Component Notifications created')
   },
 }
 </script>

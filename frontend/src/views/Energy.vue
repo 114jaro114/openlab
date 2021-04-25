@@ -25,13 +25,11 @@
 
     <v-row class="m-0">
       <!-- char for I -->
-      <v-col class="mb-5" cols="12" lg="6" md="12" sm="12">
-        <v-card class="rounded" elevation="0">
-          <v-sheet class="v-sheet--offset mx-auto rounded" elevation="0" max-width="calc(100% - 32px)" rounded>
-            <div id="chart">
-              <apexchart type="line" height="350" ref="dashedChart" :options="chartOptionsDashedI" :series="seriesDashedI"></apexchart>
-            </div>
-          </v-sheet>
+      <v-col cols="12" lg="6" md="12" sm="12">
+        <v-card class="rounded" elevation="0" loader-height="6" :loading="loaderStateDashedI">
+          <div class="pt-3" id="chart">
+            <apexchart type="line" height="350" ref="dashedChart" :options="chartOptionsDashedI" :series="seriesDashedI"></apexchart>
+          </div>
 
           <v-card-text class="pt-0">
             <div class="title font-weight-light mb-2">
@@ -47,13 +45,11 @@
         </v-card>
       </v-col>
       <!-- char for U -->
-      <v-col class="mb-5" cols="12" lg="6" md="12" sm="12">
-        <v-card class="rounded" elevation="0">
-          <v-sheet class="v-sheet--offset mx-auto rounded" elevation="0" max-width="calc(100% - 32px)" rounded>
-            <div id="chart">
-              <apexchart type="line" height="350" ref="dashedChart" :options="chartOptionsDashedU" :series="seriesDashedU"></apexchart>
-            </div>
-          </v-sheet>
+      <v-col cols="12" lg="6" md="12" sm="12">
+        <v-card class="rounded" elevation="0" loader-height="6" :loading="loaderStateDashedU">
+          <div class="pt-3" id="chart">
+            <apexchart type="line" height="350" ref="dashedChart" :options="chartOptionsDashedU" :series="seriesDashedU"></apexchart>
+          </div>
 
           <v-card-text class="pt-0">
             <div class="title font-weight-light mb-2">
@@ -69,13 +65,11 @@
         </v-card>
       </v-col>
       <!-- char for P -->
-      <v-col class="mb-5" cols="12" lg="6" md="12" sm="12">
-        <v-card class="rounded" elevation="0">
-          <v-sheet class="v-sheet--offset mx-auto rounded" elevation="0" max-width="calc(100% - 32px)" rounded>
-            <div id="chart">
-              <apexchart type="line" height="350" ref="dashedChart" :options="chartOptionsDashedP" :series="seriesDashedP"></apexchart>
-            </div>
-          </v-sheet>
+      <v-col cols="12" lg="6" md="12" sm="12">
+        <v-card class="rounded" elevation="0" loader-height="6" :loading="loaderStateDashedP">
+          <div class="pt-3" id="chart">
+            <apexchart type="line" height="350" ref="dashedChart" :options="chartOptionsDashedP" :series="seriesDashedP"></apexchart>
+          </div>
 
           <v-card-text class="pt-0">
             <div class="title font-weight-light mb-2">
@@ -91,13 +85,11 @@
         </v-card>
       </v-col>
       <!-- char for Q -->
-      <v-col class="mb-5" cols="12" lg="6" md="12" sm="12">
-        <v-card class="rounded" elevation="0">
-          <v-sheet class="v-sheet--offset mx-auto rounded" elevation="0" max-width="calc(100% - 32px)" rounded>
-            <div id="chart">
-              <apexchart type="line" height="350" ref="dashedChart" :options="chartOptionsDashedQ" :series="seriesDashedQ"></apexchart>
-            </div>
-          </v-sheet>
+      <v-col cols="12" lg="6" md="12" sm="12">
+        <v-card class="rounded" elevation="0" loader-height="6" :loading="loaderStateDashedQ">
+          <div class="pt-3" id="chart">
+            <apexchart type="line" height="350" ref="dashedChart" :options="chartOptionsDashedQ" :series="seriesDashedQ"></apexchart>
+          </div>
 
           <v-card-text class="pt-0">
             <div class="title font-weight-light mb-2">
@@ -113,13 +105,11 @@
         </v-card>
       </v-col>
       <!-- char for S -->
-      <v-col class="mb-5" cols="12" lg="12" md="12" sm="12">
-        <v-card class="rounded" elevation="0">
-          <v-sheet class="v-sheet--offset mx-auto rounded" elevation="0" max-width="calc(100% - 32px)" rounded>
-            <div id="chart">
-              <apexchart type="line" height="350" ref="dashedChart" :options="chartOptionsDashedS" :series="seriesDashedS"></apexchart>
-            </div>
-          </v-sheet>
+      <v-col cols="12" lg="12" md="12" sm="12">
+        <v-card class="rounded" elevation="0" loader-height="6" :loading="loaderStateDashedS">
+          <div class="pt-3" id="chart">
+            <apexchart type="line" height="350" ref="dashedChart" :options="chartOptionsDashedS" :series="seriesDashedS"></apexchart>
+          </div>
 
           <v-card-text class="pt-0">
             <div class="title font-weight-light mb-2">
@@ -135,13 +125,11 @@
         </v-card>
       </v-col>
       <!-- char for E_E -->
-      <v-col class="mb-5" cols="12" lg="6" md="12" sm="12">
-        <v-card class="rounded" elevation="0">
-          <v-sheet class="v-sheet--offset mx-auto rounded" elevation="0" max-width="calc(100% - 32px)" rounded>
-            <div id="chart">
-              <apexchart type="line" height="350" ref="dashedChart" :options="chartOptionsDashedE_E" :series="seriesDashedE_E"></apexchart>
-            </div>
-          </v-sheet>
+      <v-col cols="12" lg="6" md="12" sm="12">
+        <v-card class="rounded" elevation="0" loader-height="6" :loading="loaderStateDashedE_E">
+          <div class="pt-3" id="chart">
+            <apexchart type="line" height="350" ref="dashedChart" :options="chartOptionsDashedE_E" :series="seriesDashedE_E"></apexchart>
+          </div>
 
           <v-card-text class="pt-0">
             <div class="title font-weight-light mb-2">
@@ -158,12 +146,10 @@
       </v-col>
       <!-- char for E_I -->
       <v-col class="mb-5" cols="12" lg="6" md="12" sm="12">
-        <v-card class="rounded" elevation="0">
-          <v-sheet class="v-sheet--offset mx-auto rounded" elevation="0" max-width="calc(100% - 32px)" rounded>
-            <div id="chart">
-              <apexchart type="line" height="350" ref="dashedChart" :options="chartOptionsDashedE_I" :series="seriesDashedE_I"></apexchart>
-            </div>
-          </v-sheet>
+        <v-card class="rounded" elevation="0" loader-height="6" :loading="loaderStateDashedE_I">
+          <div class="pt-3" id="chart">
+            <apexchart type="line" height="350" ref="dashedChart" :options="chartOptionsDashedE_I" :series="seriesDashedE_I"></apexchart>
+          </div>
 
           <v-card-text class="pt-0">
             <div class="title font-weight-light mb-2">
@@ -205,6 +191,13 @@ export default {
   data() {
     return {
       drawer: false,
+      loaderStateDashedI: true,
+      loaderStateDashedU: true,
+      loaderStateDashedP: true,
+      loaderStateDashedS: true,
+      loaderStateDashedQ: true,
+      loaderStateDashedE_E: true,
+      loaderStateDashedE_I: true,
       lastUpdate: localStorage.getItem('lastUpdateEnergy'),
       //dashed chart for I
       seriesDashedI: [{
@@ -827,6 +820,10 @@ export default {
     getDataDashedU() {
       axios.get('http://127.0.0.1:8000/api/getDataDashedU')
         .then(res => {
+          this.lastUpdate = moment(new Date)
+            .format('YYYY-MM-DD HH:mm:ss');
+          localStorage.setItem("lastUpdateEnergy", moment(new Date)
+            .format('YYYY-MM-DD HH:mm:ss'));
           this.seriesDashedU[0].data = res.data[0][0]
           this.seriesDashedU[1].data = res.data[0][1]
           this.seriesDashedU[2].data = res.data[0][2]
@@ -843,6 +840,7 @@ export default {
               }
             }
           }
+          this.loaderStateDashedU = false;
         })
     },
     getDataDashedI() {
@@ -864,6 +862,7 @@ export default {
               }
             }
           }
+          this.loaderStateDashedI = false;
         })
     },
     getDataDashedP() {
@@ -885,6 +884,7 @@ export default {
               }
             }
           }
+          this.loaderStateDashedP = false;
         })
     },
     getDataDashedS() {
@@ -906,6 +906,7 @@ export default {
               }
             }
           }
+          this.loaderStateDashedS = false;
         })
     },
     getDataDashedQ() {
@@ -927,6 +928,7 @@ export default {
               }
             }
           }
+          this.loaderStateDashedQ = false;
         })
     },
     getDataDashedE_I() {
@@ -948,6 +950,7 @@ export default {
               }
             }
           }
+          this.loaderStateDashedE_I = false;
         })
     },
     getDataDashedE_E() {
@@ -969,13 +972,13 @@ export default {
               }
             }
           }
+          this.loaderStateDashedE_E = false;
         })
     }
   },
 
   mounted() {
     //do something after mounting vue instance
-    console.log('Component Welcome mounted.')
     this.getDataDashedU();
     this.getDataDashedI();
     this.getDataDashedP();

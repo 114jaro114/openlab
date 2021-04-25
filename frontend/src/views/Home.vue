@@ -23,13 +23,11 @@
       </v-app-bar>
     </v-card>
     <v-row class="m-0">
-      <v-col class="mb-5" cols="12" lg="6" md="12" sm="12">
-        <v-card class="rounded" elevation="0">
-          <v-sheet class="v-sheet--offset mx-auto" elevation="0" max-width="calc(100% - 32px)" rounded>
-            <div id="chart">
-              <apexchart type="radialBar" height="400" ref="circleMultipleChart" :options="chartOptionsCircle_multiple" :series="seriesCircle_multiple"></apexchart>
-            </div>
-          </v-sheet>
+      <v-col cols="12" lg="6" md="12" sm="12">
+        <v-card class="rounded" elevation="0" loader-height="6" :loading="loaderStateCircle_multiple">
+          <div class="pt-3" id="chart">
+            <apexchart type="radialBar" height="397" ref="circleMultipleChart" :options="chartOptionsCircle_multiple" :series="seriesCircle_multiple"></apexchart>
+          </div>
 
           <v-card-text class="pt-0">
             <div class="title font-weight-light mb-2">
@@ -45,13 +43,11 @@
         </v-card>
       </v-col>
 
-      <v-col class="mb-5" cols="12" lg="6" md="12" sm="12">
-        <v-card class="rounded" elevation="0">
-          <v-sheet class="v-sheet--offset mx-auto rounded" elevation="0" max-width="calc(100% - 32px)" rounded>
-            <div id="chart">
-              <apexchart type="line" height="350" ref="dashedChart" :options="chartOptionsDashed" :series="seriesDashed"></apexchart>
-            </div>
-          </v-sheet>
+      <v-col cols="12" lg="6" md="12" sm="12">
+        <v-card class="rounded" elevation="0" loader-height="6" :loading="loaderStateDashed">
+          <div class="pt-3" id="chart">
+            <apexchart type="line" height="350" ref="dashedChart" :options="chartOptionsDashed" :series="seriesDashed"></apexchart>
+          </div>
 
           <v-card-text class="pt-0">
             <div class="title font-weight-light mb-2">
@@ -67,30 +63,28 @@
         </v-card>
       </v-col>
 
-      <v-col class="mb-5" cols="12" lg="12" md="12" sm="12">
-        <v-card class="rounded" elevation="0">
-          <v-sheet class="v-sheet--offset mx-auto rounded" elevation="0" max-width="calc(100% - 32px)">
-            <div id="wrapper">
-              <div id="chart-area1">
-                <apexchart type="area" height="160" ref="area1Chart" :options="chartOptionsArea1" :series="seriesArea1"></apexchart>
-              </div>
-              <div id="chart-area2">
-                <apexchart type="area" height="160" ref="area2Chart" :options="chartOptionsArea2" :series="seriesArea2"></apexchart>
-              </div>
-              <div id="chart-area3">
-                <apexchart type="area" height="160" ref="area3Chart" :options="chartOptionsArea3" :series="seriesArea3"></apexchart>
-              </div>
-              <div id="chart-area3">
-                <apexchart type="area" height="160" ref="area4Chart" :options="chartOptionsArea4" :series="seriesArea4"></apexchart>
-              </div>
-              <div id="chart-area3">
-                <apexchart type="area" height="160" ref="area5Chart" :options="chartOptionsArea5" :series="seriesArea5"></apexchart>
-              </div>
-              <div id="chart-area3">
-                <apexchart type="area" height="160" ref="area6Chart" :options="chartOptionsArea6" :series="seriesArea6"></apexchart>
-              </div>
+      <v-col cols="12" lg="12" md="12" sm="12">
+        <v-card class="rounded" elevation="0" loader-height="6" :loading="loaderStateAreas">
+          <div class="pt-3" id="wrapper">
+            <div id="chart-area1">
+              <apexchart type="area" height="160" ref="area1Chart" :options="chartOptionsArea1" :series="seriesArea1"></apexchart>
             </div>
-          </v-sheet>
+            <div id="chart-area2">
+              <apexchart type="area" height="160" ref="area2Chart" :options="chartOptionsArea2" :series="seriesArea2"></apexchart>
+            </div>
+            <div id="chart-area3">
+              <apexchart type="area" height="160" ref="area3Chart" :options="chartOptionsArea3" :series="seriesArea3"></apexchart>
+            </div>
+            <div id="chart-area3">
+              <apexchart type="area" height="160" ref="area4Chart" :options="chartOptionsArea4" :series="seriesArea4"></apexchart>
+            </div>
+            <div id="chart-area3">
+              <apexchart type="area" height="160" ref="area5Chart" :options="chartOptionsArea5" :series="seriesArea5"></apexchart>
+            </div>
+            <div id="chart-area3">
+              <apexchart type="area" height="160" ref="area6Chart" :options="chartOptionsArea6" :series="seriesArea6"></apexchart>
+            </div>
+          </div>
 
           <v-card-text class="pt-0">
             <div class="title font-weight-light mb-2">
@@ -106,12 +100,11 @@
         </v-card>
       </v-col>
       <v-col class="mb-5" cols="12" lg="12" md="12" sm="12">
-        <v-card class="rounded" elevation="0">
-          <v-sheet class="v-sheet--offset mx-auto rounded" elevation="0" max-width="calc(100% - 32px)">
-            <div id="chart">
-              <apexchart type="bar" height="350" ref="barChart" :options="chartOptionsBar" :series="seriesBar"></apexchart>
-            </div>
-          </v-sheet>
+        <v-card class="rounded" elevation="0" loader-height="6" :loading="loaderStateBar">
+
+          <div class="pt-3" id="chart">
+            <apexchart type="bar" height="350" ref="barChart" :options="chartOptionsBar" :series="seriesBar"></apexchart>
+          </div>
 
           <v-card-text class="pt-0">
             <div class="title font-weight-light mb-2">
@@ -157,6 +150,11 @@ export default {
       lastUpdate: localStorage.getItem('lastUpdateHome'),
       drawer: false,
       group: null,
+      loaderStateCircle_multiple: true,
+      loaderStateDashed: true,
+      loaderStateAreas: true,
+      loaderStateBar: true,
+
       //apexcharts synchronized
       seriesArea1: [{
         name: 'Teplota okolia (°C)',
@@ -794,6 +792,10 @@ export default {
     getDataAreasGroup() {
       axios.get('http://127.0.0.1:8000/api/getDataAreasGroup')
         .then(res => {
+          this.lastUpdate = moment(new Date)
+            .format('YYYY-MM-DD HH:mm:ss');
+          localStorage.setItem("lastUpdateHome", moment(new Date)
+            .format('YYYY-MM-DD HH:mm:ss'));
           this.seriesArea1[0].data.splice(0, this.seriesArea1[0].data.length);
           this.seriesArea2[0].data.splice(0, this.seriesArea2[0].data.length);
           this.seriesArea3[0].data.splice(0, this.seriesArea3[0].data.length);
@@ -850,24 +852,8 @@ export default {
           this.seriesArea6 = [{
             data: this.seriesArea6[0].data
           }];
-          // this.$refs.area1Chart.updateSeries([{
-          //   data: this.seriesArea1[0].data,
-          // }]);
-          // this.$refs.area2Chart.updateSeries([{
-          //   data: this.seriesArea2[0].data,
-          // }]);
-          // this.$refs.area3Chart.updateSeries([{
-          //   data: this.seriesArea3[0].data,
-          // }]);
-          // this.$refs.area4Chart.updateSeries([{
-          //   data: this.seriesArea4[0].data,
-          // }]);
-          // this.$refs.area5Chart.updateSeries([{
-          //   data: this.seriesArea5[0].data,
-          // }]);
-          // this.$refs.area6Chart.updateSeries([{
-          //   data: this.seriesArea6[0].data,
-          // }]);
+
+          this.loaderStateAreas = false;
         });
     },
     getDataDashed() {
@@ -888,7 +874,8 @@ export default {
                 },
               }
             }
-          }
+          };
+          this.loaderStateDashed = false;
         })
     },
 
@@ -933,11 +920,8 @@ export default {
               }
             }
           };
-          // this.$refs.barChart.updateOptions({
-          //   seriesBar: [{
-          //     data: this.seriesBar[0].data,
-          //   }],
-          // });
+
+          this.loaderStateBar = false;
         });
     },
 
@@ -950,6 +934,8 @@ export default {
             parseFloat(res.data[0].atmp), parseFloat(res.data[0].humi),
             parseFloat(res.data[0].vol), parseFloat(res.data[0].light),
           );
+
+          this.loaderStateCircle_multiple = false;
         });
     }
   },

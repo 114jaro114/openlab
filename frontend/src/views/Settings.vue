@@ -341,6 +341,10 @@ export default {
     }
   },
   mounted() {
+    if (!(localStorage.getItem('language'))) {
+      localStorage.setItem('language', 'Slovenský jazyk');
+    }
+
     if (this.windowWidth <= 480) {
       this.lockSpeedDial = true;
       this.lockBottomNavigation = false;
@@ -436,8 +440,6 @@ export default {
 
   updated() {
     //do something after updating vue instance
-    console.log(this.ntf);
-    console.log(this.ntfs);
     if (this.ntf.length != 0) {
       localStorage.setItem('notifState', true);
     } else {
@@ -505,7 +507,7 @@ export default {
   },
 
   created() {
-    console.log('Component Welcome created')
+    // console.log('Component Settings created')
   },
 }
 </script>
