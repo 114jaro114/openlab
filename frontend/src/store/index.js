@@ -16,6 +16,8 @@ export default new Vuex.Store({
     autoDarkLightModeState: {
       state: false,
     },
+
+    notificationCounter: null,
   },
   getters: {
     speedDialState: state => {
@@ -28,6 +30,10 @@ export default new Vuex.Store({
 
     autoDarkLightModeState: state => {
       return state.autoDarkLightModeState
+    },
+
+    notificationCounter: state => {
+      return state.notificationCounter
     },
   },
   mutations: {
@@ -42,6 +48,10 @@ export default new Vuex.Store({
     mutationAutoDarkLightModeState: (state, payload) => {
       Vue.set(state.autoDarkLightModeState, 'state', payload.status);
     },
+
+    mutationNotificationCounter: (state, payload) => {
+      state.notificationCounter = payload.notifCounter
+    },
   },
   actions: {
     speedDialState: (context, payload) => {
@@ -54,6 +64,10 @@ export default new Vuex.Store({
 
     autoDarkLightModeState: (context, payload) => {
       context.commit('mutationAutoDarkLightModeState', payload)
+    },
+
+    notificationCounter: (context, payload) => {
+      context.commit('mutationNotificationCounter', payload)
     },
   }
 });

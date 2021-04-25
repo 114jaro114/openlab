@@ -12,7 +12,9 @@
         <v-spacer></v-spacer>
 
         <v-btn icon to="/notifications">
-          <v-icon>mdi-bell</v-icon>
+          <v-badge :content="this.$store.getters['notificationCounter']" :value="this.$store.getters['notificationCounter']" color="orange" overlap bordered>
+            <v-icon>mdi-bell</v-icon>
+          </v-badge>
         </v-btn>
 
         <v-btn icon to="/settings">

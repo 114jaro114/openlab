@@ -41,6 +41,11 @@ export default {
     }
 
     this.initDarkMode();
+    if (localStorage.getItem('notifCounter')) {
+      this.$store.dispatch('notificationCounter', {
+        notifCounter: JSON.parse(localStorage.getItem('notifCounter'))
+      });
+    }
   },
   updated() {
     //do something after updating vue instance

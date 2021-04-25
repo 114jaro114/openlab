@@ -58,7 +58,7 @@ export default {
 }
 
 .footer {
-  background-color: #e9ecef;
+  /* background-color: #e9ecef; */
 }
 
 .footer-content {

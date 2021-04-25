@@ -42,7 +42,9 @@
       </v-list-item>
 
       <v-list-item to="/notifications">
-        <v-icon>mdi-bell</v-icon>
+        <v-badge :content="this.$store.getters['notificationCounter']" :value="this.$store.getters['notificationCounter']" color="orange" overlap bordered>
+          <v-icon>mdi-bell</v-icon>
+        </v-badge>
         <v-list-item-title>Notifikácie</v-list-item-title>
       </v-list-item>
 
@@ -70,7 +72,11 @@ export default {
       return this.drawer;
     },
   },
-  methods: {}
+
+  updated() {
+    //do something after updating vue instance
+    console.log(localStorage.getItem('notifCounter'));
+  }
 }
 </script>
 <style type="scss">

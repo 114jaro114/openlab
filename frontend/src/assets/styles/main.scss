@@ -71,3 +71,7 @@ a:hover {
     display: none !important;
   }
 }
+
+.theme--dark.v-badge .v-badge__badge::after {
+    border-color: #363636;
+}

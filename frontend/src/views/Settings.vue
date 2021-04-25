@@ -34,7 +34,8 @@
                 </v-list-item-content>
               </template>
             </v-list-item>
-
+          </v-list-item-group>
+          <v-list-item-group v-model="ntfs" multiple active-class="">
             <v-list-item>
               <template v-slot:default="{ active }">
                 <v-list-item-action>
@@ -102,6 +103,117 @@
               </template>
             </v-list-item>
           </v-list-item-group>
+
+          <v-divider></v-divider>
+
+          <v-subheader>Nastavenie hraničných hodnôt</v-subheader>
+          <v-row class="pl-3 pr-3 pb-3" justify="center">
+            <v-col cols="12" sm="12">
+              <v-expansion-panels>
+                <v-expansion-panel>
+                  <v-expansion-panel-header>
+                    Teplota okolia
+                    <div class="ml-3" v-if="switch1 == true">
+                      <v-icon color="green">mdi-check-circle</v-icon>
+                    </div>
+                    <div class="ml-3" v-else>
+                      <v-icon color="red">mdi-close-circle</v-icon>
+                    </div>
+                  </v-expansion-panel-header>
+                  <v-expansion-panel-content>
+                    <v-switch v-model="switch1" color="#ff0000" inset></v-switch>
+                    <v-range-slider :disabled="!switch1" color="#ff0000" track-color="#ff0000" track-fill-color="#ff0000" v-model="slider1" thumb-label :thumb-size="24" max="100" min="-100"></v-range-slider>
+                    <span>Nastavenie hraničných hodnôt pre teplotu okolia</span>
+                  </v-expansion-panel-content>
+                </v-expansion-panel>
+
+                <v-expansion-panel>
+                  <v-expansion-panel-header>
+                    Teplota na čipe
+                    <div class="ml-3" v-if="switch2 == true">
+                      <v-icon color="green">mdi-check-circle</v-icon>
+                    </div>
+                    <div class="ml-3" v-else>
+                      <v-icon color="red">mdi-close-circle</v-icon>
+                    </div>
+                  </v-expansion-panel-header>
+                  <v-expansion-panel-content>
+                    <v-switch v-model="switch2" color="#ff6600" inset></v-switch>
+                    <v-range-slider :disabled="!switch2" color="#ff6600" track-color="#ff6600" track-fill-color="#ff6600" v-model="slider2" thumb-label :thumb-size="24" max="100" min="-100"></v-range-slider>
+                    <span>Nastavenie hraničných hodnôt pre teplotu na čipe</span>
+                  </v-expansion-panel-content>
+                </v-expansion-panel>
+
+                <v-expansion-panel>
+                  <v-expansion-panel-header>
+                    Vlhkosť
+                    <div class="ml-3" v-if="switch3 == true">
+                      <v-icon color="green">mdi-check-circle</v-icon>
+                    </div>
+                    <div class="ml-3" v-else>
+                      <v-icon color="red">mdi-close-circle</v-icon>
+                    </div>
+                  </v-expansion-panel-header>
+                  <v-expansion-panel-content>
+                    <v-switch v-model="switch3" color="#0066ff" inset></v-switch>
+                    <v-range-slider :disabled="!switch3" color="#0066ff" track-color="#0066ff" track-fill-color="#0066ff" v-model="slider3" thumb-label :thumb-size="24" max="100" min="-100"></v-range-slider>
+                    <span>Nastavenie hraničných hodnôt pre vlhkosť</span>
+                  </v-expansion-panel-content>
+                </v-expansion-panel>
+
+                <v-expansion-panel>
+                  <v-expansion-panel-header>
+                    Hlasitosť
+                    <div class="ml-3" v-if="switch4 == true">
+                      <v-icon color="green">mdi-check-circle</v-icon>
+                    </div>
+                    <div class="ml-3" v-else>
+                      <v-icon color="red">mdi-close-circle</v-icon>
+                    </div>
+                  </v-expansion-panel-header>
+                  <v-expansion-panel-content>
+                    <v-switch v-model="switch4" color="#ffcc00" inset></v-switch>
+                    <v-range-slider :disabled="!switch4" color="#ffcc00" track-color="#ffcc00" track-fill-color="#ffcc00" v-model="slider4" thumb-label :thumb-size="24" max="100" min="-100"></v-range-slider>
+                    <span>Nastavenie hraničných hodnôt pre hlasitosť</span>
+                  </v-expansion-panel-content>
+                </v-expansion-panel>
+
+                <v-expansion-panel>
+                  <v-expansion-panel-header>
+                    Svetlo
+                    <div class="ml-3" v-if="switch5 == true">
+                      <v-icon color="green">mdi-check-circle</v-icon>
+                    </div>
+                    <div class="ml-3" v-else>
+                      <v-icon color="red">mdi-close-circle</v-icon>
+                    </div>
+                  </v-expansion-panel-header>
+                  <v-expansion-panel-content>
+                    <v-switch v-model="switch5" color="#737373" inset></v-switch>
+                    <v-range-slider :disabled="!switch5" color="#737373" track-color="#737373" track-fill-color="#737373" v-model="slider5" thumb-label :thumb-size="24" max="100" min="-100"></v-range-slider>
+                    <span>Nastavenie hraničných hodnôt pre svetlo</span>
+                  </v-expansion-panel-content>
+                </v-expansion-panel>
+
+                <v-expansion-panel>
+                  <v-expansion-panel-header>
+                    Tlak
+                    <div class="ml-3" v-if="switch6 == true">
+                      <v-icon color="green">mdi-check-circle</v-icon>
+                    </div>
+                    <div class="ml-3" v-else>
+                      <v-icon color="red">mdi-close-circle</v-icon>
+                    </div>
+                  </v-expansion-panel-header>
+                  <v-expansion-panel-content>
+                    <v-switch v-model="switch6" color="#00b300" inset></v-switch>
+                    <v-range-slider :disabled="!switch6" color="#00b300" track-color="#00b300" track-fill-color="#00b300" v-model="slider6" thumb-label :thumb-size="24" max="100" min="-100"></v-range-slider>
+                    <span>Nastavenie hraničných hodnôt pre tlak</span>
+                  </v-expansion-panel-content>
+                </v-expansion-panel>
+              </v-expansion-panels>
+            </v-col>
+          </v-row>
 
           <v-divider></v-divider>
 
@@ -209,9 +321,23 @@ export default {
         },
       ],
       ntf: [],
+      ntfs: [],
       dlm: [],
       sd: [],
       bn: [],
+      switch1: false,
+      switch2: false,
+      switch3: false,
+      switch4: false,
+      switch5: false,
+      switch6: false,
+
+      slider1: [0, 10],
+      slider2: [0, 10],
+      slider3: [0, 10],
+      slider4: [0, 10],
+      slider5: [0, 10],
+      slider6: [0, 10],
     }
   },
   mounted() {
@@ -258,6 +384,14 @@ export default {
       });
     }
 
+    if (JSON.parse(localStorage.getItem("notifState")) == true) {
+      this.ntf.push(0);
+    }
+
+    if (JSON.parse(localStorage.getItem("notifSoundState")) == true) {
+      this.ntfs.push(0);
+    }
+
     if (JSON.parse(localStorage.getItem("speed_dial")) == true) {
       this.sd.push(0);
       this.$store.dispatch('speedDialState', {
@@ -298,7 +432,19 @@ export default {
 
   updated() {
     //do something after updating vue instance
-    console.log(this.dlm);
+    console.log(this.ntf);
+    console.log(this.ntfs);
+    if (this.ntf.length != 0) {
+      localStorage.setItem('notifState', true);
+    } else {
+      localStorage.setItem('notifState', false);
+    }
+
+    if (this.ntfs.length != 0) {
+      localStorage.setItem('notifSoundState', true);
+    } else {
+      localStorage.setItem('notifSoundState', false);
+    }
     if (this.dlm.length != 0) {
       this.autoDLMon = true;
       localStorage.setItem('auto_dlm', true);

@@ -65,7 +65,6 @@
                 </v-btn>
               </v-list-item>
               <template v-else v-for="(item, index) in notif">
-
                 <!-- list notif -->
                 <v-list-item class="p-0" :key="item.id" v-if="!myloadingvariable">
                   <template v-slot:default="{ active }">
@@ -90,11 +89,16 @@
               </template>
               <!-- snackbar deleteNotif-->
               <v-snackbar :timeout="-1" :value="deleteNotif" absolute centered color="primary" elevation="24">
-                Naozaj chcete vymazať túto notifikáciu?
-                <v-btn class="ml-2 mt-3" color="secondary error--text" fab x-small @click="deleteNotif = false; deleteNotification()">
+                <div v-if="selectedAll.length == 1">
+                  <span>Naozaj chcete vymazať túto notifikáciu?</span>
+                </div>
+                <div v-else>
+                  <span>Naozaj chcete vymazať tieto notifikácie?</span>
+                </div>
+                <v-btn class="ml-2 mt-3" color="secondary green--text" fab x-small @click="deleteNotif = false; deleteNotification()">
                   <v-icon>mdi-check</v-icon>
                 </v-btn>
-                <v-btn class="ml-2 mt-3" color="secondary accent--text" fab x-small medium @click="deleteNotif = false">
+                <v-btn class="ml-2 mt-3" color="secondary red--text" fab x-small medium @click="deleteNotif = false">
                   <v-icon>mdi-close</v-icon>
                 </v-btn>
               </v-snackbar>
@@ -111,6 +115,11 @@
             </v-list-item-group>
           </v-list>
         </v-card>
+
+        <form @keydown.enter.prevent="">
+          <input type="text" class="input-todo" v-bind:class="{ active: new_notif }" v-model="new_notif" v-on:keyup.enter="addItem">
+          <div class="btn btn-add" v-bind:class="{ active: new_notif }" @click="addItem">+</div>
+        </form>
       </v-col>
     </v-row>
     <NavigationDrawer :drawer="drawer" />
@@ -120,6 +129,7 @@
 </v-lazy>
 </template>
 <script>
+import moment from 'moment';
 import Footer from "../components/Footer.vue";
 import NavigationDrawer from "../components/NavigationDrawer.vue";
 import BottomNavigation from "../components/BottomNavigation.vue";
@@ -147,21 +157,17 @@ export default {
         checked: false,
         indeterminate: false
       },
-      notif: [{
-        recipient: 1,
-        title: 'hmm',
-        subtitle: 'hmm',
-        text: 'hmm',
-        date: '2021-03-27 16:00',
-        status: 'new',
-      }],
+      notif: [],
       notifCount: 0,
       // notif snackbars
       deleteNotif: false,
       addToRelevant: false,
       snackbar: false,
       multiLine: true,
-      text: ''
+      text: '',
+
+
+      new_notif: ''
     }
   },
 
@@ -181,15 +187,7 @@ export default {
     }
   },
 
-  updated() {
-    this.drawer = this.drawerNew;
-  },
-
   methods: {
-    deleteNotification() {
-      console.log('vymazane');
-    },
-
     checkUncheck(item, active) {
       if (active) {
         for (var i = 0; i < this.selectedAll.length; i++) {
@@ -240,17 +238,96 @@ export default {
         this.selectedAll = [];
       }
     },
-  },
 
-  watch: {},
+    // get all todos when loading the page
+    getTodos() {
+      if (localStorage.getItem('notifications')) {
+        this.notif = JSON.parse(localStorage.getItem('notifications'));
+        setInterval(() => {
+          this.myloadingvariable = false;
+        }, 800);
+      } else {
+        this.notif = [];
+        setInterval(() => {
+          this.myloadingvariable = false;
+        }, 800);
+      }
+    },
+    // add a new item
+    addItem() {
+      // validation check
+      if (JSON.parse(localStorage.getItem("notifState")) == true) {
+        if (this.new_notif) {
+          this.notif.unshift({
+            id: this.notif.length,
+            title: this.new_notif,
+            subtitle: 'hmm',
+            text: 'hmm',
+            date: moment(new Date)
+              .format('DD MM YYYY HH:mm:ss'),
+            status: 'unread',
+          });
+          if (JSON.parse(localStorage.getItem("notifSoundState")) == true) {
+            var audio = new Audio(require('../assets/AirPlaneDing.mp3'));
+            audio.play();
+          }
+        }
+
+        var counter = 0;
+        for (var i = 0; i < this.notif.length; i++) {
+          if (this.notif[i].status == 'unread') {
+            counter++;
+          }
+        }
+        this.$store.dispatch('notificationCounter', {
+          notifCounter: counter
+        });
+        localStorage.setItem('notifCounter', counter);
+        localStorage.setItem('notifications', JSON.stringify(this.notif));
+        // reset new_todo
+        this.new_notif = '';
+      }
+    },
+
+    deleteNotification() {
+      for (var x = 0; x < this.selected.length; x++) {
+        this.notif.splice(this.notif.indexOf(this.selected[x]), 1);
+      }
+      console.log(this.selectedAll);
+      localStorage.setItem('notifications', JSON.stringify(this.notif));
+      for (var z = 0; z < this.notif.length; z++) {
+        this.notif[z].id = z;
+      }
+      localStorage.setItem('notifications', JSON.stringify(this.notif));
+    },
+
+    clearAll() {
+      this.notif = [];
+      localStorage.setItem('notifications', JSON.stringify(this.notif));
+    },
+
+    updatenotifStatus() {
+      for (var i = 0; i < this.notif.length; i++) {
+        this.notif[i].status = 'read'
+      }
+      localStorage.setItem('notifications', JSON.stringify(this.notif));
+      localStorage.setItem('notifCounter', 0);
+      this.$store.dispatch('notificationCounter', {
+        notifCounter: 0
+      });
+    }
+  },
 
   mounted() {
     //do something after mounting vue instance
     console.log('Component Welcome mounted.')
-    setInterval(() => {
-      this.myloadingvariable = false;
-    }, 2000);
+    this.getTodos();
+    this.updatenotifStatus();
+  },
 
+  updated() {
+    this.drawer = this.drawerNew;
+    this.updatenotifStatus();
   },
 
   created() {
