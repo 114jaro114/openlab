@@ -1,10 +1,10 @@
 <template>
 <v-lazy :options="{
-        threshold: .4
+        threshold: .1
       }" min-height="100vh" transition-group="scale-transition">
   <div class="home custom-margin-page">
     <v-card class="mx-auto ml-3 mr-3" elevation="0" tile>
-      <v-app-bar fixed app tile>
+      <v-app-bar fixed flat>
         <v-app-bar-nav-icon @click.stop="drawer = !drawer"></v-app-bar-nav-icon>
 
         <v-toolbar-title>OpenLab FEI Tuke</v-toolbar-title>
@@ -12,7 +12,7 @@
         <v-spacer></v-spacer>
 
         <v-btn icon to="/notifications">
-          <v-badge :content="this.$store.getters['notificationCounter']" :value="this.$store.getters['notificationCounter']" color="orange" overlap bordered>
+          <v-badge :content="this.$store.getters['notificationCounter']" :value="this.$store.getters['notificationCounter']" :offset-x="11" :offset-y="12" color="orange" overlap left bordered>
             <v-icon>mdi-bell</v-icon>
           </v-badge>
         </v-btn>
@@ -962,6 +962,7 @@ export default {
     //do something after creating vue instance
     window.Echo.channel('dataAllSensors')
       .listen('AllSensorsEvent', (e) => {
+        console.log(e);
         this.lastUpdate = moment(e.dataAllSensors.created_at)
           .format('YYYY-MM-DD HH:mm:ss');
         localStorage.setItem("lastUpdateHome", moment(e.dataAllSensors.created_at)

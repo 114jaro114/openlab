@@ -4,7 +4,7 @@
       }" min-height="100vh" transition-group="scale-transition">
   <div class="settings mt-page-settings_notif">
     <v-card class="mx-auto" elevation="0" tile>
-      <v-app-bar fixed app tile>
+      <v-app-bar fixed flat>
         <v-app-bar-nav-icon @click.stop="drawer = !drawer"></v-app-bar-nav-icon>
 
         <v-toolbar-title>OpenLab FEI Tuke</v-toolbar-title>
@@ -12,7 +12,9 @@
         <v-spacer></v-spacer>
 
         <v-btn icon to="/notifications">
-          <v-icon>mdi-bell</v-icon>
+          <v-badge :content="this.$store.getters['notificationCounter']" :value="this.$store.getters['notificationCounter']" :offset-x="11" :offset-y="12" color="orange" overlap left bordered>
+            <v-icon>mdi-bell</v-icon>
+          </v-badge>
         </v-btn>
       </v-app-bar>
     </v-card>
@@ -122,7 +124,7 @@
                   </v-expansion-panel-header>
                   <v-expansion-panel-content>
                     <v-switch v-model="switch1" color="#ff0000" inset></v-switch>
-                    <v-range-slider class="mt-3" :disabled="!switch1" color="#ff0000" track-color="#ff0000" track-fill-color="#ff0000" v-model="slider1" thumb-label :thumb-size="24" max="100" min="-100"></v-range-slider>
+                    <v-range-slider class="mt-5" :disabled="!switch1" color="#ff0000" track-color="#ff0000" track-fill-color="#ff0000" v-model="slider1" thumb-label="always" :thumb-size="28" max="100" min="-20"></v-range-slider>
                     <span>Nastavenie hraničných hodnôt pre teplotu okolia</span>
                   </v-expansion-panel-content>
                 </v-expansion-panel>
@@ -139,7 +141,7 @@
                   </v-expansion-panel-header>
                   <v-expansion-panel-content>
                     <v-switch v-model="switch2" color="#ff6600" inset></v-switch>
-                    <v-range-slider class="mt-3" :disabled="!switch2" color="#ff6600" track-color="#ff6600" track-fill-color="#ff6600" v-model="slider2" thumb-label :thumb-size="24" max="100" min="-100"></v-range-slider>
+                    <v-range-slider class="mt-5" :disabled="!switch2" color="#ff6600" track-color="#ff6600" track-fill-color="#ff6600" v-model="slider2" thumb-label="always" :thumb-size="28" max="100" min="-20"></v-range-slider>
                     <span>Nastavenie hraničných hodnôt pre teplotu na čipe</span>
                   </v-expansion-panel-content>
                 </v-expansion-panel>
@@ -156,7 +158,7 @@
                   </v-expansion-panel-header>
                   <v-expansion-panel-content>
                     <v-switch v-model="switch3" color="#0066ff" inset></v-switch>
-                    <v-range-slider class="mt-3" :disabled="!switch3" color="#0066ff" track-color="#0066ff" track-fill-color="#0066ff" v-model="slider3" thumb-label :thumb-size="24" max="100" min="-100"></v-range-slider>
+                    <v-range-slider class="mt-5" :disabled="!switch3" color="#0066ff" track-color="#0066ff" track-fill-color="#0066ff" v-model="slider3" thumb-label="always" :thumb-size="28" max="100" min="0"></v-range-slider>
                     <span>Nastavenie hraničných hodnôt pre vlhkosť</span>
                   </v-expansion-panel-content>
                 </v-expansion-panel>
@@ -173,14 +175,14 @@
                   </v-expansion-panel-header>
                   <v-expansion-panel-content>
                     <v-switch v-model="switch4" color="#ffcc00" inset></v-switch>
-                    <v-range-slider class="mt-3" :disabled="!switch4" color="#ffcc00" track-color="#ffcc00" track-fill-color="#ffcc00" v-model="slider4" thumb-label :thumb-size="24" max="100" min="-100"></v-range-slider>
+                    <v-range-slider class="mt-5" :disabled="!switch4" color="#ffcc00" track-color="#ffcc00" track-fill-color="#ffcc00" v-model="slider4" thumb-label="always" :thumb-size="28" max="100" min="0"></v-range-slider>
                     <span>Nastavenie hraničných hodnôt pre hlasitosť</span>
                   </v-expansion-panel-content>
                 </v-expansion-panel>
 
                 <v-expansion-panel>
                   <v-expansion-panel-header>
-                    Svetlo
+                    Osvetlenie
                     <div class="ml-3" v-if="switch5 == true">
                       <v-icon color="green">mdi-check-circle</v-icon>
                     </div>
@@ -190,8 +192,8 @@
                   </v-expansion-panel-header>
                   <v-expansion-panel-content>
                     <v-switch v-model="switch5" color="#737373" inset></v-switch>
-                    <v-range-slider class="mt-3" :disabled="!switch5" color="#737373" track-color="#737373" track-fill-color="#737373" v-model="slider5" thumb-label :thumb-size="24" max="100" min="-100"></v-range-slider>
-                    <span>Nastavenie hraničných hodnôt pre svetlo</span>
+                    <v-range-slider class="mt-5" :disabled="!switch5" color="#737373" track-color="#737373" track-fill-color="#737373" v-model="slider5" thumb-label="always" :thumb-size="28" max="1000" min="0"></v-range-slider>
+                    <span>Nastavenie hraničných hodnôt pre osvetlenie</span>
                   </v-expansion-panel-content>
                 </v-expansion-panel>
 
@@ -206,8 +208,11 @@
                     </div>
                   </v-expansion-panel-header>
                   <v-expansion-panel-content>
-                    <v-switch v-model="switch6" color="#00b300" inset></v-switch>
-                    <v-range-slider class="mt-3" :disabled="!switch6" color="#00b300" track-color="#00b300" track-fill-color="#00b300" v-model="slider6" thumb-label :thumb-size="24" max="100" min="-100"></v-range-slider>
+                    <v-col cols="2" class="pl-0 pr-0">
+                      <v-switch v-model="switch6" color="#00b300" inset></v-switch>
+                    </v-col>
+
+                    <v-range-slider class="mt-5" :disabled="!switch6" color="#00b300" track-color="#00b300" track-fill-color="#00b300" v-model="slider6" thumb-label="always" :thumb-size="28" max="1500" min="0"></v-range-slider>
                     <span>Nastavenie hraničných hodnôt pre tlak</span>
                   </v-expansion-panel-content>
                 </v-expansion-panel>
@@ -325,6 +330,7 @@ export default {
       dlm: [],
       sd: [],
       bn: [],
+
       switch1: false,
       switch2: false,
       switch3: false,
@@ -332,15 +338,27 @@ export default {
       switch5: false,
       switch6: false,
 
-      slider1: [0, 10],
-      slider2: [0, 10],
-      slider3: [0, 10],
-      slider4: [0, 10],
-      slider5: [0, 10],
-      slider6: [0, 10],
+      slider1: [0, 45],
+      slider2: [0, 45],
+      slider3: [0, 70],
+      slider4: [0, 50],
+      slider5: [0, 100],
+      slider6: [0, 1000],
+
+      arraySwitchesSliders: [],
     }
   },
   mounted() {
+
+    //get value of sliders and switches from localstorage
+    if (localStorage.getItem('arraySwitchesSliders')) {
+      this.arraySwitchesSliders = JSON.parse(localStorage.getItem('arraySwitchesSliders'));
+      for (var x = 1; x < 7; x++) {
+        this["switch" + x] = this.arraySwitchesSliders[this.arraySwitchesSliders.length - x].["switch" + x];
+        this["slider" + x] = this.arraySwitchesSliders[this.arraySwitchesSliders.length - x].["slider" + x];
+      }
+    }
+
     if (!(localStorage.getItem('language'))) {
       localStorage.setItem('language', 'Slovenský jazyk');
     }
@@ -440,6 +458,19 @@ export default {
 
   updated() {
     //do something after updating vue instance
+
+    //save value of sliders and switches to localstorage
+    if (this.arraySwitchesSliders.length != 0) {
+      this.arraySwitchesSliders.splice(0, this.arraySwitchesSliders.length);
+    }
+    for (var i = 1; i < 7; i++) {
+      this.arraySwitchesSliders.unshift({
+        ["switch" + i]: this["switch" + i],
+        ["slider" + i]: this["slider" + i],
+      })
+    }
+    localStorage.setItem('arraySwitchesSliders', JSON.stringify(this.arraySwitchesSliders));
+    //
     if (this.ntf.length != 0) {
       localStorage.setItem('notifState', true);
     } else {
@@ -530,12 +561,6 @@ export default {
 
 .v-overlay__scrim {
   position: fixed !important;
-}
-
-
-.v-sheet--offset {
-  top: -24px;
-  position: relative;
 }
 
 .speed_dial_switch .v-input--selection-controls {

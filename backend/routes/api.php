@@ -43,6 +43,7 @@ Route::post('/broadcast', function (Request $request) {
 
 Route::post('/saveDataPowerConsumption', [ApiController::class, 'store']);
 Route::post('/saveDataAllSensors', [ApiController::class, 'store2']);
+Route::post('/notifications', [ApiController::class, 'store3']);
 
 //for graph in humidity page
 Route::get('/getDataRealtimeHumidity', [ApiController::class, 'getDataRealtimeHumidity']);

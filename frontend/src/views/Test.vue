@@ -16,7 +16,6 @@
             <v-icon>mdi-bell</v-icon>
           </v-badge>
         </v-btn>
-
         <v-btn icon to="/settings">
           <v-icon>mdi-cog</v-icon>
         </v-btn>

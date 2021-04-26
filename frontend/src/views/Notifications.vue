@@ -4,10 +4,8 @@
         threshold: .4
       }" min-height="100vh" transition-group="scale-transition">
     <div class="">
-
-
       <v-card class="mx-auto ml-3 mr-3" elevation="0" tile>
-        <v-app-bar fixed app tile>
+        <v-app-bar fixed flat>
           <v-app-bar-nav-icon @click.stop="drawer = !drawer"></v-app-bar-nav-icon>
 
           <v-toolbar-title>OpenLab FEI Tuke</v-toolbar-title>
@@ -22,7 +20,7 @@
       <v-row class="m-0">
         <v-col class="mb-5" cols="12" lg="12" md="12" sm="12">
           <v-card>
-            <v-toolbar class="notiftoolbar rounded-top" extended extension-height="4" color="primary" dark style="box-shadow: unset">
+            <v-toolbar class="notiftoolbar rounded-top" extended extension-height="4" color="primary" flat>
               <div class="w-75" v-if="selected.length == '0'">
                 <v-text-field color="white white--color" v-model="search" append-icon="mdi-magnify" label="Vyhľadať" single-line hide-details clearable disabled v-if="myloadingvariable || notif.length == 0"></v-text-field>
                 <v-text-field color="white white--color" v-model="search" append-icon="mdi-magnify" label="Vyhľadať" single-line hide-details clearable v-if="!myloadingvariable &&  notif.length != 0"></v-text-field>
@@ -74,7 +72,9 @@
                       <v-list-item-content class="pt-5 pb-5 pl-3" @click="checkUncheck(item, active)">
                         <v-list-item-title v-text="item.title"></v-list-item-title>
 
-                        <v-list-item-subtitle class="text--primary" v-text="item.subtitle"></v-list-item-subtitle>
+                        <v-list-item-subtitle class="text--primary">
+                          <v-icon>mdi-alert-circle-outline</v-icon> {{ item.subtitle}}
+                        </v-list-item-subtitle>
 
                         <v-list-item-subtitle v-text="item.text"></v-list-item-subtitle>
                       </v-list-item-content>
@@ -109,7 +109,7 @@
                   <v-icon>mdi-check-circle</v-icon>
                   {{ text }}
                   <template v-slot:action="{ attrs }">
-                    <v-btn color="white" text v-bind="attrs" @click="snackbar = false">
+                    <v-btn fab small color="white" text v-bind="attrs" @click="snackbar = false">
                       <v-icon>mdi-close-circle</v-icon>
                     </v-btn>
                   </template>
@@ -128,7 +128,6 @@
 </div>
 </template>
 <script>
-import moment from 'moment';
 import Footer from "../components/Footer.vue";
 import NavigationDrawer from "../components/NavigationDrawer.vue";
 import BottomNavigation from "../components/BottomNavigation.vue";
@@ -242,49 +241,23 @@ export default {
     getTodos() {
       if (localStorage.getItem('notifications')) {
         this.notif = JSON.parse(localStorage.getItem('notifications'));
-        setInterval(() => {
+        if (this.notif.length < 20) {
+          setInterval(() => {
+            this.myloadingvariable = false;
+          }, 1000);
+        } else {
           this.myloadingvariable = false;
-        }, 800);
-      } else {
-        this.notif = [];
-        setInterval(() => {
-          this.myloadingvariable = false;
-        }, 800);
-      }
-    },
-    // add a new item
-    addItem() {
-      // validation check
-      if (JSON.parse(localStorage.getItem("notifState")) == true) {
-        if (this.new_notif) {
-          this.notif.unshift({
-            id: this.notif.length,
-            title: this.new_notif,
-            subtitle: 'hmm',
-            text: 'hmm',
-            date: moment(new Date)
-              .format('DD MM YYYY HH:mm:ss'),
-            status: 'unread',
-          });
-          if (JSON.parse(localStorage.getItem("notifSoundState")) == true) {
-            var audio = new Audio(require('../assets/AirPlaneDing.mp3'));
-            audio.play();
-          }
         }
 
-        var counter = 0;
-        for (var i = 0; i < this.notif.length; i++) {
-          if (this.notif[i].status == 'unread') {
-            counter++;
-          }
+      } else {
+        this.notif = [];
+        if (this.notif.length < 20) {
+          setInterval(() => {
+            this.myloadingvariable = false;
+          }, 1000);
+        } else {
+          this.myloadingvariable = false;
         }
-        this.$store.dispatch('notificationCounter', {
-          notifCounter: counter
-        });
-        localStorage.setItem('notifCounter', counter);
-        localStorage.setItem('notifications', JSON.stringify(this.notif));
-        // reset new_todo
-        this.new_notif = '';
       }
     },
 
@@ -332,6 +305,15 @@ export default {
 
   created() {
     // console.log('Component Notifications created')
+    window.Echo.channel('dataAllSensors')
+      .listen('AllSensorsEvent', () => {
+
+        if (localStorage.getItem('notifications')) {
+          this.notif = JSON.parse(localStorage.getItem('notifications'));
+        } else {
+          this.notif = [];
+        }
+      })
   },
 }
 </script>
@@ -354,12 +336,6 @@ export default {
 
 .v-overlay__scrim {
   position: fixed !important;
-}
-
-
-.v-sheet--offset {
-  top: -24px;
-  position: relative;
 }
 
 .notiftoolbar .v-toolbar__extension {

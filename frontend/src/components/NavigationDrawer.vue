@@ -1,6 +1,6 @@
 <template id="NavigationDrawer">
 <v-navigation-drawer :value="drawer2" absolute temporary>
-  <v-list-item class="justify-center" style="height:55px">
+  <v-list-item class="justify-center" style="height:64px">
     <span class="font-weight-bold" color="primary">OpenLab FEI Tuke</span>
   </v-list-item>
   <v-divider class="mb-0 mt-0"></v-divider>
@@ -107,7 +107,7 @@ export default {
   color: #1976d2;
 }
 
-.v-list-item-group .v-list-item--active.theme--light {
+.v-list-item-group .theme--light.v-list-item--active {
   color: #1976d2;
 }
 

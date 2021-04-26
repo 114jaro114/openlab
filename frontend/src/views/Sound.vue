@@ -5,7 +5,7 @@
       }" min-height="100vh" transition-group="scale-transition">
     <div>
       <v-card class="mx-auto ml-3 mr-3" elevation="0" tile>
-        <v-app-bar fixed app tile>
+        <v-app-bar fixed flat>
           <v-app-bar-nav-icon @click.stop="drawer = !drawer"></v-app-bar-nav-icon>
 
           <v-toolbar-title>OpenLab FEI Tuke</v-toolbar-title>
@@ -13,7 +13,7 @@
           <v-spacer></v-spacer>
 
           <v-btn icon to="/notifications">
-            <v-badge :content="this.$store.getters['notificationCounter']" :value="this.$store.getters['notificationCounter']" color="orange" overlap bordered>
+            <v-badge :content="this.$store.getters['notificationCounter']" :value="this.$store.getters['notificationCounter']" :offset-x="11" :offset-y="12" color="orange" overlap left bordered>
               <v-icon>mdi-bell</v-icon>
             </v-badge>
           </v-btn>
@@ -757,8 +757,6 @@ export default {
           data: this.series[0].data
         }];
         //
-        this.seriesCircle.splice(0, 1);
-        this.seriesCircle.push(parseFloat(e.dataAllSensors.vol));
         this.getDataRealtime();
         this.getHistoricalData2();
         this.getHistoricalData3();
@@ -785,11 +783,5 @@ export default {
 
 .v-overlay__scrim {
   position: fixed !important;
-}
-
-
-.v-sheet--offset {
-  top: -24px;
-  position: relative;
 }
 </style>
