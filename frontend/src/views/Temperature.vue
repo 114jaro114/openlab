@@ -29,7 +29,7 @@
         <v-col cols="12" lg="6" md="12" sm="12">
           <v-card class="rounded" elevation="0" loader-height="6" :loading="loaderStateCircle">
             <div class="pt-3" id="chart">
-              <apexchart type="radialBar" height="385" :options="chartOptionsCircle" :series="seriesCircle"></apexchart>
+              <apexchart type="radialBar" height="365" :options="chartOptionsCircle" :series="seriesCircle"></apexchart>
             </div>
 
             <v-card-text class="pt-0">
@@ -49,7 +49,7 @@
         <v-col cols="12" lg="6" md="12" sm="12">
           <v-card class="rounded" elevation="0" loader-height="6" :loading="loaderStateCircleAtmp">
             <div class="pt-3" id="chart">
-              <apexchart type="radialBar" height="385" :options="chartOptionsCircleAtmp" :series="seriesCircleAtmp"></apexchart>
+              <apexchart type="radialBar" height="365" :options="chartOptionsCircleAtmp" :series="seriesCircleAtmp"></apexchart>
             </div>
 
             <v-card-text class="pt-0">
@@ -339,7 +339,7 @@ export default {
       chartOptionsCircle: {
         chart: {
           foreColor: localStorage.getItem('graph_text_color'),
-          height: 350,
+          // height: 350,
           type: 'radialBar',
           toolbar: {
             show: false
@@ -349,6 +349,7 @@ export default {
           radialBar: {
             startAngle: -135,
             endAngle: 225,
+            offsetY: 31,
             hollow: {
               margin: 0,
               size: '70%',
@@ -376,6 +377,12 @@ export default {
               }
             }
           }
+        },
+        grid: {
+          padding: {
+            top: -31,
+            bottom: 21
+          },
         },
         stroke: {
           lineCap: 'round'
@@ -710,7 +717,7 @@ export default {
       chartOptionsCircleAtmp: {
         chart: {
           foreColor: localStorage.getItem('graph_text_color'),
-          height: 350,
+          // height: 350,
           type: 'radialBar',
           toolbar: {
             show: false
@@ -720,6 +727,7 @@ export default {
           radialBar: {
             startAngle: -135,
             endAngle: 225,
+            offsetY: 31,
             hollow: {
               margin: 0,
               size: '70%',
@@ -747,6 +755,12 @@ export default {
               }
             }
           }
+        },
+        grid: {
+          padding: {
+            top: -31,
+            bottom: 21
+          },
         },
         stroke: {
           lineCap: 'round'

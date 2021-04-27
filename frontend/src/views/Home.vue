@@ -26,7 +26,7 @@
       <v-col cols="12" lg="6" md="12" sm="12">
         <v-card class="rounded" elevation="0" loader-height="6" :loading="loaderStateCircle_multiple">
           <div class="pt-3" id="chart">
-            <apexchart type="radialBar" height="397" ref="circleMultipleChart" :options="chartOptionsCircle_multiple" :series="seriesCircle_multiple"></apexchart>
+            <apexchart type="radialBar" height="365" ref="circleMultipleChart" :options="chartOptionsCircle_multiple" :series="seriesCircle_multiple"></apexchart>
           </div>
 
           <v-card-text class="pt-0">
@@ -724,7 +724,7 @@ export default {
       chartOptionsCircle_multiple: {
         chart: {
           foreColor: localStorage.getItem('graph_text_color'),
-          height: 350,
+          // height: 365,
           type: 'radialBar',
           toolbar: {
             tools: {
@@ -737,6 +737,12 @@ export default {
             dynamicAnimation: {
               speed: 1000
             }
+          },
+        },
+        grid: {
+          padding: {
+            top: -32,
+            bottom: -20
           },
         },
         plotOptions: {
@@ -767,7 +773,8 @@ export default {
             //   show: false,
             // },
             startAngle: 0,
-            endAngle: 360
+            endAngle: 360,
+            offsetY: 32,
           }
         },
         stroke: {
