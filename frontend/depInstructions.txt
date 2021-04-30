@@ -1,0 +1,22 @@
+docker login openlabdashboardregistry.azurecr.io 
+az acr login --name openlabdashboardregistry.azurecr.io
+
+az acr list --resource-group DefaultResourceGroup-WEU --query "[].{acrLoginServer:openlabdashboardregistry.azurecr.io}" --output table
+
+docker tag openlabdashboardfe openlabdashboardregistry.azurecr.io/openlabdashboardfrontend
+
+docker push openlabdashboardregistry.azurecr.io/openlabdashboardfrontend
+
+az acr repository list --name openlabdashboardregistry.azurecr.io --output table
+
+
+/// CLUSTER////
+
+
+az aks get-credentials --resource-group DefaultResourceGroup-WEU --name openLabDashboard
+kubectl get nodes
+az acr list --resource-group DefaultResourceGroup-WEU --query "[].{acrLoginServer:openlabdashboardregistry.azurecr.io}" --output table
+kubectl apply -f deployment_service.yaml
+kubectl apply -f deployment_service.yaml
+
+
