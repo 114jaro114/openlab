@@ -14,7 +14,7 @@
 
     </template>
 
-    <v-tooltip left>
+    <v-tooltip left v-if="this.$route.name != 'Humidity'">
       <template v-slot:activator="{ on }">
         <v-btn v-on="on" color="primary" fab small to="/humidity">
           <v-icon>mdi-water-percent</v-icon>
@@ -22,7 +22,7 @@
       </template>
       <span>prejsť na stránku relatívnej vlhkosti</span>
     </v-tooltip>
-    <v-tooltip left>
+    <v-tooltip left v-if="this.$route.name != 'Temperature'">
       <template v-slot:activator="{ on }">
         <v-btn v-on="on" color="primary" fab small to="/temperature">
           <v-icon>mdi-thermometer</v-icon>
@@ -30,7 +30,7 @@
       </template>
       <span>prejsť na stránku teploty</span>
     </v-tooltip>
-    <v-tooltip left>
+    <v-tooltip left v-if="this.$route.name != 'Lights'">
       <template v-slot:activator="{ on }">
         <v-btn v-on="on" color="primary" fab small to="/lights">
           <v-icon>mdi-lightbulb-on</v-icon>
@@ -38,7 +38,7 @@
       </template>
       <span>prejsť na stránku svetiel</span>
     </v-tooltip>
-    <v-tooltip left>
+    <v-tooltip left v-if="this.$route.name != 'Pressure'">
       <template v-slot:activator="{ on }">
         <v-btn v-on="on" color="primary" fab small to="/pressure">
           <v-icon>mdi-arrow-collapse-all</v-icon>
@@ -46,7 +46,7 @@
       </template>
       <span>prejsť na stránku barometrického tlaku</span>
     </v-tooltip>
-    <v-tooltip left>
+    <v-tooltip left v-if="this.$route.name != 'Sound'">
       <template v-slot:activator="{ on }">
         <v-btn v-on="on" color="primary" fab small to="/sound">
           <v-icon>mdi-surround-sound</v-icon>
@@ -54,7 +54,7 @@
       </template>
       <span>prejsť na stránku hlasitosti zvuku</span>
     </v-tooltip>
-    <v-tooltip left>
+    <v-tooltip left v-if="this.$route.name != 'Energy'">
       <template v-slot:activator="{ on }">
         <v-btn v-on="on" color="primary" fab small to="/energy">
           <v-icon>mdi-flash</v-icon>

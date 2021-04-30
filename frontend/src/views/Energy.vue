@@ -1,175 +1,177 @@
 <template>
-<v-lazy :options="{
-        threshold: .4
-      }" min-height="100vh" transition-group="scale-transition">
-  <div class="energy custom-margin-page">
-    <v-card class="mx-auto ml-3 mr-3" elevation="0" tile>
-      <v-app-bar class="skuska" fixed flat>
-        <v-app-bar-nav-icon @click.stop="drawer = !drawer"></v-app-bar-nav-icon>
+<div class="energy custom-margin-page">
+  <v-lazy :options="{
+            threshold: .4
+          }" min-height="100vh" transition-group="scale-transition">
+    <div class="">
+      <v-card class="mx-auto ml-3 mr-3" elevation="0" tile>
+        <v-app-bar fixed flat>
+          <v-app-bar-nav-icon @click.stop="drawer = !drawer"></v-app-bar-nav-icon>
 
-        <v-toolbar-title>OpenLab FEI Tuke</v-toolbar-title>
+          <v-toolbar-title class="title_toolbar">OpenLab FEI Tuke</v-toolbar-title>
 
-        <v-spacer></v-spacer>
+          <v-spacer></v-spacer>
 
-        <v-btn icon to="/notifications">
-          <v-badge :content="this.$store.getters['notificationCounter']" :value="this.$store.getters['notificationCounter']" :offset-x="11" :offset-y="12" color="orange" overlap left bordered>
-            <v-icon>mdi-bell</v-icon>
-          </v-badge>
-        </v-btn>
+          <v-btn icon to="/notifications">
+            <v-badge :content="this.$store.getters['notificationCounter']" :value="this.$store.getters['notificationCounter']" :offset-x="11" :offset-y="12" color="orange" overlap left bordered>
+              <v-icon>mdi-bell</v-icon>
+            </v-badge>
+          </v-btn>
 
-        <v-btn icon to="/settings">
-          <v-icon>mdi-cog</v-icon>
-        </v-btn>
-      </v-app-bar>
-    </v-card>
-
-    <v-row class="m-0">
-      <!-- char for I -->
-      <v-col cols="12" lg="6" md="12" sm="12">
-        <v-card class="rounded" elevation="0" loader-height="6" :loading="loaderStateDashedI">
-          <div class="pt-3" id="chart">
-            <apexchart type="line" height="350" ref="dashedChart" :options="chartOptionsDashedI" :series="seriesDashedI"></apexchart>
-          </div>
-
-          <v-card-text class="pt-0">
-            <div class="title font-weight-light mb-2">
-              <span>Hodnoty </span><span class="font-weight-bold">prúdu (I) </span><span>z 3 fáz za poslednú hodinu</span>
+          <v-btn icon to="/settings">
+            <v-icon>mdi-cog</v-icon>
+          </v-btn>
+        </v-app-bar>
+      </v-card>
+      <v-row class="m-0">
+        <!-- char for I -->
+        <v-col cols="12" lg="6" md="12" sm="12">
+          <v-card class="rounded" elevation="0" loader-height="6" :loading="loaderStateDashedI">
+            <div class="pt-3" id="chart">
+              <apexchart type="line" height="350" ref="dashedChart" :options="chartOptionsDashedI" :series="seriesDashedI"></apexchart>
             </div>
-            <v-divider class="my-2"></v-divider>
-            <v-icon class="mr-2" small>
-              mdi-clock
-            </v-icon>
-            <span class="caption grey--text font-weight-light">Posledná aktualizácia: </span>
-            <span class="font-weight-bold">{{lastUpdate}}</span>
-          </v-card-text>
-        </v-card>
-      </v-col>
-      <!-- char for U -->
-      <v-col cols="12" lg="6" md="12" sm="12">
-        <v-card class="rounded" elevation="0" loader-height="6" :loading="loaderStateDashedU">
-          <div class="pt-3" id="chart">
-            <apexchart type="line" height="350" ref="dashedChart" :options="chartOptionsDashedU" :series="seriesDashedU"></apexchart>
-          </div>
 
-          <v-card-text class="pt-0">
-            <div class="title font-weight-light mb-2">
-              <span>Hodnoty </span><span class="font-weight-bold">napätia (U) </span><span>z 3 fáz za poslednú hodinu</span>
+            <v-card-text class="pt-0">
+              <div class="title font-weight-light mb-2">
+                <span>Hodnoty </span><span class="font-weight-bold">prúdu (I) </span><span>z 3 fáz za poslednú hodinu</span>
+              </div>
+              <v-divider class="my-2"></v-divider>
+              <v-icon class="mr-2" small>
+                mdi-clock
+              </v-icon>
+              <span class="caption grey--text font-weight-light">Posledná aktualizácia: </span>
+              <span class="font-weight-bold">{{lastUpdate}}</span>
+            </v-card-text>
+          </v-card>
+        </v-col>
+        <!-- char for U -->
+        <v-col cols="12" lg="6" md="12" sm="12">
+          <v-card class="rounded" elevation="0" loader-height="6" :loading="loaderStateDashedU">
+            <div class="pt-3" id="chart">
+              <apexchart type="line" height="350" ref="dashedChart" :options="chartOptionsDashedU" :series="seriesDashedU"></apexchart>
             </div>
-            <v-divider class="my-2"></v-divider>
-            <v-icon class="mr-2" small>
-              mdi-clock
-            </v-icon>
-            <span class="caption grey--text font-weight-light">Posledná aktualizácia: </span>
-            <span class="font-weight-bold">{{lastUpdate}}</span>
-          </v-card-text>
-        </v-card>
-      </v-col>
-      <!-- char for P -->
-      <v-col cols="12" lg="6" md="12" sm="12">
-        <v-card class="rounded" elevation="0" loader-height="6" :loading="loaderStateDashedP">
-          <div class="pt-3" id="chart">
-            <apexchart type="line" height="350" ref="dashedChart" :options="chartOptionsDashedP" :series="seriesDashedP"></apexchart>
-          </div>
 
-          <v-card-text class="pt-0">
-            <div class="title font-weight-light mb-2">
-              <span>Hodnoty </span><span class="font-weight-bold">činného výkonu (P) </span><span>z 3 fáz za poslednú hodinu</span>
+            <v-card-text class="pt-0">
+              <div class="title font-weight-light mb-2">
+                <span>Hodnoty </span><span class="font-weight-bold">napätia (U) </span><span>z 3 fáz za poslednú hodinu</span>
+              </div>
+              <v-divider class="my-2"></v-divider>
+              <v-icon class="mr-2" small>
+                mdi-clock
+              </v-icon>
+              <span class="caption grey--text font-weight-light">Posledná aktualizácia: </span>
+              <span class="font-weight-bold">{{lastUpdate}}</span>
+            </v-card-text>
+          </v-card>
+        </v-col>
+        <!-- char for P -->
+        <v-col cols="12" lg="6" md="12" sm="12">
+          <v-card class="rounded" elevation="0" loader-height="6" :loading="loaderStateDashedP">
+            <div class="pt-3" id="chart">
+              <apexchart type="line" height="350" ref="dashedChart" :options="chartOptionsDashedP" :series="seriesDashedP"></apexchart>
             </div>
-            <v-divider class="my-2"></v-divider>
-            <v-icon class="mr-2" small>
-              mdi-clock
-            </v-icon>
-            <span class="caption grey--text font-weight-light">Posledná aktualizácia: </span>
-            <span class="font-weight-bold">{{lastUpdate}}</span>
-          </v-card-text>
-        </v-card>
-      </v-col>
-      <!-- char for Q -->
-      <v-col cols="12" lg="6" md="12" sm="12">
-        <v-card class="rounded" elevation="0" loader-height="6" :loading="loaderStateDashedQ">
-          <div class="pt-3" id="chart">
-            <apexchart type="line" height="350" ref="dashedChart" :options="chartOptionsDashedQ" :series="seriesDashedQ"></apexchart>
-          </div>
 
-          <v-card-text class="pt-0">
-            <div class="title font-weight-light mb-2">
-              <span>Hodnoty </span><span class="font-weight-bold">jalového výkonu (Q) </span><span>z 3 fáz za poslednú hodinu</span>
+            <v-card-text class="pt-0">
+              <div class="title font-weight-light mb-2">
+                <span>Hodnoty </span><span class="font-weight-bold">činného výkonu (P) </span><span>z 3 fáz za poslednú hodinu</span>
+              </div>
+              <v-divider class="my-2"></v-divider>
+              <v-icon class="mr-2" small>
+                mdi-clock
+              </v-icon>
+              <span class="caption grey--text font-weight-light">Posledná aktualizácia: </span>
+              <span class="font-weight-bold">{{lastUpdate}}</span>
+            </v-card-text>
+          </v-card>
+        </v-col>
+        <!-- char for Q -->
+        <v-col cols="12" lg="6" md="12" sm="12">
+          <v-card class="rounded" elevation="0" loader-height="6" :loading="loaderStateDashedQ">
+            <div class="pt-3" id="chart">
+              <apexchart type="line" height="350" ref="dashedChart" :options="chartOptionsDashedQ" :series="seriesDashedQ"></apexchart>
             </div>
-            <v-divider class="my-2"></v-divider>
-            <v-icon class="mr-2" small>
-              mdi-clock
-            </v-icon>
-            <span class="caption grey--text font-weight-light">Posledná aktualizácia: </span>
-            <span class="font-weight-bold">{{lastUpdate}}</span>
-          </v-card-text>
-        </v-card>
-      </v-col>
-      <!-- char for S -->
-      <v-col cols="12" lg="12" md="12" sm="12">
-        <v-card class="rounded" elevation="0" loader-height="6" :loading="loaderStateDashedS">
-          <div class="pt-3" id="chart">
-            <apexchart type="line" height="350" ref="dashedChart" :options="chartOptionsDashedS" :series="seriesDashedS"></apexchart>
-          </div>
 
-          <v-card-text class="pt-0">
-            <div class="title font-weight-light mb-2">
-              <span>Hodnoty </span><span class="font-weight-bold">komplexného napájania (S) </span><span>z 3 fáz za poslednú hodinu</span>
+            <v-card-text class="pt-0">
+              <div class="title font-weight-light mb-2">
+                <span>Hodnoty </span><span class="font-weight-bold">jalového výkonu (Q) </span><span>z 3 fáz za poslednú hodinu</span>
+              </div>
+              <v-divider class="my-2"></v-divider>
+              <v-icon class="mr-2" small>
+                mdi-clock
+              </v-icon>
+              <span class="caption grey--text font-weight-light">Posledná aktualizácia: </span>
+              <span class="font-weight-bold">{{lastUpdate}}</span>
+            </v-card-text>
+          </v-card>
+        </v-col>
+        <!-- char for S -->
+        <v-col cols="12" lg="12" md="12" sm="12">
+          <v-card class="rounded" elevation="0" loader-height="6" :loading="loaderStateDashedS">
+            <div class="pt-3" id="chart">
+              <apexchart type="line" height="350" ref="dashedChart" :options="chartOptionsDashedS" :series="seriesDashedS"></apexchart>
             </div>
-            <v-divider class="my-2"></v-divider>
-            <v-icon class="mr-2" small>
-              mdi-clock
-            </v-icon>
-            <span class="caption grey--text font-weight-light">Posledná aktualizácia: </span>
-            <span class="font-weight-bold">{{lastUpdate}}</span>
-          </v-card-text>
-        </v-card>
-      </v-col>
-      <!-- char for E_E -->
-      <v-col cols="12" lg="6" md="12" sm="12">
-        <v-card class="rounded" elevation="0" loader-height="6" :loading="loaderStateDashedE_E">
-          <div class="pt-3" id="chart">
-            <apexchart type="line" height="350" ref="dashedChart" :options="chartOptionsDashedE_E" :series="seriesDashedE_E"></apexchart>
-          </div>
 
-          <v-card-text class="pt-0">
-            <div class="title font-weight-light mb-2">
-              <span>Hodnoty </span><span class="font-weight-bold">exportu energie (E_E) </span><span>z 3 fázy za poslednú hodinu</span>
+            <v-card-text class="pt-0">
+              <div class="title font-weight-light mb-2">
+                <span>Hodnoty </span><span class="font-weight-bold">komplexného napájania (S) </span><span>z 3 fáz za poslednú hodinu</span>
+              </div>
+              <v-divider class="my-2"></v-divider>
+              <v-icon class="mr-2" small>
+                mdi-clock
+              </v-icon>
+              <span class="caption grey--text font-weight-light">Posledná aktualizácia: </span>
+              <span class="font-weight-bold">{{lastUpdate}}</span>
+            </v-card-text>
+          </v-card>
+        </v-col>
+        <!-- char for E_E -->
+        <v-col cols="12" lg="6" md="12" sm="12">
+          <v-card class="rounded" elevation="0" loader-height="6" :loading="loaderStateDashedE_E">
+            <div class="pt-3" id="chart">
+              <apexchart type="line" height="350" ref="dashedChart" :options="chartOptionsDashedE_E" :series="seriesDashedE_E"></apexchart>
             </div>
-            <v-divider class="my-2"></v-divider>
-            <v-icon class="mr-2" small>
-              mdi-clock
-            </v-icon>
-            <span class="caption grey--text font-weight-light">Posledná aktualizácia: </span>
-            <span class="font-weight-bold">{{lastUpdate}}</span>
-          </v-card-text>
-        </v-card>
-      </v-col>
-      <!-- char for E_I -->
-      <v-col class="mb-5" cols="12" lg="6" md="12" sm="12">
-        <v-card class="rounded" elevation="0" loader-height="6" :loading="loaderStateDashedE_I">
-          <div class="pt-3" id="chart">
-            <apexchart type="line" height="350" ref="dashedChart" :options="chartOptionsDashedE_I" :series="seriesDashedE_I"></apexchart>
-          </div>
 
-          <v-card-text class="pt-0">
-            <div class="title font-weight-light mb-2">
-              <span>Hodnoty </span><span class="font-weight-bold">importu energie (E_I) </span><span>z 3 fázy za poslednú hodinu</span>
+            <v-card-text class="pt-0">
+              <div class="title font-weight-light mb-2">
+                <span>Hodnoty </span><span class="font-weight-bold">exportu energie (E_E) </span><span>z 3 fázy za poslednú hodinu</span>
+              </div>
+              <v-divider class="my-2"></v-divider>
+              <v-icon class="mr-2" small>
+                mdi-clock
+              </v-icon>
+              <span class="caption grey--text font-weight-light">Posledná aktualizácia: </span>
+              <span class="font-weight-bold">{{lastUpdate}}</span>
+            </v-card-text>
+          </v-card>
+        </v-col>
+        <!-- char for E_I -->
+        <v-col class="mb-5" cols="12" lg="6" md="12" sm="12">
+          <v-card class="rounded" elevation="0" loader-height="6" :loading="loaderStateDashedE_I">
+            <div class="pt-3" id="chart">
+              <apexchart type="line" height="350" ref="dashedChart" :options="chartOptionsDashedE_I" :series="seriesDashedE_I"></apexchart>
             </div>
-            <v-divider class="my-2"></v-divider>
-            <v-icon class="mr-2" small>
-              mdi-clock
-            </v-icon>
-            <span class="caption grey--text font-weight-light">Posledná aktualizácia: </span>
-            <span class="font-weight-bold">{{lastUpdate}}</span>
-          </v-card-text>
-        </v-card>
-      </v-col>
-    </v-row>
-    <NavigationDrawer :drawer="drawer" />
-    <BottomNavigation />
-    <Footer />
-  </div>
-</v-lazy>
+
+            <v-card-text class="pt-0">
+              <div class="title font-weight-light mb-2">
+                <span>Hodnoty </span><span class="font-weight-bold">importu energie (E_I) </span><span>z 3 fázy za poslednú hodinu</span>
+              </div>
+              <v-divider class="my-2"></v-divider>
+              <v-icon class="mr-2" small>
+                mdi-clock
+              </v-icon>
+              <span class="caption grey--text font-weight-light">Posledná aktualizácia: </span>
+              <span class="font-weight-bold">{{lastUpdate}}</span>
+            </v-card-text>
+          </v-card>
+        </v-col>
+      </v-row>
+    </div>
+  </v-lazy>
+  <NavigationDrawer :drawer="drawer" />
+  <BottomNavigation />
+  <SpeedDial />
+  <Footer />
+</div>
 </template>
 <script>
 import axios from 'axios';
@@ -178,6 +180,7 @@ import VueApexCharts from 'vue-apexcharts';
 import Footer from "../components/Footer.vue";
 import NavigationDrawer from "../components/NavigationDrawer.vue";
 import BottomNavigation from "../components/BottomNavigation.vue";
+import SpeedDial from "../components/SpeedDial.vue";
 
 export default {
   name: "Energy",
@@ -185,6 +188,7 @@ export default {
     Footer,
     NavigationDrawer,
     BottomNavigation,
+    SpeedDial,
     apexchart: VueApexCharts,
   },
   props: ['drawerNew'],

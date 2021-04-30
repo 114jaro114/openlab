@@ -1,130 +1,134 @@
 <template>
-<v-lazy :options="{
-        threshold: .1
-      }" min-height="100vh" transition-group="scale-transition">
-  <div class="home custom-margin-page">
-    <v-card class="mx-auto ml-3 mr-3" elevation="0" tile>
-      <v-app-bar fixed flat>
-        <v-app-bar-nav-icon @click.stop="drawer = !drawer"></v-app-bar-nav-icon>
+<div class="home custom-margin-page">
+  <v-lazy :options="{
+            threshold: .4
+          }" min-height="100vh" transition-group="scale-transition">
+    <div class="">
+      <v-card class="mx-auto ml-3 mr-3" elevation="0" tile>
+        <v-app-bar fixed flat>
+          <v-app-bar-nav-icon @click.stop="drawer = !drawer"></v-app-bar-nav-icon>
 
-        <v-toolbar-title>OpenLab FEI Tuke</v-toolbar-title>
+          <v-toolbar-title class="title_toolbar">OpenLab FEI Tuke</v-toolbar-title>
 
-        <v-spacer></v-spacer>
+          <v-spacer></v-spacer>
 
-        <v-btn icon to="/notifications">
-          <v-badge :content="this.$store.getters['notificationCounter']" :value="this.$store.getters['notificationCounter']" :offset-x="11" :offset-y="12" color="orange" overlap left bordered>
-            <v-icon>mdi-bell</v-icon>
-          </v-badge>
-        </v-btn>
+          <v-btn icon to="/notifications">
+            <v-badge :content="this.$store.getters['notificationCounter']" :value="this.$store.getters['notificationCounter']" :offset-x="11" :offset-y="12" color="orange" overlap left bordered>
+              <v-icon>mdi-bell</v-icon>
+            </v-badge>
+          </v-btn>
 
-        <v-btn icon to="/settings">
-          <v-icon>mdi-cog</v-icon>
-        </v-btn>
-      </v-app-bar>
-    </v-card>
-    <v-row class="m-0">
-      <v-col cols="12" lg="6" md="12" sm="12">
-        <v-card class="rounded" elevation="0" loader-height="6" :loading="loaderStateCircle_multiple">
-          <div class="pt-3" id="chart">
-            <apexchart type="radialBar" height="365" ref="circleMultipleChart" :options="chartOptionsCircle_multiple" :series="seriesCircle_multiple"></apexchart>
-          </div>
+          <v-btn icon to="/settings">
+            <v-icon>mdi-cog</v-icon>
+          </v-btn>
+        </v-app-bar>
+      </v-card>
 
-          <v-card-text class="pt-0">
-            <div class="title font-weight-light mb-2">
-              Aktuálne hodnoty jednotlivých veličín
+      <v-row class="m-0">
+        <v-col cols="12" lg="6" md="12" sm="12">
+          <v-card class="rounded" elevation="0" loader-height="6" :loading="loaderStateCircle_multiple">
+            <div class="pt-3" id="chart">
+              <apexchart type="radialBar" height="365" ref="circleMultipleChart" :options="chartOptionsCircle_multiple" :series="seriesCircle_multiple"></apexchart>
             </div>
-            <v-divider class="my-2"></v-divider>
-            <v-icon class="mr-2" small>
-              mdi-clock
-            </v-icon>
-            <span class="caption grey--text font-weight-light">Posledná aktualizácia: </span>
-            <span class="font-weight-bold">{{lastUpdate}}</span>
-          </v-card-text>
-        </v-card>
-      </v-col>
 
-      <v-col cols="12" lg="6" md="12" sm="12">
-        <v-card class="rounded" elevation="0" loader-height="6" :loading="loaderStateDashed">
-          <div class="pt-3" id="chart">
-            <apexchart type="line" height="350" ref="dashedChart" :options="chartOptionsDashed" :series="seriesDashed"></apexchart>
-          </div>
+            <v-card-text class="pt-0">
+              <div class="title font-weight-light mb-2">
+                Aktuálne hodnoty jednotlivých veličín
+              </div>
+              <v-divider class="my-2"></v-divider>
+              <v-icon class="mr-2" small>
+                mdi-clock
+              </v-icon>
+              <span class="caption grey--text font-weight-light">Posledná aktualizácia: </span>
+              <span class="font-weight-bold">{{lastUpdate}}</span>
+            </v-card-text>
+          </v-card>
+        </v-col>
 
-          <v-card-text class="pt-0">
-            <div class="title font-weight-light mb-2">
-              Hodnoty teplôt a vlhkosti za poslednú hodinu
+        <v-col cols="12" lg="6" md="12" sm="12">
+          <v-card class="rounded" elevation="0" loader-height="6" :loading="loaderStateDashed">
+            <div class="pt-3" id="chart">
+              <apexchart type="line" height="350" ref="dashedChart" :options="chartOptionsDashed" :series="seriesDashed"></apexchart>
             </div>
-            <v-divider class="my-2"></v-divider>
-            <v-icon class="mr-2" small>
-              mdi-clock
-            </v-icon>
-            <span class="caption grey--text font-weight-light">Posledná aktualizácia: </span>
-            <span class="font-weight-bold">{{lastUpdate}}</span>
-          </v-card-text>
-        </v-card>
-      </v-col>
 
-      <v-col cols="12" lg="12" md="12" sm="12">
-        <v-card class="rounded" elevation="0" loader-height="6" :loading="loaderStateAreas">
-          <div class="pt-3" id="wrapper">
-            <div id="chart-area1">
-              <apexchart type="area" height="160" ref="area1Chart" :options="chartOptionsArea1" :series="seriesArea1"></apexchart>
-            </div>
-            <div id="chart-area2">
-              <apexchart type="area" height="160" ref="area2Chart" :options="chartOptionsArea2" :series="seriesArea2"></apexchart>
-            </div>
-            <div id="chart-area3">
-              <apexchart type="area" height="160" ref="area3Chart" :options="chartOptionsArea3" :series="seriesArea3"></apexchart>
-            </div>
-            <div id="chart-area3">
-              <apexchart type="area" height="160" ref="area4Chart" :options="chartOptionsArea4" :series="seriesArea4"></apexchart>
-            </div>
-            <div id="chart-area3">
-              <apexchart type="area" height="160" ref="area5Chart" :options="chartOptionsArea5" :series="seriesArea5"></apexchart>
-            </div>
-            <div id="chart-area3">
-              <apexchart type="area" height="160" ref="area6Chart" :options="chartOptionsArea6" :series="seriesArea6"></apexchart>
-            </div>
-          </div>
+            <v-card-text class="pt-0">
+              <div class="title font-weight-light mb-2">
+                Hodnoty teplôt a vlhkosti za poslednú hodinu
+              </div>
+              <v-divider class="my-2"></v-divider>
+              <v-icon class="mr-2" small>
+                mdi-clock
+              </v-icon>
+              <span class="caption grey--text font-weight-light">Posledná aktualizácia: </span>
+              <span class="font-weight-bold">{{lastUpdate}}</span>
+            </v-card-text>
+          </v-card>
+        </v-col>
 
-          <v-card-text class="pt-0">
-            <div class="title font-weight-light mb-2">
-              Priemerné hodnoty veličín za 10 minútové intervaly
+        <v-col cols="12" lg="12" md="12" sm="12">
+          <v-card class="rounded" elevation="0" loader-height="6" :loading="loaderStateAreas">
+            <div class="pt-3" id="wrapper">
+              <div id="chart-area1">
+                <apexchart type="area" height="160" ref="area1Chart" :options="chartOptionsArea1" :series="seriesArea1"></apexchart>
+              </div>
+              <div id="chart-area2">
+                <apexchart type="area" height="160" ref="area2Chart" :options="chartOptionsArea2" :series="seriesArea2"></apexchart>
+              </div>
+              <div id="chart-area3">
+                <apexchart type="area" height="160" ref="area3Chart" :options="chartOptionsArea3" :series="seriesArea3"></apexchart>
+              </div>
+              <div id="chart-area3">
+                <apexchart type="area" height="160" ref="area4Chart" :options="chartOptionsArea4" :series="seriesArea4"></apexchart>
+              </div>
+              <div id="chart-area3">
+                <apexchart type="area" height="160" ref="area5Chart" :options="chartOptionsArea5" :series="seriesArea5"></apexchart>
+              </div>
+              <div id="chart-area3">
+                <apexchart type="area" height="160" ref="area6Chart" :options="chartOptionsArea6" :series="seriesArea6"></apexchart>
+              </div>
             </div>
-            <v-divider class="my-2"></v-divider>
-            <v-icon class="mr-2" small>
-              mdi-clock
-            </v-icon>
-            <span class="caption grey--text font-weight-light">Posledná aktualizácia: </span>
-            <span class="font-weight-bold">{{lastUpdate}}</span>
-          </v-card-text>
-        </v-card>
-      </v-col>
-      <v-col class="mb-5" cols="12" lg="12" md="12" sm="12">
-        <v-card class="rounded" elevation="0" loader-height="6" :loading="loaderStateBar">
 
-          <div class="pt-3" id="chart">
-            <apexchart type="bar" height="350" ref="barChart" :options="chartOptionsBar" :series="seriesBar"></apexchart>
-          </div>
+            <v-card-text class="pt-0">
+              <div class="title font-weight-light mb-2">
+                Priemerné hodnoty veličín za 10 minútové intervaly
+              </div>
+              <v-divider class="my-2"></v-divider>
+              <v-icon class="mr-2" small>
+                mdi-clock
+              </v-icon>
+              <span class="caption grey--text font-weight-light">Posledná aktualizácia: </span>
+              <span class="font-weight-bold">{{lastUpdate}}</span>
+            </v-card-text>
+          </v-card>
+        </v-col>
+        <v-col class="mb-5" cols="12" lg="12" md="12" sm="12">
+          <v-card class="rounded" elevation="0" loader-height="6" :loading="loaderStateBar">
 
-          <v-card-text class="pt-0">
-            <div class="title font-weight-light mb-2">
-              Priemerné hodnoty za jednotlivé mesiace v danom roku
+            <div class="pt-3" id="chart">
+              <apexchart type="bar" height="350" ref="barChart" :options="chartOptionsBar" :series="seriesBar"></apexchart>
             </div>
-            <v-divider class="my-2"></v-divider>
-            <v-icon class="mr-2" small>
-              mdi-clock
-            </v-icon>
-            <span class="caption grey--text font-weight-light">Posledná aktualizácia: </span>
-            <span class="font-weight-bold">{{lastUpdate}}</span>
-          </v-card-text>
-        </v-card>
-      </v-col>
-    </v-row>
-    <NavigationDrawer :drawer="drawer" />
-    <BottomNavigation />
-    <Footer />
-  </div>
-</v-lazy>
+
+            <v-card-text class="pt-0">
+              <div class="title font-weight-light mb-2">
+                Priemerné hodnoty za jednotlivé mesiace v danom roku
+              </div>
+              <v-divider class="my-2"></v-divider>
+              <v-icon class="mr-2" small>
+                mdi-clock
+              </v-icon>
+              <span class="caption grey--text font-weight-light">Posledná aktualizácia: </span>
+              <span class="font-weight-bold">{{lastUpdate}}</span>
+            </v-card-text>
+          </v-card>
+        </v-col>
+      </v-row>
+    </div>
+  </v-lazy>
+  <NavigationDrawer :drawer="drawer" />
+  <BottomNavigation />
+  <SpeedDial />
+  <Footer />
+</div>
 </template>
 
 <script>
@@ -135,6 +139,7 @@ import VueApexCharts from 'vue-apexcharts'
 import Footer from "../components/Footer.vue";
 import NavigationDrawer from "../components/NavigationDrawer.vue";
 import BottomNavigation from "../components/BottomNavigation.vue";
+import SpeedDial from "../components/SpeedDial.vue";
 
 export default {
   name: "Home",
@@ -143,6 +148,7 @@ export default {
     Footer,
     NavigationDrawer,
     BottomNavigation,
+    SpeedDial,
     apexchart: VueApexCharts,
   },
   data() {

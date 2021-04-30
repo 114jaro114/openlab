@@ -1,7 +1,7 @@
 <template id="NavigationDrawer">
 <v-navigation-drawer :value="drawer2" absolute temporary>
   <v-list-item class="justify-center" style="height:64px">
-    <span class="font-weight-bold" color="primary">OpenLab FEI Tuke</span>
+    <v-toolbar-title class="primary--text">OpenLab FEI Tuke</v-toolbar-title>
   </v-list-item>
   <v-divider class="mb-0 mt-0"></v-divider>
   <v-list class="text-uppercase" nav dense>

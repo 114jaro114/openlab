@@ -3,12 +3,12 @@
   <v-lazy :options="{
         threshold: .4
       }" min-height="100vh" transition-group="scale-transition">
-    <div>
+    <div class="">
       <v-card class="mx-auto ml-3 mr-3" elevation="0" tile>
         <v-app-bar fixed flat>
           <v-app-bar-nav-icon @click.stop="drawer = !drawer"></v-app-bar-nav-icon>
 
-          <v-toolbar-title>OpenLab FEI Tuke</v-toolbar-title>
+          <v-toolbar-title class="title_toolbar">OpenLab FEI Tuke</v-toolbar-title>
 
           <v-spacer></v-spacer>
 

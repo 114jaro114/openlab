@@ -13,7 +13,6 @@ import Notifications from '../views/Notifications.vue'
 import Pressure from '../views/Pressure.vue'
 import Sound from '../views/Sound.vue'
 import Settings from '../views/Settings.vue'
-import Test from '../views/Test.vue'
 
 Vue.use(VueRouter)
 
@@ -53,11 +52,6 @@ const routes = [{
     path: '/settings',
     name: 'Settings',
     component: Settings,
-  },
-  {
-    path: '/test',
-    name: 'Test',
-    component: Test,
   },
 ]
 

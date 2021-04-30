@@ -1,7 +1,6 @@
 /* bootstrap-vue */
 @import "~bootstrap/dist/css/bootstrap.css";
 @import "~bootstrap-vue/dist/bootstrap-vue.css";
-
 /* Hide scrollbar for Chrome, Safari and Opera */
 body::-webkit-scrollbar {
   display: none;
@@ -13,25 +12,25 @@ body {
   scrollbar-width: none;
   /* Firefox */
 }
+
 .theme--light.v-application {
   background: #f5f5f5;
 }
+//toolbar
 
 .theme--light.v-app-bar.v-toolbar.v-sheet {
-    background-color: #fff;
+  background-color: #fff;
 }
 
-.notifications
-.v-toolbar {
+.notifications .v-toolbar {
   height: 64px !important;
 }
 
-.notifications
-.v-toolbar__content {
+.notifications .v-toolbar__content {
   height: 60px !important;
 }
-.notifications
-.v-toolbar__extension {
+
+.notifications .v-toolbar__extension {
   height: 4px !important;
 }
 
@@ -65,6 +64,14 @@ a:hover {
   // margin-bottom: 56px;
 }
 
+.theme--dark .title_toolbar {
+  color: rgb(255,255,255);
+}
+
+.theme--light .title_toolbar {
+  color: rgba(0,0,0,.54);
+}
+
 .phone-viewport {
   display: none;
 }
@@ -72,12 +79,10 @@ a:hover {
 .v-speed-dial {
   display: block !important;
 }
-
 @media only screen and (max-width: 480px) {
   // .phone-viewport {
   //   display: block !important;
   // }
-
   .v-speed-dial {
     display: none !important;
   }
@@ -90,6 +95,7 @@ a:hover {
 .theme--dark.v-app-bar {
   background-color: #363636 !important;
 }
+
 .theme--dark.v-badge .v-badge__badge::after {
-    border-color: #363636;
+  border-color: #363636;
 }

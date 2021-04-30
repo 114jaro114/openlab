@@ -6,6 +6,10 @@
       <span>Domov</span>
       <v-icon>mdi-home</v-icon>
     </v-btn>
+    <v-btn to="/temperature" value="temperature">
+      <span>Teplota</span>
+      <v-icon>mdi-thermometer</v-icon>
+    </v-btn>
     <v-btn to="/notifications" value="notifications">
       <span>Notifikácie</span>
       <v-icon>mdi-bell</v-icon>

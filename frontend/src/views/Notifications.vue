@@ -8,7 +8,7 @@
         <v-app-bar fixed flat>
           <v-app-bar-nav-icon @click.stop="drawer = !drawer"></v-app-bar-nav-icon>
 
-          <v-toolbar-title>OpenLab FEI Tuke</v-toolbar-title>
+          <v-toolbar-title class="title_toolbar">OpenLab FEI Tuke</v-toolbar-title>
 
           <v-spacer></v-spacer>
 
@@ -17,10 +17,11 @@
           </v-btn>
         </v-app-bar>
       </v-card>
+
       <v-row class="m-0">
         <v-col class="mb-5" cols="12" lg="12" md="12" sm="12">
-          <v-card>
-            <v-toolbar class="notiftoolbar rounded-top" extended extension-height="4" color="primary" flat>
+          <v-card rounded>
+            <v-toolbar class="notiftoolbar rounded-top" extended extension-height="4" color="primary" flat dark>
               <div class="w-75" v-if="selected.length == '0'">
                 <v-text-field color="white white--color" v-model="search" append-icon="mdi-magnify" label="Vyhľadať" single-line hide-details clearable disabled v-if="myloadingvariable || notif.length == 0"></v-text-field>
                 <v-text-field color="white white--color" v-model="search" append-icon="mdi-magnify" label="Vyhľadať" single-line hide-details clearable v-if="!myloadingvariable &&  notif.length != 0"></v-text-field>
@@ -29,7 +30,7 @@
               <div v-else>
                 <v-tooltip bottom>
                   <template v-slot:activator="{ on, attrs }">
-                    <v-btn fab icon small @click="deleteNotif = !deleteNotif" v-bind="attrs" v-on="on">
+                    <v-btn color="white white--color" fab icon small @click="deleteNotif = !deleteNotif" v-bind="attrs" v-on="on">
                       <v-icon>mdi-delete</v-icon>
                     </v-btn>
                   </template>
@@ -40,8 +41,8 @@
               <v-spacer></v-spacer>
 
               <span style="font-size:12px">Označiť všetko</span>
-              <v-checkbox class="mt-5 ml-3" color="secondary" @change="checkUncheckAll($event);" disabled v-if="myloadingvariable || notif.length == 0"></v-checkbox>
-              <v-checkbox class=" mt-5 ml-3" color="secondary" @change="checkUncheckAll($event);" v-model=" item_1.checked" :indeterminate="item_1.indeterminate" v-if="!myloadingvariable && notif.length != 0"></v-checkbox>
+              <v-checkbox class="mt-5 ml-3" color="white white--color" @change="checkUncheckAll($event);" disabled v-if="myloadingvariable || notif.length == 0"></v-checkbox>
+              <v-checkbox class=" mt-5 ml-3" color="white white--color" @change="checkUncheckAll($event);" v-model=" item_1.checked" :indeterminate="item_1.indeterminate" v-if="!myloadingvariable && notif.length != 0"></v-checkbox>
 
               <v-progress-linear v-if=" myloadingvariable" color="white" style="height:4px" slot="extension" :indeterminate="true">
               </v-progress-linear>
@@ -124,6 +125,7 @@
   </v-lazy>
   <NavigationDrawer :drawer="drawer" />
   <BottomNavigation />
+  <SpeedDial />
   <Footer />
 </div>
 </template>
@@ -131,6 +133,7 @@
 import Footer from "../components/Footer.vue";
 import NavigationDrawer from "../components/NavigationDrawer.vue";
 import BottomNavigation from "../components/BottomNavigation.vue";
+import SpeedDial from "../components/SpeedDial.vue";
 import _ from 'lodash';
 export default {
   name: "Notifications",
@@ -138,6 +141,7 @@ export default {
     Footer,
     NavigationDrawer,
     BottomNavigation,
+    SpeedDial
   },
   props: ['drawerNew'],
   data() {
