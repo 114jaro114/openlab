@@ -349,14 +349,36 @@ class ApiController extends Controller
 
     public function getHistoricalData2Humidity()
     {
-        $query = DB::select("select
-        from_unixtime(round(unix_timestamp(created_at)/(60*60))*(60*60)) as timekey,
-        substring_index(group_concat(humi order by created_at), ',', 1) as first_open,
-        substring_index(group_concat(humi order by created_at desc), ',', 1) as last_close,
-        MAX(humi) AS max_value,
-        MIN(humi) As min_value
-        FROM all_sensors
-        GROUP BY timekey");
+      //
+      // (
+      // select humi
+      // from all_sensors
+      // order by created_at asc limit 1
+      // ) as first_open,
+      //
+      // (
+      // select humi
+      // from all_sensors
+      // group by DATETIME(round(strftime('%s', created_at)/(60*60))*(60*60), 'unixepoch')
+      // order by created_at desc limit 1
+      // ) as last_close,
+
+              //
+              // MAX(humi) AS max_value,
+              // MIN(humi) As min_value
+      // substring_index(group_concat(humi ORDER BY created_at), ',', 1) as first_open,
+      // substring_index(group_concat(humi ORDER BY created_at desc), ',', 1) as last_close,
+
+        $query = DB::select("
+        select DISTINCT FIRST_VALUE(s2.humi) OVER (PARTITION by s2.timekey) as first_open,
+        LAST_VALUE(s2.humi) OVER (PARTITION by s2.timekey) as last_close,
+        MAX(s2.humi) OVER (PARTITION by s2.timekey) AS max_value,
+        MIN(s2.humi) OVER (PARTITION by s2.timekey) As min_value,
+        s2.timekey
+        from
+        (select humi,
+        DATETIME(round(strftime('%s', created_at)/(60*60))*(60*60), 'unixepoch') as timekey
+        FROM all_sensors) as s2");
 
         return response()->json($query);
     }
@@ -365,30 +387,29 @@ class ApiController extends Controller
     {
         //avg values of hum for each months, when null value is 0
         $query = DB::select("
-          select
-          sum(if(`month` = 1, humi, 0))  AS Jan,
-          sum(if(`month` = 2, humi, 0))  AS Feb,
-          sum(if(`month` = 3, humi, 0))  AS Mar,
-          sum(if(`month` = 4, humi, 0))  AS Apr,
-          sum(if(`month` = 5, humi, 0))  AS May,
-          sum(if(`month` = 6, humi, 0))  AS Jun,
-          sum(if(`month` = 7, humi, 0))  AS Jul,
-          sum(if(`month` = 8, humi, 0))  AS Aug,
-          sum(if(`month` = 9, humi, 0))  AS Sep,
-          sum(if(`month` = 10, humi, 0)) AS Oct,
-          sum(if(`month` = 11, humi, 0)) AS Nov,
-          sum(if(`month` = 12, humi, 0)) AS `Dec`
-        FROM
-        (
-          select
-            (month(created_at)) `month`,
-            round(AVG(humi), 2) humi
-          FROM all_sensors
-          GROUP BY (month(created_at))
-        ) AS T
-          GROUP BY (month(`month`));
-        ");
-
+                            select
+                            SUM(CASE WHEN (`month` = '01') THEN humi ELSE 0 END) AS Jan,
+                            SUM(CASE WHEN (`month` = '02') THEN humi ELSE 0 END) AS Feb,
+                            SUM(CASE WHEN (`month` = '03') THEN humi ELSE 0 END) AS Mar,
+                            SUM(CASE WHEN (`month` = '04') THEN humi ELSE 0 END) AS Apr,
+                            SUM(CASE WHEN (`month` = '05') THEN humi ELSE 0 END) AS May,
+                            SUM(CASE WHEN (`month` = '06') THEN humi ELSE 0 END) AS Jun,
+                            SUM(CASE WHEN (`month` = '07') THEN humi ELSE 0 END) AS Jul,
+                            SUM(CASE WHEN (`month` = '08') THEN humi ELSE 0 END) AS Aug,
+                            SUM(CASE WHEN (`month` = '09') THEN humi ELSE 0 END) AS Sep,
+                            SUM(CASE WHEN (`month` = '10') THEN humi ELSE 0 END) AS Oct,
+                            SUM(CASE WHEN (`month` = '11') THEN humi ELSE 0 END) AS Nov,
+                            SUM(CASE WHEN (`month` = '12') THEN humi ELSE 0 END) AS Dec
+                          FROM
+                          (
+                            SELECT
+                              (strftime('%m',created_at)) `month`,
+                              round(AVG(humi), 2) humi
+                            FROM all_sensors
+                            GROUP BY (strftime('%m',created_at))
+                          ) AS T
+                            GROUP BY (strftime('%m',`month`));
+                          ");
         return response()->json($query);
     }
 
@@ -414,14 +435,16 @@ class ApiController extends Controller
 
     public function getHistoricalData2TemperatureGtmp()
     {
-        $query = DB::select("select
-        from_unixtime(round(unix_timestamp(created_at)/(60*60))*(60*60)) as timekey,
-        substring_index(group_concat(gtmp order by created_at), ',', 1) as first_open,
-        substring_index(group_concat(gtmp order by created_at desc), ',', 1) as last_close,
-        MAX(gtmp) AS max_value,
-        MIN(gtmp) As min_value
-        FROM all_sensors
-        GROUP BY timekey");
+        $query = DB::select("
+        select DISTINCT FIRST_VALUE(s2.gtmp) OVER (PARTITION by s2.timekey) as first_open,
+        LAST_VALUE(s2.gtmp) OVER (PARTITION by s2.timekey) as last_close,
+        MAX(s2.gtmp) OVER (PARTITION by s2.timekey) AS max_value,
+        MIN(s2.gtmp) OVER (PARTITION by s2.timekey) As min_value,
+        s2.timekey
+        from
+        (select gtmp,
+        DATETIME(round(strftime('%s', created_at)/(60*60))*(60*60), 'unixepoch') as timekey
+        FROM all_sensors) as s2");
 
         return response()->json($query);
     }
@@ -430,29 +453,29 @@ class ApiController extends Controller
     {
         //avg values of hum for each months, when null value is 0
         $query = DB::select("
-          select
-          sum(if(`month` = 1, gtmp, 0))  AS Jan,
-          sum(if(`month` = 2, gtmp, 0))  AS Feb,
-          sum(if(`month` = 3, gtmp, 0))  AS Mar,
-          sum(if(`month` = 4, gtmp, 0))  AS Apr,
-          sum(if(`month` = 5, gtmp, 0))  AS May,
-          sum(if(`month` = 6, gtmp, 0))  AS Jun,
-          sum(if(`month` = 7, gtmp, 0))  AS Jul,
-          sum(if(`month` = 8, gtmp, 0))  AS Aug,
-          sum(if(`month` = 9, gtmp, 0))  AS Sep,
-          sum(if(`month` = 10, gtmp, 0)) AS Oct,
-          sum(if(`month` = 11, gtmp, 0)) AS Nov,
-          sum(if(`month` = 12, gtmp, 0)) AS `Dec`
-        FROM
-        (
-          select
-            (month(created_at)) `month`,
-            round(AVG(gtmp), 2) gtmp
-          FROM all_sensors
-          GROUP BY (month(created_at))
-        ) AS T
-          GROUP BY (month(`month`));
-        ");
+        select
+        SUM(CASE WHEN (`month` = '01') THEN gtmp ELSE 0 END) AS Jan,
+        SUM(CASE WHEN (`month` = '02') THEN gtmp ELSE 0 END) AS Feb,
+        SUM(CASE WHEN (`month` = '03') THEN gtmp ELSE 0 END) AS Mar,
+        SUM(CASE WHEN (`month` = '04') THEN gtmp ELSE 0 END) AS Apr,
+        SUM(CASE WHEN (`month` = '05') THEN gtmp ELSE 0 END) AS May,
+        SUM(CASE WHEN (`month` = '06') THEN gtmp ELSE 0 END) AS Jun,
+        SUM(CASE WHEN (`month` = '07') THEN gtmp ELSE 0 END) AS Jul,
+        SUM(CASE WHEN (`month` = '08') THEN gtmp ELSE 0 END) AS Aug,
+        SUM(CASE WHEN (`month` = '09') THEN gtmp ELSE 0 END) AS Sep,
+        SUM(CASE WHEN (`month` = '10') THEN gtmp ELSE 0 END) AS Oct,
+        SUM(CASE WHEN (`month` = '11') THEN gtmp ELSE 0 END) AS Nov,
+        SUM(CASE WHEN (`month` = '12') THEN gtmp ELSE 0 END) AS Dec
+      FROM
+      (
+        SELECT
+          (strftime('%m', created_at)) `month`,
+          round(AVG(gtmp), 2) gtmp
+        FROM all_sensors
+        GROUP BY (strftime('%m', created_at))
+      ) AS T
+        GROUP BY (strftime('%m', `month`));
+      ");
 
         return response()->json($query);
     }
@@ -477,14 +500,16 @@ class ApiController extends Controller
 
     public function getHistoricalData2TemperatureAtmp()
     {
-        $query = DB::select("select
-        from_unixtime(round(unix_timestamp(created_at)/(60*60))*(60*60)) as timekey,
-        substring_index(group_concat(atmp order by created_at), ',', 1) as first_open,
-        substring_index(group_concat(atmp order by created_at desc), ',', 1) as last_close,
-        MAX(atmp) AS max_value,
-        MIN(atmp) As min_value
-        FROM all_sensors
-        GROUP BY timekey");
+        $query = DB::select("
+        select DISTINCT FIRST_VALUE(s2.atmp) OVER (PARTITION by s2.timekey) as first_open,
+        LAST_VALUE(s2.atmp) OVER (PARTITION by s2.timekey) as last_close,
+        MAX(s2.atmp) OVER (PARTITION by s2.timekey) AS max_value,
+        MIN(s2.atmp) OVER (PARTITION by s2.timekey) As min_value,
+        s2.timekey
+        from
+        (select atmp,
+        DATETIME(round(strftime('%s', created_at)/(60*60))*(60*60), 'unixepoch') as timekey
+        FROM all_sensors) as s2");
 
         return response()->json($query);
     }
@@ -493,29 +518,29 @@ class ApiController extends Controller
     {
         //avg values of hum for each months, when null value is 0
         $query = DB::select("
-          select
-          sum(if(`month` = 1, atmp, 0))  AS Jan,
-          sum(if(`month` = 2, atmp, 0))  AS Feb,
-          sum(if(`month` = 3, atmp, 0))  AS Mar,
-          sum(if(`month` = 4, atmp, 0))  AS Apr,
-          sum(if(`month` = 5, atmp, 0))  AS May,
-          sum(if(`month` = 6, atmp, 0))  AS Jun,
-          sum(if(`month` = 7, atmp, 0))  AS Jul,
-          sum(if(`month` = 8, atmp, 0))  AS Aug,
-          sum(if(`month` = 9, atmp, 0))  AS Sep,
-          sum(if(`month` = 10, atmp, 0)) AS Oct,
-          sum(if(`month` = 11, atmp, 0)) AS Nov,
-          sum(if(`month` = 12, atmp, 0)) AS `Dec`
-        FROM
-        (
-          select
-            (month(created_at)) `month`,
-            round(AVG(atmp), 2) atmp
-          FROM all_sensors
-          GROUP BY (month(created_at))
-        ) AS T
-          GROUP BY (month(`month`));
-        ");
+        select
+        SUM(CASE WHEN (`month` = '01') THEN atmp ELSE 0 END) AS Jan,
+        SUM(CASE WHEN (`month` = '02') THEN atmp ELSE 0 END) AS Feb,
+        SUM(CASE WHEN (`month` = '03') THEN atmp ELSE 0 END) AS Mar,
+        SUM(CASE WHEN (`month` = '04') THEN atmp ELSE 0 END) AS Apr,
+        SUM(CASE WHEN (`month` = '05') THEN atmp ELSE 0 END) AS May,
+        SUM(CASE WHEN (`month` = '06') THEN atmp ELSE 0 END) AS Jun,
+        SUM(CASE WHEN (`month` = '07') THEN atmp ELSE 0 END) AS Jul,
+        SUM(CASE WHEN (`month` = '08') THEN atmp ELSE 0 END) AS Aug,
+        SUM(CASE WHEN (`month` = '09') THEN atmp ELSE 0 END) AS Sep,
+        SUM(CASE WHEN (`month` = '10') THEN atmp ELSE 0 END) AS Oct,
+        SUM(CASE WHEN (`month` = '11') THEN atmp ELSE 0 END) AS Nov,
+        SUM(CASE WHEN (`month` = '12') THEN atmp ELSE 0 END) AS Dec
+      FROM
+      (
+        SELECT
+          (strftime('%m',created_at)) `month`,
+          round(AVG(atmp), 2) atmp
+        FROM all_sensors
+        GROUP BY (strftime('%m',created_at))
+      ) AS T
+        GROUP BY (strftime('%m',`month`));
+      ");
 
         return response()->json($query);
     }
@@ -543,14 +568,16 @@ class ApiController extends Controller
 
     public function getHistoricalData2Light()
     {
-        $query = DB::select("select
-        from_unixtime(round(unix_timestamp(created_at)/(60*60))*(60*60)) as timekey,
-        substring_index(group_concat(light order by created_at), ',', 1) as first_open,
-        substring_index(group_concat(light order by created_at desc), ',', 1) as last_close,
-        MAX(light) AS max_value,
-        MIN(light) As min_value
-        FROM all_sensors
-        GROUP BY timekey");
+        $query = DB::select("
+        select DISTINCT FIRST_VALUE(s2.light) OVER (PARTITION by s2.timekey) as first_open,
+        LAST_VALUE(s2.light) OVER (PARTITION by s2.timekey) as last_close,
+        MAX(s2.light) OVER (PARTITION by s2.timekey) AS max_value,
+        MIN(s2.light) OVER (PARTITION by s2.timekey) As min_value,
+        s2.timekey
+        from
+        (select light,
+        DATETIME(round(strftime('%s', created_at)/(60*60))*(60*60), 'unixepoch') as timekey
+        FROM all_sensors) as s2");
 
         return response()->json($query);
     }
@@ -559,30 +586,29 @@ class ApiController extends Controller
     {
         //avg values of hum for each months, when null value is 0
         $query = DB::select("
-          select
-          sum(if(`month` = 1, light, 0))  AS Jan,
-          sum(if(`month` = 2, light, 0))  AS Feb,
-          sum(if(`month` = 3, light, 0))  AS Mar,
-          sum(if(`month` = 4, light, 0))  AS Apr,
-          sum(if(`month` = 5, light, 0))  AS May,
-          sum(if(`month` = 6, light, 0))  AS Jun,
-          sum(if(`month` = 7, light, 0))  AS Jul,
-          sum(if(`month` = 8, light, 0))  AS Aug,
-          sum(if(`month` = 9, light, 0))  AS Sep,
-          sum(if(`month` = 10, light, 0)) AS Oct,
-          sum(if(`month` = 11, light, 0)) AS Nov,
-          sum(if(`month` = 12, light, 0)) AS `Dec`
-        FROM
-        (
-          select
-            (month(created_at)) `month`,
-            round(AVG(light), 2) light
-          FROM all_sensors
-          GROUP BY (month(created_at))
-        ) AS T
-          GROUP BY (month(`month`));
-        ");
-
+        select
+        SUM(CASE WHEN (`month` = '01') THEN light ELSE 0 END) AS Jan,
+        SUM(CASE WHEN (`month` = '02') THEN light ELSE 0 END) AS Feb,
+        SUM(CASE WHEN (`month` = '03') THEN light ELSE 0 END) AS Mar,
+        SUM(CASE WHEN (`month` = '04') THEN light ELSE 0 END) AS Apr,
+        SUM(CASE WHEN (`month` = '05') THEN light ELSE 0 END) AS May,
+        SUM(CASE WHEN (`month` = '06') THEN light ELSE 0 END) AS Jun,
+        SUM(CASE WHEN (`month` = '07') THEN light ELSE 0 END) AS Jul,
+        SUM(CASE WHEN (`month` = '08') THEN light ELSE 0 END) AS Aug,
+        SUM(CASE WHEN (`month` = '09') THEN light ELSE 0 END) AS Sep,
+        SUM(CASE WHEN (`month` = '10') THEN light ELSE 0 END) AS Oct,
+        SUM(CASE WHEN (`month` = '11') THEN light ELSE 0 END) AS Nov,
+        SUM(CASE WHEN (`month` = '12') THEN light ELSE 0 END) AS Dec
+      FROM
+      (
+        SELECT
+          (strftime('%m',created_at)) `month`,
+          round(AVG(light), 2) light
+        FROM all_sensors
+        GROUP BY (strftime('%m',created_at))
+      ) AS T
+        GROUP BY (strftime('%m',`month`));
+      ");
         return response()->json($query);
     }
 
@@ -609,14 +635,16 @@ class ApiController extends Controller
 
     public function getHistoricalData2Pressure()
     {
-        $query = DB::select("select
-        from_unixtime(round(unix_timestamp(created_at)/(60*60))*(60*60)) as timekey,
-        substring_index(group_concat(pres order by created_at), ',', 1) as first_open,
-        substring_index(group_concat(pres order by created_at desc), ',', 1) as last_close,
-        MAX(pres) AS max_value,
-        MIN(pres) As min_value
-        FROM all_sensors
-        GROUP BY timekey");
+        $query = DB::select("
+        select DISTINCT FIRST_VALUE(s2.pres) OVER (PARTITION by s2.timekey) as first_open,
+        LAST_VALUE(s2.pres) OVER (PARTITION by s2.timekey) as last_close,
+        MAX(s2.pres) OVER (PARTITION by s2.timekey) AS max_value,
+        MIN(s2.pres) OVER (PARTITION by s2.timekey) As min_value,
+        s2.timekey
+        from
+        (select pres,
+        DATETIME(round(strftime('%s', created_at)/(60*60))*(60*60), 'unixepoch') as timekey
+        FROM all_sensors) as s2");
 
         return response()->json($query);
     }
@@ -625,29 +653,29 @@ class ApiController extends Controller
     {
         //avg values of hum for each months, when null value is 0
         $query = DB::select("
-          select
-          sum(if(`month` = 1, pres, 0))  AS Jan,
-          sum(if(`month` = 2, pres, 0))  AS Feb,
-          sum(if(`month` = 3, pres, 0))  AS Mar,
-          sum(if(`month` = 4, pres, 0))  AS Apr,
-          sum(if(`month` = 5, pres, 0))  AS May,
-          sum(if(`month` = 6, pres, 0))  AS Jun,
-          sum(if(`month` = 7, pres, 0))  AS Jul,
-          sum(if(`month` = 8, pres, 0))  AS Aug,
-          sum(if(`month` = 9, pres, 0))  AS Sep,
-          sum(if(`month` = 10, pres, 0)) AS Oct,
-          sum(if(`month` = 11, pres, 0)) AS Nov,
-          sum(if(`month` = 12, pres, 0)) AS `Dec`
-        FROM
-        (
-          select
-            (month(created_at)) `month`,
-            round(AVG(pres), 2) pres
-          FROM all_sensors
-          GROUP BY (month(created_at))
-        ) AS T
-          GROUP BY (month(`month`));
-        ");
+        select
+        SUM(CASE WHEN (`month` = '01') THEN pres ELSE 0 END) AS Jan,
+        SUM(CASE WHEN (`month` = '02') THEN pres ELSE 0 END) AS Feb,
+        SUM(CASE WHEN (`month` = '03') THEN pres ELSE 0 END) AS Mar,
+        SUM(CASE WHEN (`month` = '04') THEN pres ELSE 0 END) AS Apr,
+        SUM(CASE WHEN (`month` = '05') THEN pres ELSE 0 END) AS May,
+        SUM(CASE WHEN (`month` = '06') THEN pres ELSE 0 END) AS Jun,
+        SUM(CASE WHEN (`month` = '07') THEN pres ELSE 0 END) AS Jul,
+        SUM(CASE WHEN (`month` = '08') THEN pres ELSE 0 END) AS Aug,
+        SUM(CASE WHEN (`month` = '09') THEN pres ELSE 0 END) AS Sep,
+        SUM(CASE WHEN (`month` = '10') THEN pres ELSE 0 END) AS Oct,
+        SUM(CASE WHEN (`month` = '11') THEN pres ELSE 0 END) AS Nov,
+        SUM(CASE WHEN (`month` = '12') THEN pres ELSE 0 END) AS Dec
+      FROM
+      (
+        SELECT
+          (strftime('%m',created_at)) `month`,
+          round(AVG(pres), 2) pres
+        FROM all_sensors
+        GROUP BY (strftime('%m',created_at))
+      ) AS T
+        GROUP BY (strftime('%m',`month`));
+      ");
 
         return response()->json($query);
     }
@@ -675,14 +703,16 @@ class ApiController extends Controller
 
     public function getHistoricalData2Sound()
     {
-        $query = DB::select("select
-        from_unixtime(round(unix_timestamp(created_at)/(60*60))*(60*60)) as timekey,
-        substring_index(group_concat(vol order by created_at), ',', 1) as first_open,
-        substring_index(group_concat(vol order by created_at desc), ',', 1) as last_close,
-        MAX(vol) AS max_value,
-        MIN(vol) As min_value
-        FROM all_sensors
-        GROUP BY timekey");
+        $query = DB::select("
+        select DISTINCT FIRST_VALUE(s2.vol) OVER (PARTITION by s2.timekey) as first_open,
+        LAST_VALUE(s2.vol) OVER (PARTITION by s2.timekey) as last_close,
+        MAX(s2.vol) OVER (PARTITION by s2.timekey) AS max_value,
+        MIN(s2.vol) OVER (PARTITION by s2.timekey) As min_value,
+        s2.timekey
+        from
+        (select vol,
+        DATETIME(round(strftime('%s', created_at)/(60*60))*(60*60), 'unixepoch') as timekey
+        FROM all_sensors) as s2");
 
         return response()->json($query);
     }
@@ -691,29 +721,29 @@ class ApiController extends Controller
     {
         //avg values of hum for each months, when null value is 0
         $query = DB::select("
-          select
-          sum(if(`month` = 1, vol, 0))  AS Jan,
-          sum(if(`month` = 2, vol, 0))  AS Feb,
-          sum(if(`month` = 3, vol, 0))  AS Mar,
-          sum(if(`month` = 4, vol, 0))  AS Apr,
-          sum(if(`month` = 5, vol, 0))  AS May,
-          sum(if(`month` = 6, vol, 0))  AS Jun,
-          sum(if(`month` = 7, vol, 0))  AS Jul,
-          sum(if(`month` = 8, vol, 0))  AS Aug,
-          sum(if(`month` = 9, vol, 0))  AS Sep,
-          sum(if(`month` = 10, vol, 0)) AS Oct,
-          sum(if(`month` = 11, vol, 0)) AS Nov,
-          sum(if(`month` = 12, vol, 0)) AS `Dec`
-        FROM
-        (
-          select
-            (month(created_at)) `month`,
-            round(AVG(vol), 2) vol
-          FROM all_sensors
-          GROUP BY (month(created_at))
-        ) AS T
-          GROUP BY (month(`month`));
-        ");
+        select
+        SUM(CASE WHEN (`month` = '01') THEN vol ELSE 0 END) AS Jan,
+        SUM(CASE WHEN (`month` = '02') THEN vol ELSE 0 END) AS Feb,
+        SUM(CASE WHEN (`month` = '03') THEN vol ELSE 0 END) AS Mar,
+        SUM(CASE WHEN (`month` = '04') THEN vol ELSE 0 END) AS Apr,
+        SUM(CASE WHEN (`month` = '05') THEN vol ELSE 0 END) AS May,
+        SUM(CASE WHEN (`month` = '06') THEN vol ELSE 0 END) AS Jun,
+        SUM(CASE WHEN (`month` = '07') THEN vol ELSE 0 END) AS Jul,
+        SUM(CASE WHEN (`month` = '08') THEN vol ELSE 0 END) AS Aug,
+        SUM(CASE WHEN (`month` = '09') THEN vol ELSE 0 END) AS Sep,
+        SUM(CASE WHEN (`month` = '10') THEN vol ELSE 0 END) AS Oct,
+        SUM(CASE WHEN (`month` = '11') THEN vol ELSE 0 END) AS Nov,
+        SUM(CASE WHEN (`month` = '12') THEN vol ELSE 0 END) AS Dec
+      FROM
+      (
+        SELECT
+          (strftime('%m',created_at)) `month`,
+          round(AVG(vol), 2) vol
+        FROM all_sensors
+        GROUP BY (strftime('%m',created_at))
+      ) AS T
+        GROUP BY (strftime('%m',`month`));
+      ");
 
         return response()->json($query);
     }
