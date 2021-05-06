@@ -1,0 +1,52 @@
+/// NEPLATNE pouzita ina konfiguracia
+
+docker login openlabdashboardregistry.azurecr.io 
+az acr login --name openlabdashboardRG
+
+az acr login --name openlabdashboardCR
+
+az aks get-credentials --resource-group myResourceGroup --name myAKSCluster
+
+az acr update -n openlabdashboardCR --admin-enabled true
+
+
+az acr create --resource-group openlabdashboardRG --name openlabdashboardCR --sku Basic
+//  "loginServer": "openlabdashboardcr.azurecr.io"
+
+az acr login --name openlabdashboardCR
+
+
+az acr list --resource-group openlabdashboardRG --query "[].{acrLoginServer: openlabdashboardcr.azurecr.io}" --output table
+
+docker tag openlabdashboardfe openlabdashboardcr.azurecr.io/openlabdashboardfrontend
+
+docker push openlabdashboardcr.azurecr.io/openlabdashboardfrontend
+
+az acr repository list --name openlabdashboardcr.azurecr.io --output table
+
+
+/// CLUSTER////
+
+
+az aks create \
+    --name openlabdashboardCluster \
+    --node-count 2 \
+    --generate-ssh-keys \
+    --attach-acr openlabdashboardCR
+
+
+az aks get-credentials --resource-group openlabdashboardRG --name openlabdashboardCluster
+kubectl get nodes
+az acr list --resource-group openLabDashboard --query "[].{acrLoginServer:openlabdashboardregistry.azurecr.io}" --output table
+az acr login -n openlabdashboardCR
+kubectl apply -f deployment_service.yaml
+kubectl apply -f deployment_service.yaml
+
+//////////
+
+az aks create \
+    --resource-group openlabdashboardRG \
+    --name openlabdashboardCluster \
+    --node-count 2 \
+    --generate-ssh-keys \
+    --attach-acr dashboard
