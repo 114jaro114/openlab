@@ -168,82 +168,94 @@ class ApiController extends Controller
 
     public function getDataLine()
     {
+      // sum(WHEN(`month` = 1, gtmp) THEN 0  AS Jan,
+      // sum(WHEN(`month` = 2, gtmp, 0))  AS Feb,
+      // sum(WHEN(`month` = 3, gtmp, 0))  AS Mar,
+      // sum(WHEN(`month` = 4, gtmp, 0))  AS Apr,
+      // sum(WHEN(`month` = 5, gtmp, 0))  AS May,
+      // sum(WHEN(`month` = 6, gtmp, 0))  AS Jun,
+      // sum(WHEN(`month` = 7, gtmp, 0))  AS Jul,
+      // sum(WHEN(`month` = 8, gtmp, 0))  AS Aug,
+      // sum(WHEN(`month` = 9, gtmp, 0))  AS Sep,
+      // sum(WHEN(`month` = 10, gtmp, 0)) AS Oct,
+      // sum(WHEN(`month` = 11, gtmp, 0)) AS Nov,
+      // sum(WHEN(`month` = 12, gtmp, 0)) AS `Dec`
         $array = [];
         $array1 = [];
         $array2 = [];
         $query = DB::select("
                             select
-                            sum(if(`month` = 1, gtmp, 0))  AS Jan,
-                            sum(if(`month` = 2, gtmp, 0))  AS Feb,
-                            sum(if(`month` = 3, gtmp, 0))  AS Mar,
-                            sum(if(`month` = 4, gtmp, 0))  AS Apr,
-                            sum(if(`month` = 5, gtmp, 0))  AS May,
-                            sum(if(`month` = 6, gtmp, 0))  AS Jun,
-                            sum(if(`month` = 7, gtmp, 0))  AS Jul,
-                            sum(if(`month` = 8, gtmp, 0))  AS Aug,
-                            sum(if(`month` = 9, gtmp, 0))  AS Sep,
-                            sum(if(`month` = 10, gtmp, 0)) AS Oct,
-                            sum(if(`month` = 11, gtmp, 0)) AS Nov,
-                            sum(if(`month` = 12, gtmp, 0)) AS `Dec`
+                            SUM(CASE WHEN (`month` = '01') THEN gtmp ELSE 0 END) AS Jan,
+                            SUM(CASE WHEN (`month` = '02') THEN gtmp ELSE 0 END) AS Feb,
+                            SUM(CASE WHEN (`month` = '03') THEN gtmp ELSE 0 END) AS Mar,
+                            SUM(CASE WHEN (`month` = '04') THEN gtmp ELSE 0 END) AS Apr,
+                            SUM(CASE WHEN (`month` = '05') THEN gtmp ELSE 0 END) AS May,
+                            SUM(CASE WHEN (`month` = '06') THEN gtmp ELSE 0 END) AS Jun,
+                            SUM(CASE WHEN (`month` = '07') THEN gtmp ELSE 0 END) AS Jul,
+                            SUM(CASE WHEN (`month` = '08') THEN gtmp ELSE 0 END) AS Aug,
+                            SUM(CASE WHEN (`month` = '09') THEN gtmp ELSE 0 END) AS Sep,
+                            SUM(CASE WHEN (`month` = '10') THEN gtmp ELSE 0 END) AS Oct,
+                            SUM(CASE WHEN (`month` = '11') THEN gtmp ELSE 0 END) AS Nov,
+                            SUM(CASE WHEN (`month` = '12') THEN gtmp ELSE 0 END) AS Dec
                           FROM
                           (
                             SELECT
-                              (month(created_at)) `month`,
+                              (strftime('%m', created_at)) `month`,
                               round(AVG(gtmp), 2) gtmp
                             FROM all_sensors
-                            GROUP BY (month(created_at))
+                            GROUP BY (strftime('%m', created_at))
                           ) AS T
-                            GROUP BY (month(`month`));
+                            GROUP BY (strftime('%m', `month`));
                           ");
 
         $query1 = DB::select("
                             select
-                            sum(if(`month` = 1, atmp, 0))  AS Jan,
-                            sum(if(`month` = 2, atmp, 0))  AS Feb,
-                            sum(if(`month` = 3, atmp, 0))  AS Mar,
-                            sum(if(`month` = 4, atmp, 0))  AS Apr,
-                            sum(if(`month` = 5, atmp, 0))  AS May,
-                            sum(if(`month` = 6, atmp, 0))  AS Jun,
-                            sum(if(`month` = 7, atmp, 0))  AS Jul,
-                            sum(if(`month` = 8, atmp, 0))  AS Aug,
-                            sum(if(`month` = 9, atmp, 0))  AS Sep,
-                            sum(if(`month` = 10, atmp, 0)) AS Oct,
-                            sum(if(`month` = 11, atmp, 0)) AS Nov,
-                            sum(if(`month` = 12, atmp, 0)) AS `Dec`
+                            SUM(CASE WHEN (`month` = '01') THEN atmp ELSE 0 END) AS Jan,
+                            SUM(CASE WHEN (`month` = '02') THEN atmp ELSE 0 END) AS Feb,
+                            SUM(CASE WHEN (`month` = '03') THEN atmp ELSE 0 END) AS Mar,
+                            SUM(CASE WHEN (`month` = '04') THEN atmp ELSE 0 END) AS Apr,
+                            SUM(CASE WHEN (`month` = '05') THEN atmp ELSE 0 END) AS May,
+                            SUM(CASE WHEN (`month` = '06') THEN atmp ELSE 0 END) AS Jun,
+                            SUM(CASE WHEN (`month` = '07') THEN atmp ELSE 0 END) AS Jul,
+                            SUM(CASE WHEN (`month` = '08') THEN atmp ELSE 0 END) AS Aug,
+                            SUM(CASE WHEN (`month` = '09') THEN atmp ELSE 0 END) AS Sep,
+                            SUM(CASE WHEN (`month` = '10') THEN atmp ELSE 0 END) AS Oct,
+                            SUM(CASE WHEN (`month` = '11') THEN atmp ELSE 0 END) AS Nov,
+                            SUM(CASE WHEN (`month` = '12') THEN atmp ELSE 0 END) AS Dec
                           FROM
                           (
                             SELECT
-                              (month(created_at)) `month`,
+                              (strftime('%m',created_at)) `month`,
                               round(AVG(atmp), 2) atmp
                             FROM all_sensors
-                            GROUP BY (month(created_at))
+                            GROUP BY (strftime('%m',created_at))
                           ) AS T
-                            GROUP BY (month(`month`));
+                            GROUP BY (strftime('%m',`month`));
                           ");
 
         $query2 = DB::select("
                             select
-                            sum(if(`month` = 1, humi, 0))  AS Jan,
-                            sum(if(`month` = 2, humi, 0))  AS Feb,
-                            sum(if(`month` = 3, humi, 0))  AS Mar,
-                            sum(if(`month` = 4, humi, 0))  AS Apr,
-                            sum(if(`month` = 5, humi, 0))  AS May,
-                            sum(if(`month` = 6, humi, 0))  AS Jun,
-                            sum(if(`month` = 7, humi, 0))  AS Jul,
-                            sum(if(`month` = 8, humi, 0))  AS Aug,
-                            sum(if(`month` = 9, humi, 0))  AS Sep,
-                            sum(if(`month` = 10, humi, 0)) AS Oct,
-                            sum(if(`month` = 11, humi, 0)) AS Nov,
-                            sum(if(`month` = 12, humi, 0)) AS `Dec`
+                            SUM(CASE WHEN (`month` = '01') THEN humi ELSE 0 END) AS Jan,
+                            SUM(CASE WHEN (`month` = '02') THEN humi ELSE 0 END) AS Feb,
+                            SUM(CASE WHEN (`month` = '03') THEN humi ELSE 0 END) AS Mar,
+                            SUM(CASE WHEN (`month` = '04') THEN humi ELSE 0 END) AS Apr,
+                            SUM(CASE WHEN (`month` = '05') THEN humi ELSE 0 END) AS May,
+                            SUM(CASE WHEN (`month` = '06') THEN humi ELSE 0 END) AS Jun,
+                            SUM(CASE WHEN (`month` = '07') THEN humi ELSE 0 END) AS Jul,
+                            SUM(CASE WHEN (`month` = '08') THEN humi ELSE 0 END) AS Aug,
+                            SUM(CASE WHEN (`month` = '09') THEN humi ELSE 0 END) AS Sep,
+                            SUM(CASE WHEN (`month` = '10') THEN humi ELSE 0 END) AS Oct,
+                            SUM(CASE WHEN (`month` = '11') THEN humi ELSE 0 END) AS Nov,
+                            SUM(CASE WHEN (`month` = '12') THEN humi ELSE 0 END) AS Dec
                           FROM
                           (
                             SELECT
-                              (month(created_at)) `month`,
+                              (strftime('%m',created_at)) `month`,
                               round(AVG(humi), 2) humi
                             FROM all_sensors
-                            GROUP BY (month(created_at))
+                            GROUP BY (strftime('%m',created_at))
                           ) AS T
-                            GROUP BY (month(`month`));
+                            GROUP BY (strftime('%m',`month`));
                           ");
 
         $allData[] = array(
@@ -268,37 +280,37 @@ class ApiController extends Controller
     public function getDataAreasGroup()
     {
         $query = DB::select("select
-        from_unixtime(round(unix_timestamp(created_at)/(10*60))*(10*60)) as timekey,
+        DATETIME(round(strftime('%s', created_at)/(10*60))*(10*60), 'unixepoch') as timekey,
         round(AVG(gtmp), 2) gtmp
         FROM all_sensors
         GROUP BY timekey");
 
         $query1 = DB::select("select
-        from_unixtime(round(unix_timestamp(created_at)/(10*60))*(10*60)) as timekey,
+        DATETIME(round(strftime('%s',created_at)/(10*60))*(10*60), 'unixepoch') as timekey,
         round(AVG(atmp), 2) atmp
         FROM all_sensors
         GROUP BY timekey");
 
         $query2 = DB::select("select
-        from_unixtime(round(unix_timestamp(created_at)/(10*60))*(10*60)) as timekey,
+        DATETIME(round(strftime('%s',created_at)/(10*60))*(10*60), 'unixepoch') as timekey,
         round(AVG(humi), 2) humi
         FROM all_sensors
         GROUP BY timekey");
 
         $query3 = DB::select("select
-        from_unixtime(round(unix_timestamp(created_at)/(10*60))*(10*60)) as timekey,
+        DATETIME(round(strftime('%s',created_at)/(10*60))*(10*60), 'unixepoch') as timekey,
         round(AVG(vol), 2) vol
         FROM all_sensors
         GROUP BY timekey");
 
         $query4 = DB::select("select
-        from_unixtime(round(unix_timestamp(created_at)/(10*60))*(10*60)) as timekey,
+        DATETIME(round(strftime('%s',created_at)/(10*60))*(10*60), 'unixepoch') as timekey,
         round(AVG(light), 2) light
         FROM all_sensors
         GROUP BY timekey");
 
         $query5 = DB::select("select
-        from_unixtime(round(unix_timestamp(created_at)/(10*60))*(10*60)) as timekey,
+        DATETIME(round(strftime('%s',created_at)/(10*60))*(10*60), 'unixepoch') as timekey,
         round(AVG(pres), 2) pres
         FROM all_sensors
         GROUP BY timekey");
