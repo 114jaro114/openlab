@@ -53,6 +53,8 @@ RUN chown -R www-data:www-data /var/www/html
 
 RUN php artisan config:clear
 # RUN ln -s /var/www/tmp/public /var/www/html/
-
+EXPOSE 8000
 # The default apache run command
 CMD ["apache2-foreground"]
+
+# az webapp config appsettings set --resource-group lab --name openlabbe --settings WEBSITES_PORT=8000
