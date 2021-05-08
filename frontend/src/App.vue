@@ -12,9 +12,8 @@
 </template>
 
 <script>
-import moment from 'moment';
-// import HelloWorld from './components/HelloWorld.vue'
-
+import moment from 'moment'
+import axios from 'axios'
 export default {
   name: 'App',
   components: {},
@@ -35,10 +34,16 @@ export default {
     }
   },
   created() {
+    console.log("created");
+
+    axios.get('http://127.0.0.1:8000/api/sockets/serve')
+      .then(() => {
+        console.log("lol");
+      })
     //do something after creating vue instance
     window.Echo.channel('dataAllSensors')
       .listen('AllSensorsEvent', (e) => {
-        console.log(e);
+        this.notifCount = localStorage.getItem('notifCounter');
         //getAll current notifications
         if (localStorage.getItem('notifications')) {
           this.notif = JSON.parse(localStorage.getItem('notifications'));
@@ -59,13 +64,13 @@ export default {
         //gtmp notif
         if (this.values1.switch1 == true) {
           if (e.dataAllSensors.gtmp > this.values1.slider1[1]) {
-            this.notifCount++;
-            localStorage.setItem('notifCounter', this.notifCount);
-            this.$store.dispatch('notificationCounter', {
-              notifCounter: JSON.parse(localStorage.getItem('notifCounter'))
-            });
-            //
             if (JSON.parse(localStorage.getItem("notifState")) == true) {
+              this.notifCount++;
+              localStorage.setItem('notifCounter', this.notifCount);
+              this.$store.dispatch('notificationCounter', {
+                notifCounter: JSON.parse(localStorage.getItem('notifCounter'))
+              });
+
               this.notif.unshift({
                 id: this.notif.length,
                 title: "Teplota okolia",
@@ -92,13 +97,14 @@ export default {
             }
             //
           } else if (e.dataAllSensors.gtmp < this.values1.slider1[0]) {
-            this.notifCount++;
-            localStorage.setItem('notifCounter', this.notifCount);
-            this.$store.dispatch('notificationCounter', {
-              notifCounter: JSON.parse(localStorage.getItem('notifCounter'))
-            });
-            //
             if (JSON.parse(localStorage.getItem("notifState")) == true) {
+              this.notifCount++;
+              localStorage.setItem('notifCounter', this.notifCount);
+              this.$store.dispatch('notificationCounter', {
+                notifCounter: JSON.parse(localStorage.getItem('notifCounter'))
+              });
+              //
+
               this.notif.unshift({
                 id: this.notif.length,
                 title: "Teplota okolia",
@@ -130,13 +136,14 @@ export default {
         //atmp notif
         if (this.values2.switch2 == true) {
           if (e.dataAllSensors.atmp > this.values2.slider2[1]) {
-            this.notifCount++;
-            localStorage.setItem('notifCounter', this.notifCount);
-            this.$store.dispatch('notificationCounter', {
-              notifCounter: JSON.parse(localStorage.getItem('notifCounter'))
-            });
-            //
             if (JSON.parse(localStorage.getItem("notifState")) == true) {
+              this.notifCount++;
+              localStorage.setItem('notifCounter', this.notifCount);
+              this.$store.dispatch('notificationCounter', {
+                notifCounter: JSON.parse(localStorage.getItem('notifCounter'))
+              });
+              //
+
               this.notif.unshift({
                 id: this.notif.length,
                 title: "Teplota na čipe",
@@ -163,13 +170,14 @@ export default {
             }
             //
           } else if (e.dataAllSensors.atmp < this.values2.slider2[0]) {
-            this.notifCount++;
-            localStorage.setItem('notifCounter', this.notifCount);
-            this.$store.dispatch('notificationCounter', {
-              notifCounter: JSON.parse(localStorage.getItem('notifCounter'))
-            });
-            //
             if (JSON.parse(localStorage.getItem("notifState")) == true) {
+              this.notifCount++;
+              localStorage.setItem('notifCounter', this.notifCount);
+              this.$store.dispatch('notificationCounter', {
+                notifCounter: JSON.parse(localStorage.getItem('notifCounter'))
+              });
+              //
+
               this.notif.unshift({
                 id: this.notif.length,
                 title: "Teplota na čipe",
@@ -201,13 +209,14 @@ export default {
         //humi notif
         if (this.values3.switch3 == true) {
           if (e.dataAllSensors.humi > this.values3.slider3[1]) {
-            this.notifCount++;
-            localStorage.setItem('notifCounter', this.notifCount);
-            this.$store.dispatch('notificationCounter', {
-              notifCounter: JSON.parse(localStorage.getItem('notifCounter'))
-            });
-            //
             if (JSON.parse(localStorage.getItem("notifState")) == true) {
+              this.notifCount++;
+              localStorage.setItem('notifCounter', this.notifCount);
+              this.$store.dispatch('notificationCounter', {
+                notifCounter: JSON.parse(localStorage.getItem('notifCounter'))
+              });
+              //
+
               this.notif.unshift({
                 id: this.notif.length,
                 title: "Vlhkosť",
@@ -234,13 +243,14 @@ export default {
             }
             //
           } else if (e.dataAllSensors.humi < this.values3.slider3[0]) {
-            this.notifCount++;
-            localStorage.setItem('notifCounter', this.notifCount);
-            this.$store.dispatch('notificationCounter', {
-              notifCounter: JSON.parse(localStorage.getItem('notifCounter'))
-            });
-            //
             if (JSON.parse(localStorage.getItem("notifState")) == true) {
+              this.notifCount++;
+              localStorage.setItem('notifCounter', this.notifCount);
+              this.$store.dispatch('notificationCounter', {
+                notifCounter: JSON.parse(localStorage.getItem('notifCounter'))
+              });
+              //
+
               this.notif.unshift({
                 id: this.notif.length,
                 title: "Vlhkosť",
@@ -272,13 +282,14 @@ export default {
         //vol notif
         if (this.values4.switch4 == true) {
           if (e.dataAllSensors.vol > this.values4.slider4[1]) {
-            this.notifCount++;
-            localStorage.setItem('notifCounter', this.notifCount);
-            this.$store.dispatch('notificationCounter', {
-              notifCounter: JSON.parse(localStorage.getItem('notifCounter'))
-            });
-            //
             if (JSON.parse(localStorage.getItem("notifState")) == true) {
+              this.notifCount++;
+              localStorage.setItem('notifCounter', this.notifCount);
+              this.$store.dispatch('notificationCounter', {
+                notifCounter: JSON.parse(localStorage.getItem('notifCounter'))
+              });
+              //
+
               this.notif.unshift({
                 id: this.notif.length,
                 title: "Hlasitosť",
@@ -305,13 +316,14 @@ export default {
             }
             //
           } else if (e.dataAllSensors.vol < this.values4.slider4[0]) {
-            this.notifCount++;
-            localStorage.setItem('notifCounter', this.notifCount);
-            this.$store.dispatch('notificationCounter', {
-              notifCounter: JSON.parse(localStorage.getItem('notifCounter'))
-            });
-            //
             if (JSON.parse(localStorage.getItem("notifState")) == true) {
+              this.notifCount++;
+              localStorage.setItem('notifCounter', this.notifCount);
+              this.$store.dispatch('notificationCounter', {
+                notifCounter: JSON.parse(localStorage.getItem('notifCounter'))
+              });
+              //
+
               this.notif.unshift({
                 id: this.notif.length,
                 title: "Hlasitosť",
@@ -343,13 +355,14 @@ export default {
         //light notif
         if (this.values5.switch5 == true) {
           if (e.dataAllSensors.light > this.values5.slider5[1]) {
-            this.notifCount++;
-            localStorage.setItem('notifCounter', this.notifCount);
-            this.$store.dispatch('notificationCounter', {
-              notifCounter: JSON.parse(localStorage.getItem('notifCounter'))
-            });
-            //
             if (JSON.parse(localStorage.getItem("notifState")) == true) {
+              this.notifCount++;
+              localStorage.setItem('notifCounter', this.notifCount);
+              this.$store.dispatch('notificationCounter', {
+                notifCounter: JSON.parse(localStorage.getItem('notifCounter'))
+              });
+              //
+
               this.notif.unshift({
                 id: this.notif.length,
                 title: "Osvetlenie",
@@ -376,13 +389,14 @@ export default {
             }
             //
           } else if (e.dataAllSensors.light < this.values5.slider5[0]) {
-            this.notifCount++;
-            localStorage.setItem('notifCounter', this.notifCount);
-            this.$store.dispatch('notificationCounter', {
-              notifCounter: JSON.parse(localStorage.getItem('notifCounter'))
-            });
-            //
             if (JSON.parse(localStorage.getItem("notifState")) == true) {
+              this.notifCount++;
+              localStorage.setItem('notifCounter', this.notifCount);
+              this.$store.dispatch('notificationCounter', {
+                notifCounter: JSON.parse(localStorage.getItem('notifCounter'))
+              });
+              //
+
               this.notif.unshift({
                 id: this.notif.length,
                 title: "Osvetlenie",
@@ -414,13 +428,14 @@ export default {
         //pres notif
         if (this.values6.switch6 == true) {
           if (e.dataAllSensors.pres > this.values6.slider6[1]) {
-            this.notifCount++;
-            localStorage.setItem('notifCounter', this.notifCount);
-            this.$store.dispatch('notificationCounter', {
-              notifCounter: JSON.parse(localStorage.getItem('notifCounter'))
-            });
-            //
             if (JSON.parse(localStorage.getItem("notifState")) == true) {
+              this.notifCount++;
+              localStorage.setItem('notifCounter', this.notifCount);
+              this.$store.dispatch('notificationCounter', {
+                notifCounter: JSON.parse(localStorage.getItem('notifCounter'))
+              });
+              //
+
               this.notif.unshift({
                 id: this.notif.length,
                 title: "Tlak",
@@ -447,13 +462,14 @@ export default {
             }
             //
           } else if (e.dataAllSensors.pres < this.values6.slider6[0]) {
-            this.notifCount++;
-            localStorage.setItem('notifCounter', this.notifCount);
-            this.$store.dispatch('notificationCounter', {
-              notifCounter: JSON.parse(localStorage.getItem('notifCounter'))
-            });
-            //
             if (JSON.parse(localStorage.getItem("notifState")) == true) {
+              this.notifCount++;
+              localStorage.setItem('notifCounter', this.notifCount);
+              this.$store.dispatch('notificationCounter', {
+                notifCounter: JSON.parse(localStorage.getItem('notifCounter'))
+              });
+              //
+
               this.notif.unshift({
                 id: this.notif.length,
                 title: "Tlak",
@@ -484,8 +500,8 @@ export default {
         if (this.isNewNotif == true) {
           this.isNewNotif = false;
           if (JSON.parse(localStorage.getItem("notifSoundState")) == true) {
-            var audioPresDown = new Audio(require('./assets/AirPlaneDing.mp3'))
-            audioPresDown.play();
+            const audio = new Audio(require('./assets/AirPlaneDing.mp3'));
+            audio.play();
           }
         }
       })
