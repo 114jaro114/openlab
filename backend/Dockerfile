@@ -52,6 +52,8 @@ COPY app /var/www/html
 RUN chown -R www-data:www-data /var/www/html
 
 RUN php artisan config:clear
+
+# RUN php artisan websocket:serve
 # RUN ln -s /var/www/tmp/public /var/www/html/
 EXPOSE 8000
 # The default apache run command
