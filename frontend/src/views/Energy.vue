@@ -822,7 +822,7 @@ export default {
 
   methods: {
     getDataDashedU() {
-      axios.get('http://openlabbe2021.azurewebsites.net/api/getDataDashedU')
+      axios.get('https://openlabbe2021.azurewebsites.net/api/getDataDashedU')
         .then(res => {
           this.lastUpdate = moment(new Date)
             .format('YYYY-MM-DD HH:mm:ss');
@@ -848,7 +848,7 @@ export default {
         })
     },
     getDataDashedI() {
-      axios.get('http://openlabbe2021.azurewebsites.net/api/getDataDashedI')
+      axios.get('https://openlabbe2021.azurewebsites.net/api/getDataDashedI')
         .then(res => {
           this.seriesDashedI[0].data = res.data[0][0]
           this.seriesDashedI[1].data = res.data[0][1]
@@ -870,7 +870,7 @@ export default {
         })
     },
     getDataDashedP() {
-      axios.get('http://openlabbe2021.azurewebsites.net/api/getDataDashedP')
+      axios.get('https://openlabbe2021.azurewebsites.net/api/getDataDashedP')
         .then(res => {
           this.seriesDashedP[0].data = res.data[0][0]
           this.seriesDashedP[1].data = res.data[0][1]
@@ -892,7 +892,7 @@ export default {
         })
     },
     getDataDashedS() {
-      axios.get('http://openlabbe2021.azurewebsites.net/api/getDataDashedS')
+      axios.get('https://openlabbe2021.azurewebsites.net/api/getDataDashedS')
         .then(res => {
           this.seriesDashedS[0].data = res.data[0][0]
           this.seriesDashedS[1].data = res.data[0][1]
@@ -914,7 +914,7 @@ export default {
         })
     },
     getDataDashedQ() {
-      axios.get('http://openlabbe2021.azurewebsites.net/api/getDataDashedQ')
+      axios.get('https://openlabbe2021.azurewebsites.net/api/getDataDashedQ')
         .then(res => {
           this.seriesDashedQ[0].data = res.data[0][0]
           this.seriesDashedQ[1].data = res.data[0][1]
@@ -936,7 +936,7 @@ export default {
         })
     },
     getDataDashedE_I() {
-      axios.get('http://openlabbe2021.azurewebsites.net/api/getDataDashedE_I')
+      axios.get('https://openlabbe2021.azurewebsites.net/api/getDataDashedE_I')
         .then(res => {
           this.seriesDashedE_I[0].data = res.data[0][0]
           this.seriesDashedE_I[1].data = res.data[0][1]
@@ -958,7 +958,7 @@ export default {
         })
     },
     getDataDashedE_E() {
-      axios.get('http://openlabbe2021.azurewebsites.net/api/getDataDashedE_E')
+      axios.get('https://openlabbe2021.azurewebsites.net/api/getDataDashedE_E')
         .then(res => {
           this.seriesDashedE_E[0].data = res.data[0][0]
           this.seriesDashedE_E[1].data = res.data[0][1]

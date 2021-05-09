@@ -1230,7 +1230,7 @@ export default {
 
     //gets for gtmp value of temperature
     getHistoricalDataGtmp() {
-      axios.get('http://openlabbe2021.azurewebsites.net/api/getHistoricalDataTemperatureGtmp')
+      axios.get('https://openlabbe2021.azurewebsites.net/api/getHistoricalDataTemperatureGtmp')
         .then(res => {
           this.series[0].data.splice(0, res.data.length);
           for (var i = 0; i < res.data.length; i++) {
@@ -1250,7 +1250,7 @@ export default {
     },
 
     getHistoricalData2Gtmp() {
-      axios.get('http://openlabbe2021.azurewebsites.net/api/getHistoricalData2TemperatureGtmp')
+      axios.get('https://openlabbe2021.azurewebsites.net/api/getHistoricalData2TemperatureGtmp')
         .then(res => {
           this.seriesCandle_stick[0].data.splice(0, 1)
           for (var i = 0; i < res.data.length; i++) {
@@ -1269,7 +1269,7 @@ export default {
     },
 
     getHistoricalData3Gtmp() {
-      axios.get('http://openlabbe2021.azurewebsites.net/api/getHistoricalData3TemperatureGtmp')
+      axios.get('https://openlabbe2021.azurewebsites.net/api/getHistoricalData3TemperatureGtmp')
         .then(res => {
           // this.seriesColumn[0].data = [];
           this.seriesColumn[0].data.splice(0, 12);
@@ -1291,7 +1291,7 @@ export default {
     },
 
     getDataRealtimeGtmp() {
-      axios.get('http://openlabbe2021.azurewebsites.net/api/getDataRealtimeTemperatureGtmp')
+      axios.get('https://openlabbe2021.azurewebsites.net/api/getDataRealtimeTemperatureGtmp')
         .then(res => {
           this.lastUpdate = moment(new Date)
             .format('YYYY-MM-DD HH:mm:ss');
@@ -1322,7 +1322,7 @@ export default {
 
     //gets for atmp value of temperature
     getHistoricalDataAtmp() {
-      axios.get('http://openlabbe2021.azurewebsites.net/api/getHistoricalDataTemperatureAtmp')
+      axios.get('https://openlabbe2021.azurewebsites.net/api/getHistoricalDataTemperatureAtmp')
         .then(res => {
           this.seriesAtmp[0].data.splice(0, res.data.length);
           for (var i = 0; i < res.data.length; i++) {
@@ -1342,7 +1342,7 @@ export default {
     },
 
     getHistoricalData2Atmp() {
-      axios.get('http://openlabbe2021.azurewebsites.net/api/getHistoricalData2TemperatureAtmp')
+      axios.get('https://openlabbe2021.azurewebsites.net/api/getHistoricalData2TemperatureAtmp')
         .then(res => {
           this.seriesCandle_stickAtmp[0].data.splice(0, 1)
           for (var i = 0; i < res.data.length; i++) {
@@ -1361,7 +1361,7 @@ export default {
     },
 
     getHistoricalData3Atmp() {
-      axios.get('http://openlabbe2021.azurewebsites.net/api/getHistoricalData3TemperatureAtmp')
+      axios.get('https://openlabbe2021.azurewebsites.net/api/getHistoricalData3TemperatureAtmp')
         .then(res => {
           // this.seriesColumn[0].data = [];
           this.seriesColumnAtmp[0].data.splice(0, 12);
@@ -1383,7 +1383,7 @@ export default {
     },
 
     getDataRealtimeAtmp() {
-      axios.get('http://openlabbe2021.azurewebsites.net/api/getDataRealtimeTemperatureAtmp')
+      axios.get('https://openlabbe2021.azurewebsites.net/api/getDataRealtimeTemperatureAtmp')
         .then(res => {
           this.lastUpdate = moment(new Date)
             .format('YYYY-MM-DD HH:mm:ss');

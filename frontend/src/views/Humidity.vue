@@ -645,7 +645,7 @@ export default {
     },
 
     getHistoricalData2() {
-      axios.get('http://openlabbe2021.azurewebsites.net/api/getHistoricalData2Humidity')
+      axios.get('https://openlabbe2021.azurewebsites.net/api/getHistoricalData2Humidity')
         .then(res => {
           this.seriesCandle_stick[0].data.splice(0, 1)
           for (var i = 0; i < res.data.length; i++) {
@@ -664,7 +664,7 @@ export default {
     },
 
     getHistoricalData3() {
-      axios.get('http://openlabbe2021.azurewebsites.net/api/getHistoricalData3Humidity')
+      axios.get('https://openlabbe2021.azurewebsites.net/api/getHistoricalData3Humidity')
         .then(res => {
           // this.seriesColumn[0].data = [];
           this.seriesColumn[0].data.splice(0, 12);
@@ -686,7 +686,7 @@ export default {
     },
 
     getDataRealtime() {
-      axios.get('http://openlabbe2021.azurewebsites.net/api/getDataRealtimeHumidity')
+      axios.get('https://openlabbe2021.azurewebsites.net/api/getDataRealtimeHumidity')
         .then(res => {
           this.lastUpdate = moment(new Date)
             .format('YYYY-MM-DD HH:mm:ss');
@@ -715,7 +715,7 @@ export default {
     },
 
     getHistoricalData() {
-      axios.get('http://openlabbe2021.azurewebsites.net/api/getHistoricalDataHumidity')
+      axios.get('https://openlabbe2021.azurewebsites.net/api/getHistoricalDataHumidity')
         .then(res => {
           this.series[0].data.splice(0, res.data.length);
           for (var i = 0; i < res.data.length; i++) {
