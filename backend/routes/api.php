@@ -3,7 +3,6 @@
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\ApiController;
-
 /*
 |--------------------------------------------------------------------------
 | API Routes
@@ -40,6 +39,7 @@ Route::post('/broadcast', function (Request $request) {
     );
     return $pusher->socket_auth($request->request->get('channel_name'), $request->request->get('socket_id'));
 });
+
 
 Route::post('/saveDataPowerConsumption', [ApiController::class, 'store']);
 Route::post('/saveDataAllSensors', [ApiController::class, 'store2']);

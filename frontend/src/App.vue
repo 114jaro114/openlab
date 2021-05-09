@@ -13,7 +13,6 @@
 
 <script>
 import moment from 'moment'
-import axios from 'axios'
 export default {
   name: 'App',
   components: {},
@@ -34,12 +33,6 @@ export default {
     }
   },
   created() {
-    console.log("created");
-
-    axios.get('http://127.0.0.1:8000/api/sockets/serve')
-      .then(() => {
-        console.log("lol");
-      })
     //do something after creating vue instance
     window.Echo.channel('dataAllSensors')
       .listen('AllSensorsEvent', (e) => {

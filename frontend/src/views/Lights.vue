@@ -644,7 +644,7 @@ export default {
     },
 
     getHistoricalData2() {
-      axios.get('http://openlabbe2021.azurewebsites.net/api/getHistoricalData2Light')
+      axios.get(`${process.env.VUE_APP_API_URL}/api/getHistoricalData2Light`)
         .then(res => {
           this.seriesCandle_stick[0].data.splice(0, 1)
           for (var i = 0; i < res.data.length; i++) {
@@ -663,7 +663,7 @@ export default {
     },
 
     getHistoricalData3() {
-      axios.get('http://openlabbe2021.azurewebsites.net/api/getHistoricalData3Light')
+      axios.get(`${process.env.VUE_APP_API_URL}/api/getHistoricalData3Light`)
         .then(res => {
           // this.seriesColumn[0].data = [];
           this.seriesColumn[0].data.splice(0, 12);
@@ -685,7 +685,7 @@ export default {
     },
 
     getDataRealtime() {
-      axios.get('http://openlabbe2021.azurewebsites.net/api/getDataRealtimeLight')
+      axios.get(`${process.env.VUE_APP_API_URL}/api/getDataRealtimeLight`)
         .then(res => {
           this.lastUpdate = moment(new Date)
             .format('YYYY-MM-DD HH:mm:ss');
@@ -714,7 +714,7 @@ export default {
     },
 
     getHistoricalData() {
-      axios.get('http://openlabbe2021.azurewebsites.net/api/getHistoricalDataLight')
+      axios.get(`${process.env.VUE_APP_API_URL}/api/getHistoricalDataLight`)
         .then(res => {
           this.series[0].data.splice(0, res.data.length);
           for (var i = 0; i < res.data.length; i++) {

@@ -803,7 +803,7 @@ export default {
 
   methods: {
     getDataAreasGroup() {
-      axios.get('http://openlabbe2021.azurewebsites.net/api/getDataAreasGroup')
+      axios.get(`${process.env.VUE_APP_API_URL}/api/getDataAreasGroup`)
         .then(res => {
           this.lastUpdate = moment(new Date)
             .format('YYYY-MM-DD HH:mm:ss');
@@ -870,7 +870,7 @@ export default {
         });
     },
     getDataDashed() {
-      axios.get('http://openlabbe2021.azurewebsites.net/api/getDataHome')
+      axios.get(`${process.env.VUE_APP_API_URL}/api/getDataHome`)
         .then(res => {
           this.seriesDashed[0].data = res.data[0][2]
           this.seriesDashed[1].data = res.data[0][1]
@@ -893,7 +893,7 @@ export default {
     },
 
     getDataLine() {
-      axios.get('http://openlabbe2021.azurewebsites.net/api/getDataLine')
+      axios.get(`${process.env.VUE_APP_API_URL}/api/getDataLine`)
         .then(res => {
           this.seriesBar[0].data.splice(0, this.seriesBar[0].data.length);
           this.seriesBar[1].data.splice(0, this.seriesBar[1].data.length);
@@ -939,7 +939,7 @@ export default {
     },
 
     getDataCircleMultiple() {
-      axios.get('http://openlabbe2021.azurewebsites.net/api/getDataCircleMultiple')
+      axios.get(`${process.env.VUE_APP_API_URL}/api/getDataCircleMultiple`)
         .then(res => {
           this.seriesCircle_multiple.splice(0, this.seriesCircle_multiple.length);
           this.seriesCircle_multiple.push(
