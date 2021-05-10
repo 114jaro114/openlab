@@ -18,121 +18,133 @@ use App\Models\EnergyExport;
 use App\Events\AllSensorsEvent;
 use App\Events\PowerConsumptionEvent;
 use Carbon\Carbon;
+//mqtt
+use Salman\Mqtt\MqttClass\Mqtt;
 
 class ApiController extends Controller
 {
-    public function store(Request $request)
+    public function store()
     {
-        $getStringU = preg_replace('/(.*)"U":{(.*)},"I":(.*)/sm', '\2', $request->data); //regullr expression for get U l1 l2 l3
-        $L1_U = preg_replace('/(.*)"L1":(.*),"L2":(.*)/sm', '\2', $getStringU); //regullr expression for get U l1
-        $L2_U = preg_replace('/(.*),"L2":(.*),"L3":(.*)/sm', '\2', $getStringU); //regullr expression for get U l2
-        $L3_U = preg_replace('/(.*),"L3":(.*)(.*)/sm', '\2', $getStringU); //regullr expression for get get U l3
+        $topic = 'MeriTo/KPI/B4-E6-2D-B0-13-91/Data';
+        $mqtt = new Mqtt();
+        $mqtt->ConnectAndSubscribe($topic, function($topic, $msg){
+          $getStringU = preg_replace('/(.*)"U":{(.*)},"I":(.*)/sm', '\2', $msg); //regullr expression for get U l1 l2 l3
+          $L1_U = preg_replace('/(.*)"L1":(.*),"L2":(.*)/sm', '\2', $getStringU); //regullr expression for get U l1
+          $L2_U = preg_replace('/(.*),"L2":(.*),"L3":(.*)/sm', '\2', $getStringU); //regullr expression for get U l2
+          $L3_U = preg_replace('/(.*),"L3":(.*)(.*)/sm', '\2', $getStringU); //regullr expression for get get U l3
 
-        $dataU = Voltage::create([
-            'L1' => $L1_U,
-            'L2' => $L2_U,
-            'L3' => $L3_U
-        ]);
-        //
-        $getStringI = preg_replace('/(.*)"I":{(.*)},"P":(.*)/sm', '\2', $request->data); //regullr expression for get I l1 l2 l3
-        $L1_I = preg_replace('/(.*)"L1":(.*),"L2":(.*)/sm', '\2', $getStringI); //regullr expression for get I l1
-        $L2_I = preg_replace('/(.*),"L2":(.*),"L3":(.*)/sm', '\2', $getStringI); //regullr expression for get I l2
-        $L3_I = preg_replace('/(.*),"L3":(.*)(.*)/sm', '\2', $getStringI); //regullr expression for get get I l3
+          $dataU = Voltage::create([
+              'L1' => $L1_U,
+              'L2' => $L2_U,
+              'L3' => $L3_U
+          ]);
+          //
+          $getStringI = preg_replace('/(.*)"I":{(.*)},"P":(.*)/sm', '\2', $msg); //regullr expression for get I l1 l2 l3
+          $L1_I = preg_replace('/(.*)"L1":(.*),"L2":(.*)/sm', '\2', $getStringI); //regullr expression for get I l1
+          $L2_I = preg_replace('/(.*),"L2":(.*),"L3":(.*)/sm', '\2', $getStringI); //regullr expression for get I l2
+          $L3_I = preg_replace('/(.*),"L3":(.*)(.*)/sm', '\2', $getStringI); //regullr expression for get get I l3
 
-        $dataI = Current::create([
-            'L1' => $L1_I,
-            'L2' => $L2_I,
-            'L3' => $L3_I
-        ]);
-        //
-        $getStringP = preg_replace('/(.*)"P":{(.*)},"S":(.*)/sm', '\2', $request->data); //regullr expression for get P l1 l2 l3
-        $L1_P = preg_replace('/(.*)"L1":(.*),"L2":(.*)/sm', '\2', $getStringP); //regullr expression for get P l1
-        $L2_P = preg_replace('/(.*),"L2":(.*),"L3":(.*)/sm', '\2', $getStringP); //regullr expression for get P l2
-        $L3_P = preg_replace('/(.*),"L3":(.*)(.*)/sm', '\2', $getStringP); //regullr expression for get P l3
+          $dataI = Current::create([
+              'L1' => $L1_I,
+              'L2' => $L2_I,
+              'L3' => $L3_I
+          ]);
+          //
+          $getStringP = preg_replace('/(.*)"P":{(.*)},"S":(.*)/sm', '\2', $msg); //regullr expression for get P l1 l2 l3
+          $L1_P = preg_replace('/(.*)"L1":(.*),"L2":(.*)/sm', '\2', $getStringP); //regullr expression for get P l1
+          $L2_P = preg_replace('/(.*),"L2":(.*),"L3":(.*)/sm', '\2', $getStringP); //regullr expression for get P l2
+          $L3_P = preg_replace('/(.*),"L3":(.*)(.*)/sm', '\2', $getStringP); //regullr expression for get P l3
 
-        $dataP = ActivePower::create([
-            'L1' => $L1_P,
-            'L2' => $L2_P,
-            'L3' => $L3_P
-        ]);
-        //
-        $getStringS = preg_replace('/(.*)"S":{(.*)},"Q":(.*)/sm', '\2', $request->data); //regullr expression for get S l1 l2 l3
-        $L1_S = preg_replace('/(.*)"L1":(.*),"L2":(.*)/sm', '\2', $getStringS); //regullr expression for get S l1
-        $L2_S = preg_replace('/(.*),"L2":(.*),"L3":(.*)/sm', '\2', $getStringS); //regullr expression for get S l2
-        $L3_S = preg_replace('/(.*),"L3":(.*)(.*)/sm', '\2', $getStringS); //regullr expression for get S l3
+          $dataP = ActivePower::create([
+              'L1' => $L1_P,
+              'L2' => $L2_P,
+              'L3' => $L3_P
+          ]);
+          //
+          $getStringS = preg_replace('/(.*)"S":{(.*)},"Q":(.*)/sm', '\2', $msg); //regullr expression for get S l1 l2 l3
+          $L1_S = preg_replace('/(.*)"L1":(.*),"L2":(.*)/sm', '\2', $getStringS); //regullr expression for get S l1
+          $L2_S = preg_replace('/(.*),"L2":(.*),"L3":(.*)/sm', '\2', $getStringS); //regullr expression for get S l2
+          $L3_S = preg_replace('/(.*),"L3":(.*)(.*)/sm', '\2', $getStringS); //regullr expression for get S l3
 
-        $dataS = ComplexPower::create([
-            'L1' => $L1_S,
-            'L2' => $L2_S,
-            'L3' => $L3_S
-        ]);
-        //
-        $getStringQ = preg_replace('/(.*)"Q":{(.*)},"E_I":(.*)/sm', '\2', $request->data); //regullr expression for get Q l1 l2 l3
-        $L1_Q = preg_replace('/(.*)"L1":(.*),"L2":(.*)/sm', '\2', $getStringQ); //regullr expression for get Q l1
-        $L2_Q = preg_replace('/(.*),"L2":(.*),"L3":(.*)/sm', '\2', $getStringQ); //regullr expression for get Q l2
-        $L3_Q = preg_replace('/(.*),"L3":(.*)(.*)/sm', '\2', $getStringQ); //regullr expression for get Q l3
+          $dataS = ComplexPower::create([
+              'L1' => $L1_S,
+              'L2' => $L2_S,
+              'L3' => $L3_S
+          ]);
+          //
+          $getStringQ = preg_replace('/(.*)"Q":{(.*)},"E_I":(.*)/sm', '\2', $msg); //regullr expression for get Q l1 l2 l3
+          $L1_Q = preg_replace('/(.*)"L1":(.*),"L2":(.*)/sm', '\2', $getStringQ); //regullr expression for get Q l1
+          $L2_Q = preg_replace('/(.*),"L2":(.*),"L3":(.*)/sm', '\2', $getStringQ); //regullr expression for get Q l2
+          $L3_Q = preg_replace('/(.*),"L3":(.*)(.*)/sm', '\2', $getStringQ); //regullr expression for get Q l3
 
-        $dataQ = ReactivePower::create([
-            'L1' => $L1_Q,
-            'L2' => $L2_Q,
-            'L3' => $L3_Q
-        ]);
-        //
-        $getStringE_I = preg_replace('/(.*)"E_I":{(.*)},"E_E":(.*)/sm', '\2', $request->data); //regullr expression for get E_I l1 l2 l3
-        $L1_E_I = preg_replace('/(.*)"L1":(.*),"L2":(.*)/sm', '\2', $getStringE_I); //regullr expression for get E_I l1
-        $L2_E_I = preg_replace('/(.*),"L2":(.*),"L3":(.*)/sm', '\2', $getStringE_I); //regullr expression for get E_I l2
-        $L3_E_I = preg_replace('/(.*),"L3":(.*)(.*)/sm', '\2', $getStringE_I); //regullr expression for get E_I l3
+          $dataQ = ReactivePower::create([
+              'L1' => $L1_Q,
+              'L2' => $L2_Q,
+              'L3' => $L3_Q
+          ]);
+          //
+          $getStringE_I = preg_replace('/(.*)"E_I":{(.*)},"E_E":(.*)/sm', '\2', $msg); //regullr expression for get E_I l1 l2 l3
+          $L1_E_I = preg_replace('/(.*)"L1":(.*),"L2":(.*)/sm', '\2', $getStringE_I); //regullr expression for get E_I l1
+          $L2_E_I = preg_replace('/(.*),"L2":(.*),"L3":(.*)/sm', '\2', $getStringE_I); //regullr expression for get E_I l2
+          $L3_E_I = preg_replace('/(.*),"L3":(.*)(.*)/sm', '\2', $getStringE_I); //regullr expression for get E_I l3
 
-        $dataE_I = EnergyImport::create([
-            'L1' => $L1_E_I,
-            'L2' => $L2_E_I,
-            'L3' => $L3_E_I
-        ]);
-        //
-        $getStringE_E = preg_replace('/(.*)"E_E":{(.*)}}(.*)/sm', '\2', $request->data); //regullr expression for get E_E l1 l2 l3
-        $L1_E_E = preg_replace('/(.*)"L1":(.*),"L2":(.*)/sm', '\2', $getStringE_E); //regullr expression for get E_E l1
-        $L2_E_E = preg_replace('/(.*),"L2":(.*),"L3":(.*)/sm', '\2', $getStringE_E); //regullr expression for get E_E l2
-        $L3_E_E = preg_replace('/(.*),"L3":(.*)(.*)/sm', '\2', $getStringE_E); //regullr expression for get E_E l3
+          $dataE_I = EnergyImport::create([
+              'L1' => $L1_E_I,
+              'L2' => $L2_E_I,
+              'L3' => $L3_E_I
+          ]);
+          //
+          $getStringE_E = preg_replace('/(.*)"E_E":{(.*)}}(.*)/sm', '\2', $msg); //regullr expression for get E_E l1 l2 l3
+          $L1_E_E = preg_replace('/(.*)"L1":(.*),"L2":(.*)/sm', '\2', $getStringE_E); //regullr expression for get E_E l1
+          $L2_E_E = preg_replace('/(.*),"L2":(.*),"L3":(.*)/sm', '\2', $getStringE_E); //regullr expression for get E_E l2
+          $L3_E_E = preg_replace('/(.*),"L3":(.*)(.*)/sm', '\2', $getStringE_E); //regullr expression for get E_E l3
 
-        $dataE_E = EnergyExport::create([
-            'L1' => $L1_E_E,
-            'L2' => $L2_E_E,
-            'L3' => $L3_E_E
-        ]);
+          $dataE_E = EnergyExport::create([
+              'L1' => $L1_E_E,
+              'L2' => $L2_E_E,
+              'L3' => $L3_E_E
+          ]);
 
-        $allData[] = array(
-          'U' => $dataU,
-          'I' => $dataI,
-          'P' => $dataP,
-          'S' => $dataS,
-          'Q' => $dataQ,
-          'E_I' => $dataE_I,
-          'E_E' => $dataE_E
-        );
+          $allData[] = array(
+            'U' => $dataU,
+            'I' => $dataI,
+            'P' => $dataP,
+            'S' => $dataS,
+            'Q' => $dataQ,
+            'E_I' => $dataE_I,
+            'E_E' => $dataE_E
+          );
 
-        broadcast(new PowerConsumptionEvent($allData))->toOthers();
-        return response()->json($allData);
+          broadcast(new PowerConsumptionEvent($allData))->toOthers();
+          exit();
+        });
+        // return response()->json($allData);
     }
 
-    public function store2(Request $request)
+    public function store2()
     {
-        $gtmp = preg_replace('/(.*)"gtmp": "(.*)", "vol":(.*)/sm', '\2', $request->data); //regullr expression for get gtmp
-        $vol = preg_replace('/(.*)"vol": "(.*)", "light":(.*)/sm', '\2', $request->data); //regullr expression for get vol
-        $light = preg_replace('/(.*)"light": "(.*)", "pres":(.*)/sm', '\2', $request->data); //regullr expression for get light
-        $pres = preg_replace('/(.*)"pres": "(.*)", "humi":(.*)/sm', '\2', $request->data); //regullr expression for get pres
-        $humi = preg_replace('/(.*)"humi": "(.*)", "atmp":(.*)/sm', '\2', $request->data); //regullr expression for get humi
-        $atmp = preg_replace('/(.*)"atmp": "(.*)", "ts":(.*)/sm', '\2', $request->data); //regullr expression for get atmp
-        $ts = preg_replace('/(.*)"ts": (.*)}(.*)/sm', '\2', $request->data); //regullr expression for get timestamp
-        $dataAllSensors = AllSensors::create([
-            'gtmp' => $gtmp,
-            'atmp' => $atmp,
-            'vol' => $vol,
-            'light' => $light,
-            'pres' => $pres,
-            'humi' => $humi,
-        ]);
-        broadcast(new AllSensorsEvent($dataAllSensors))->toOthers();
-        return response()->json($dataAllSensors);
+        $topic = 'openlab/sensorkits/B8:27:EB:2F:7B:7D/json';
+        $mqtt = new Mqtt();
+        $mqtt->ConnectAndSubscribe($topic, function($topic, $msg){
+          $gtmp = preg_replace('/(.*)"gtmp": "(.*)", "vol":(.*)/sm', '\2', $msg); //regullr expression for get gtmp
+          $vol = preg_replace('/(.*)"vol": "(.*)", "light":(.*)/sm', '\2', $msg); //regullr expression for get vol
+          $light = preg_replace('/(.*)"light": "(.*)", "pres":(.*)/sm', '\2', $msg); //regullr expression for get light
+          $pres = preg_replace('/(.*)"pres": "(.*)", "humi":(.*)/sm', '\2', $msg); //regullr expression for get pres
+          $humi = preg_replace('/(.*)"humi": "(.*)", "atmp":(.*)/sm', '\2', $msg); //regullr expression for get humi
+          $atmp = preg_replace('/(.*)"atmp": "(.*)", "ts":(.*)/sm', '\2', $msg); //regullr expression for get atmp
+          $ts = preg_replace('/(.*)"ts": (.*)}(.*)/sm', '\2', $msg); //regullr expression for get timestamp
+          $dataAllSensors = AllSensors::create([
+              'gtmp' => $gtmp,
+              'atmp' => $atmp,
+              'vol' => $vol,
+              'light' => $light,
+              'pres' => $pres,
+              'humi' => $humi,
+          ]);
+          broadcast(new AllSensorsEvent($dataAllSensors))->toOthers();
+          exit();
+        });
+        // return response()->json($dataAllSensors);
     }
 
     // HOME PAGE
