@@ -55,7 +55,19 @@ RUN php artisan config:clear
 
 # RUN php artisan websocket:serve
 # RUN ln -s /var/www/tmp/public /var/www/html/
+
+# Setup a cron schedule
+RUN apt-get install -y cron
+RUN echo $'SHELL=/bin/bash \n\
+BASH_ENV=/container.env \n\
+* * * * * /usr/local/bin/php /var/www/html/artisan schedule:run >> /dev/null 2>&1 \n\
+'>> scheduler.txt
+
+RUN crontab scheduler.txt
+# RUN cron -f
+
 EXPOSE 8000
+EXPOSE 6001
 # The default apache run command
 CMD ["apache2-foreground"]
 

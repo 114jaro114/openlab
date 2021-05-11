@@ -1,0 +1,18 @@
+version: "3.5"
+services:
+  php:
+    build:
+      context: .
+      dockerfile: Dockerfile
+    restart: always
+    ports:
+      - 8000:80
+      - 6001:6001
+  mysql:
+    image: mysql:8.0
+    restart: always
+    environment:
+      - MYSQL_ROOT_PASSWORD=admin
+      - MYSQL_DATABASE=arfit
+      - MYSQL_USER=arfit
+      - MYSQL_PASSWORD=arfit

@@ -115,10 +115,10 @@ class ApiController extends Controller
             'E_E' => $dataE_E
           );
 
-          broadcast(new PowerConsumptionEvent($allData))->toOthers();
+          //broadcast(new PowerConsumptionEvent($allData))->toOthers();
           exit();
         });
-        // return response()->json($allData);
+        // return response()->json("success");
     }
 
     public function store2()
@@ -141,7 +141,7 @@ class ApiController extends Controller
               'pres' => $pres,
               'humi' => $humi,
           ]);
-          broadcast(new AllSensorsEvent($dataAllSensors))->toOthers();
+          //broadcast(new AllSensorsEvent($dataAllSensors))->toOthers();
           exit();
         });
         // return response()->json($dataAllSensors);
@@ -174,8 +174,7 @@ class ApiController extends Controller
           $array2,
           $array3
         );
-
-        return response()->json($allData);
+        return response()->json("success");
     }
 
     public function getDataLine()

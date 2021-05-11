@@ -32,7 +32,7 @@ class Kernel extends ConsoleKernel
 
         $schedule->command('MqttStore')->everyMinute()->withoutOverlapping();
         $schedule->command('MqttStore2')->everyMinute()->withoutOverlapping();
-        
+
         // $schedule -> exec("php artisan command:mqtts1");
         // $schedule -> exec("php artisan command:mqtts2");
 
