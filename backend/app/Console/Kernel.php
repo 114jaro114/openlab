@@ -29,7 +29,7 @@ class Kernel extends ConsoleKernel
     {
         // $schedule->call(join('@', [ ApiController::class, 'store2']))->everyMinute();
         // $schedule->call(join('@', [ ApiController::class, 'store']))->everyMinute();
-
+        //
         $schedule->command('MqttStore')->everyMinute()->withoutOverlapping();
         $schedule->command('MqttStore2')->everyMinute()->withoutOverlapping();
 

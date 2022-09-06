@@ -7,15 +7,19 @@
         <v-icon>mdi-arrow-up</v-icon>
       </v-btn>
     </v-fab-transition>
+    <BottomNavigation />
   </v-app>
 </div>
 </template>
 
 <script>
 import moment from 'moment'
+import BottomNavigation from "./components/BottomNavigation.vue";
 export default {
   name: 'App',
-  components: {},
+  components: {
+    BottomNavigation
+  },
 
   data() {
     return {

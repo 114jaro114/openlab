@@ -46,7 +46,7 @@
         </v-col>
         <!-- char for U -->
         <v-col cols="12" lg="6" md="12" sm="12">
-          <v-card class="rounded" elevation="0" loader-height="6" :loading="loaderStateDashedU">
+          <v-card class="rounded" elevation="0" loader-height="6">
             <div class="pt-3" id="chart">
               <apexchart type="line" height="350" ref="dashedChart" :options="chartOptionsDashedU" :series="seriesDashedU"></apexchart>
             </div>
@@ -168,7 +168,7 @@
     </div>
   </v-lazy>
   <NavigationDrawer :drawer="drawer" />
-  <BottomNavigation />
+
   <SpeedDial />
   <Footer />
 </div>
@@ -179,7 +179,6 @@ import moment from 'moment';
 import VueApexCharts from 'vue-apexcharts';
 import Footer from "../components/Footer.vue";
 import NavigationDrawer from "../components/NavigationDrawer.vue";
-import BottomNavigation from "../components/BottomNavigation.vue";
 import SpeedDial from "../components/SpeedDial.vue";
 
 export default {
@@ -187,7 +186,6 @@ export default {
   components: {
     Footer,
     NavigationDrawer,
-    BottomNavigation,
     SpeedDial,
     apexchart: VueApexCharts,
   },
@@ -824,10 +822,10 @@ export default {
     getDataDashedU() {
       axios.get(`${process.env.VUE_APP_API_URL}/api/getDataDashedU`)
         .then(res => {
-          this.lastUpdate = moment(new Date)
-            .format('YYYY-MM-DD HH:mm:ss');
-          localStorage.setItem("lastUpdateEnergy", moment(new Date)
-            .format('YYYY-MM-DD HH:mm:ss'));
+          // this.lastUpdate = moment(new Date)
+          //   .format('YYYY-MM-DD HH:mm:ss');
+          // localStorage.setItem("lastUpdateEnergy", moment(new Date)
+          //   .format('YYYY-MM-DD HH:mm:ss'));
           this.seriesDashedU[0].data = res.data[0][0]
           this.seriesDashedU[1].data = res.data[0][1]
           this.seriesDashedU[2].data = res.data[0][2]
@@ -845,6 +843,10 @@ export default {
             }
           }
           this.loaderStateDashedU = false;
+          // this.lastUpdate = moment(e.allData[0].U.created_at)
+          //   .format('YYYY-MM-DD HH:mm:ss');
+          // localStorage.setItem("lastUpdateEnergy", moment(e.allData[0].U.created_at)
+          //   .format('YYYY-MM-DD HH:mm:ss'));
         })
     },
     getDataDashedI() {
@@ -996,6 +998,7 @@ export default {
     //do something after creating vue instance
     window.Echo.channel('PowerConsumption')
       .listen('PowerConsumptionEvent', (e) => {
+        console.log(e);
         //last update datetime
         this.lastUpdate = moment(e.allData[0].U.created_at)
           .format('YYYY-MM-DD HH:mm:ss');

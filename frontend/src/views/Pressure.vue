@@ -160,7 +160,6 @@
     </div>
   </v-lazy>
   <NavigationDrawer :drawer="drawer" />
-  <BottomNavigation />
   <SpeedDial />
   <Footer />
 </div>
@@ -171,7 +170,6 @@ import moment from 'moment'
 import VueApexCharts from 'vue-apexcharts'
 import Footer from "../components/Footer.vue";
 import NavigationDrawer from "../components/NavigationDrawer.vue";
-import BottomNavigation from "../components/BottomNavigation.vue";
 import SpeedDial from "../components/SpeedDial.vue";
 
 export default {
@@ -179,7 +177,6 @@ export default {
   components: {
     Footer,
     NavigationDrawer,
-    BottomNavigation,
     SpeedDial,
     apexchart: VueApexCharts,
   },

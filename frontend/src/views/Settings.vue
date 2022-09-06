@@ -281,7 +281,6 @@
     </div>
   </v-lazy>
   <NavigationDrawer :drawer="drawer" />
-  <BottomNavigation />
   <SpeedDial />
   <Footer />
 </div>
@@ -290,7 +289,6 @@
 // import axios from 'axios';
 import Footer from "../components/Footer.vue";
 import NavigationDrawer from "../components/NavigationDrawer.vue";
-import BottomNavigation from "../components/BottomNavigation.vue";
 import SpeedDial from "../components/SpeedDial.vue";
 import CountryFlag from 'vue-country-flag';
 
@@ -299,7 +297,6 @@ export default {
   components: {
     Footer,
     NavigationDrawer,
-    BottomNavigation,
     SpeedDial,
     CountryFlag,
   },

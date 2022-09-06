@@ -28,10 +28,11 @@ class ApiController extends Controller
         $topic = 'MeriTo/KPI/B4-E6-2D-B0-13-91/Data';
         $mqtt = new Mqtt();
         $mqtt->ConnectAndSubscribe($topic, function($topic, $msg){
-          $getStringU = preg_replace('/(.*)"U":{(.*)},"I":(.*)/sm', '\2', $msg); //regullr expression for get U l1 l2 l3
-          $L1_U = preg_replace('/(.*)"L1":(.*),"L2":(.*)/sm', '\2', $getStringU); //regullr expression for get U l1
-          $L2_U = preg_replace('/(.*),"L2":(.*),"L3":(.*)/sm', '\2', $getStringU); //regullr expression for get U l2
-          $L3_U = preg_replace('/(.*),"L3":(.*)(.*)/sm', '\2', $getStringU); //regullr expression for get get U l3
+
+          $getStringU = preg_replace('/(.*)"U":{(.*)},"I":(.*)/sm', '\2', $msg); //regullar expression to get U l1 l2 l3
+          $L1_U = preg_replace('/(.*)"L1":(.*),"L2":(.*)/sm', '\2', $getStringU); //regullar expression to get U l1
+          $L2_U = preg_replace('/(.*),"L2":(.*),"L3":(.*)/sm', '\2', $getStringU); //regullar expression to get U l2
+          $L3_U = preg_replace('/(.*),"L3":(.*)(.*)/sm', '\2', $getStringU); //regullar expression to get U l3
 
           $dataU = Voltage::create([
               'L1' => $L1_U,
@@ -115,10 +116,11 @@ class ApiController extends Controller
             'E_E' => $dataE_E
           );
 
-          //broadcast(new PowerConsumptionEvent($allData))->toOthers();
+          broadcast(new PowerConsumptionEvent($allData))->toOthers();
+
           exit();
         });
-        // return response()->json("success");
+        return response()->json("success");
     }
 
     public function store2()
@@ -126,13 +128,13 @@ class ApiController extends Controller
         $topic = 'openlab/sensorkits/B8:27:EB:2F:7B:7D/json';
         $mqtt = new Mqtt();
         $mqtt->ConnectAndSubscribe($topic, function($topic, $msg){
-          $gtmp = preg_replace('/(.*)"gtmp": "(.*)", "vol":(.*)/sm', '\2', $msg); //regullr expression for get gtmp
-          $vol = preg_replace('/(.*)"vol": "(.*)", "light":(.*)/sm', '\2', $msg); //regullr expression for get vol
-          $light = preg_replace('/(.*)"light": "(.*)", "pres":(.*)/sm', '\2', $msg); //regullr expression for get light
-          $pres = preg_replace('/(.*)"pres": "(.*)", "humi":(.*)/sm', '\2', $msg); //regullr expression for get pres
-          $humi = preg_replace('/(.*)"humi": "(.*)", "atmp":(.*)/sm', '\2', $msg); //regullr expression for get humi
-          $atmp = preg_replace('/(.*)"atmp": "(.*)", "ts":(.*)/sm', '\2', $msg); //regullr expression for get atmp
-          $ts = preg_replace('/(.*)"ts": (.*)}(.*)/sm', '\2', $msg); //regullr expression for get timestamp
+          $gtmp = preg_replace('/(.*)"gtmp": "(.*)", "vol":(.*)/sm', '\2', $msg); //regullar expression to get gtmp
+          $vol = preg_replace('/(.*)"vol": "(.*)", "light":(.*)/sm', '\2', $msg); //regullar expression to get vol
+          $light = preg_replace('/(.*)"light": "(.*)", "pres":(.*)/sm', '\2', $msg); //regullar expression to get light
+          $pres = preg_replace('/(.*)"pres": "(.*)", "humi":(.*)/sm', '\2', $msg); //regullar expression to get pres
+          $humi = preg_replace('/(.*)"humi": "(.*)", "atmp":(.*)/sm', '\2', $msg); //regullar expression to get humi
+          $atmp = preg_replace('/(.*)"atmp": "(.*)", "ts":(.*)/sm', '\2', $msg); //regullar expression to get atmp
+          $ts = preg_replace('/(.*)"ts": (.*)}(.*)/sm', '\2', $msg); //regullar expression to get timestamp
           $dataAllSensors = AllSensors::create([
               'gtmp' => $gtmp,
               'atmp' => $atmp,
@@ -141,10 +143,10 @@ class ApiController extends Controller
               'pres' => $pres,
               'humi' => $humi,
           ]);
-          //broadcast(new AllSensorsEvent($dataAllSensors))->toOthers();
+          broadcast(new AllSensorsEvent($dataAllSensors))->toOthers();
           exit();
         });
-        // return response()->json($dataAllSensors);
+        return response()->json("success");
     }
 
     // HOME PAGE
@@ -174,7 +176,8 @@ class ApiController extends Controller
           $array2,
           $array3
         );
-        return response()->json("success");
+
+        return response()->json($allData);
     }
 
     public function getDataLine()

@@ -60,9 +60,8 @@ RUN php artisan config:clear
 RUN apt-get install -y cron
 RUN echo $'SHELL=/bin/bash \n\
 BASH_ENV=/container.env \n\
-* * * * * /usr/local/bin/php /var/www/html/artisan command:mqtts1 >> /dev/null 2>&1 \n\
-* * * * * /usr/local/bin/php /var/www/html/artisan command:mqtts2 >> /dev/null 2>&1 \n\
-'>> scheduler.txt
+* * * * * cd /var/www/html && php artisan schedule:run >> /dev/null 2>&1 \n\
+'> scheduler.txt
 
 RUN crontab scheduler.txt
 # RUN cron -f

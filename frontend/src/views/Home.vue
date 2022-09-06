@@ -125,7 +125,6 @@
     </div>
   </v-lazy>
   <NavigationDrawer :drawer="drawer" />
-  <BottomNavigation />
   <SpeedDial />
   <Footer />
 </div>
@@ -138,7 +137,6 @@ import moment from 'moment'
 import VueApexCharts from 'vue-apexcharts'
 import Footer from "../components/Footer.vue";
 import NavigationDrawer from "../components/NavigationDrawer.vue";
-import BottomNavigation from "../components/BottomNavigation.vue";
 import SpeedDial from "../components/SpeedDial.vue";
 
 export default {
@@ -147,7 +145,6 @@ export default {
   components: {
     Footer,
     NavigationDrawer,
-    BottomNavigation,
     SpeedDial,
     apexchart: VueApexCharts,
   },
@@ -663,7 +660,7 @@ export default {
         }
       },
       // circle multiple chart
-      seriesCircle_multiple: [],
+      // seriesCircle_multiple: [],
       // chartOptionsCircle_multiple: {
       //   chart: {
       //     height: 350,
@@ -727,6 +724,7 @@ export default {
       //     }
       //   }]
       // },
+      seriesCircle_multiple: [],
       chartOptionsCircle_multiple: {
         chart: {
           foreColor: localStorage.getItem('graph_text_color'),
@@ -889,6 +887,8 @@ export default {
             }
           };
           this.loaderStateDashed = false;
+          this.lastUpdate = `${moment(new Date()).format('YYYY-MM-DD')}` + ' ' + `${res.data[0][3][9]}`;
+          localStorage.setItem("lastUpdateHome", (`${moment(new Date()).format('YYYY-MM-DD')}` + ' ' + `${this.lastUpdate}`));
         })
     },
 
@@ -975,11 +975,11 @@ export default {
     //do something after creating vue instance
     window.Echo.channel('dataAllSensors')
       .listen('AllSensorsEvent', (e) => {
-        console.log(e);
-        this.lastUpdate = moment(e.dataAllSensors.created_at)
-          .format('YYYY-MM-DD HH:mm:ss');
-        localStorage.setItem("lastUpdateHome", moment(e.dataAllSensors.created_at)
-          .format('YYYY-MM-DD HH:mm:ss'));
+        // console.log(e);
+        // this.lastUpdate = moment(e.dataAllSensors.created_at)
+        //   .format('YYYY-MM-DD HH:mm:ss');
+        // localStorage.setItem("lastUpdateHome", moment(e.dataAllSensors.created_at)
+        //   .format('YYYY-MM-DD HH:mm:ss'));
 
         this.seriesCircle_multiple.splice(0, this.seriesCircle_multiple.length);
         this.seriesCircle_multiple.push(

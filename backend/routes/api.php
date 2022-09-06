@@ -41,10 +41,10 @@ Route::post('/broadcast', function (Request $request) {
 });
 
 
-// Route::post('/saveDataPowerConsumption', [ApiController::class, 'store']);
-// Route::post('/saveDataAllSensors', [ApiController::class, 'store2']);
-Route::get('/saveDataPowerConsumption', [ApiController::class, 'store']);
-Route::get('/saveDataAllSensors', [ApiController::class, 'store2']);
+Route::post('/saveDataPowerConsumption', [ApiController::class, 'store']);
+Route::post('/saveDataAllSensors', [ApiController::class, 'store2']);
+// Route::get('/saveDataPowerConsumption', [ApiController::class, 'store']);
+// Route::get('/saveDataAllSensors', [ApiController::class, 'store2']);
 
 //for graph in humidity page
 Route::get('/getDataRealtimeHumidity', [ApiController::class, 'getDataRealtimeHumidity']);

@@ -12,7 +12,7 @@ services:
     image: mysql:8.0
     restart: always
     environment:
-      - MYSQL_ROOT_PASSWORD=admin
-      - MYSQL_DATABASE=arfit
-      - MYSQL_USER=arfit
-      - MYSQL_PASSWORD=arfit
+      - MYSQL_ROOT_PASSWORD=
+      - MYSQL_DATABASE=sqlite
+      - MYSQL_USER=root
+      - MYSQL_PASSWORD=

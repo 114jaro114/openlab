@@ -124,7 +124,6 @@
     </div>
   </v-lazy>
   <NavigationDrawer :drawer="drawer" />
-  <BottomNavigation />
   <SpeedDial />
   <Footer />
 </div>
@@ -132,7 +131,6 @@
 <script>
 import Footer from "../components/Footer.vue";
 import NavigationDrawer from "../components/NavigationDrawer.vue";
-import BottomNavigation from "../components/BottomNavigation.vue";
 import SpeedDial from "../components/SpeedDial.vue";
 import _ from 'lodash';
 export default {
@@ -140,7 +138,6 @@ export default {
   components: {
     Footer,
     NavigationDrawer,
-    BottomNavigation,
     SpeedDial
   },
   props: ['drawerNew'],
